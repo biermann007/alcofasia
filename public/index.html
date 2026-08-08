@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <title>alcofasia.com</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: grid;
+        min-height: 100svh;
+        place-items: center;
+        padding: clamp(1.5rem, 4vw, 3rem);
+        background: #ffffff;
+        color: #111111;
+      }
+
+      main {
+        display: flex;
+        width: min(100%, 64rem);
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(1.25rem, 3vw, 2.75rem);
+      }
+
+      .asia-map {
+        display: block;
+        width: min(100%, 52rem);
+        max-height: 50svh;
+        height: auto;
+        object-fit: contain;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 8vw, 5rem);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img class="asia-map" src="/asia.svg" alt="Stilisierte Karte von Asien mit Ländergrenzen">
+      <h1>alcofasia.com</h1>
+    </main>
+  </body>
+</html>

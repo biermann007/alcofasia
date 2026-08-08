@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "alcofasia",
+  "compatibility_date": "2026-08-09",
+  "assets": {
+    "directory": "./public"
+  },
+  "routes": [
+    {
+      "pattern": "alcofasia.com/*",
+      "zone_name": "alcofasia.com"
+    },
+    {
+      "pattern": "www.alcofasia.com/*",
+      "zone_name": "alcofasia.com"
+    }
+  ]
+}
