@@ -2,6 +2,35 @@ const map = document.querySelector("[data-map]");
 const tooltip = document.querySelector("[data-country-tooltip]");
 const countryList = document.querySelector("[data-country-list]");
 const viewToggle = document.querySelector("[data-view-toggle]");
+const themeToggle = document.querySelector("[data-theme-toggle]");
+const themeColor = document.querySelector('meta[name="theme-color"]');
+const root = document.documentElement;
+
+const applyTheme = (theme) => {
+  const isDark = theme === "dark";
+
+  root.dataset.theme = isDark ? "dark" : "light";
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeColor.content = isDark ? "#000000" : "#ffffff";
+};
+
+try {
+  applyTheme(localStorage.getItem("theme") === "dark" ? "dark" : "light");
+} catch {
+  applyTheme("light");
+}
+
+themeToggle.addEventListener("click", () => {
+  const theme = root.dataset.theme === "dark" ? "light" : "dark";
+
+  applyTheme(theme);
+
+  try {
+    localStorage.setItem("theme", theme);
+  } catch {
+    // The mode still works when browser storage is unavailable.
+  }
+});
 
 const moveTooltip = (event) => {
   tooltip.style.left = `${event.clientX}px`;

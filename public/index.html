@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-theme="light">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +9,18 @@
       :root {
         color-scheme: light;
         font-family: Arial, Helvetica, sans-serif;
+        --background: #ffffff;
+        --foreground: #111111;
+        --tooltip-background: #171717;
+        --tooltip-foreground: #ffffff;
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --background: #000000;
+        --foreground: #f5f5f5;
+        --tooltip-background: #f5f5f5;
+        --tooltip-foreground: #111111;
       }
 
       * {
@@ -30,8 +42,9 @@
         min-height: 100svh;
         place-items: center;
         padding: clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem) 5rem;
-        background: #ffffff;
-        color: #111111;
+        background: var(--background);
+        color: var(--foreground);
+        transition: background-color 240ms ease, color 240ms ease;
       }
 
       main {
@@ -54,6 +67,14 @@
         max-height: 50svh;
         height: auto;
         object-fit: contain;
+      }
+
+      .asia-map svg {
+        transition: filter 240ms ease;
+      }
+
+      :root[data-theme="dark"] .asia-map svg {
+        filter: invert(1) grayscale(1);
       }
 
       .country-list {
@@ -94,9 +115,9 @@
         left: 0;
         padding: 0.5rem 0.75rem;
         border-radius: 999px;
-        background: #171717;
+        background: var(--tooltip-background);
         box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 18%);
-        color: #ffffff;
+        color: var(--tooltip-foreground);
         font-size: 0.8rem;
         letter-spacing: 0.02em;
         line-height: 1;
@@ -119,6 +140,23 @@
         line-height: 1;
       }
 
+      .theme-toggle {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        letter-spacing: inherit;
+        line-height: inherit;
+      }
+
+      .theme-toggle:focus-visible {
+        border-radius: 0.15em;
+        outline: 0.08em solid currentColor;
+        outline-offset: 0.15em;
+      }
+
       footer {
         position: fixed;
         right: 0;
@@ -139,6 +177,13 @@
         text-decoration: underline;
         text-underline-offset: 0.2em;
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        body,
+        .asia-map svg {
+          transition: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -151,7 +196,7 @@
         <div class="country-list" id="country-list" data-country-list hidden></div>
         <button class="view-toggle" type="button" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>
-      <h1>alcofasia.com</h1>
+      <h1><button class="theme-toggle" type="button" data-theme-toggle aria-label="Hell-Dunkel-Modus wechseln" aria-pressed="false">alcofasia.com</button></h1>
     </main>
     <footer>
       <a href="https://franz-paul.com/impressum.html" target="_blank" rel="noopener noreferrer">©franz-paul</a>
