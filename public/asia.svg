@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="img" aria-labelledby="title description">
-  <title id="title">Karte von Asien</title>
-  <desc id="description">Stilisierte Länderflächen und Grenzen ohne Beschriftungen.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="group" aria-label="Interaktive Länderkarte">
   <defs>
     <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#fbfbfb" />

@@ -15,6 +15,10 @@
         box-sizing: border-box;
       }
 
+      [hidden] {
+        display: none !important;
+      }
+
       html,
       body {
         min-height: 100%;
@@ -50,6 +54,37 @@
         max-height: 50svh;
         height: auto;
         object-fit: contain;
+      }
+
+      .country-list {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.65rem 1rem;
+        padding: clamp(1rem, 3vw, 2rem) 0;
+        font-size: clamp(0.8rem, 1.5vw, 1rem);
+        line-height: 1.4;
+        text-align: center;
+      }
+
+      .view-toggle {
+        display: block;
+        margin: 1rem auto 0;
+        padding: 0.25rem;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.8rem;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      .view-toggle:disabled {
+        cursor: default;
+        opacity: 0.4;
       }
 
       .country-tooltip {
@@ -109,10 +144,12 @@
   <body>
     <main>
       <div class="map-wrap">
-        <div class="asia-map" data-map>
-          <img src="/asia.svg" alt="Interaktive Karte von Asien mit Ländergrenzen">
+        <div class="asia-map" id="asia-map" data-map>
+          <img src="/asia.svg" alt="">
         </div>
         <div class="country-tooltip" data-country-tooltip aria-live="polite"></div>
+        <div class="country-list" id="country-list" data-country-list hidden></div>
+        <button class="view-toggle" type="button" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>
       <h1>alcofasia.com</h1>
     </main>
