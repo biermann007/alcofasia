@@ -11,6 +11,59 @@ const ASIA_COUNTRY_CODES = new Set([
   "762", "764", "784", "792", "795", "860", "887"
 ]);
 
+const GERMAN_COUNTRY_NAMES = {
+  Afghanistan: "Afghanistan",
+  Armenia: "Armenien",
+  Azerbaijan: "Aserbaidschan",
+  Bangladesh: "Bangladesch",
+  Bhutan: "Bhutan",
+  Brunei: "Brunei",
+  Cambodia: "Kambodscha",
+  China: "China",
+  Cyprus: "Zypern",
+  Georgia: "Georgien",
+  India: "Indien",
+  Indonesia: "Indonesien",
+  Iran: "Iran",
+  Iraq: "Irak",
+  Israel: "Israel",
+  Japan: "Japan",
+  Jordan: "Jordanien",
+  Kazakhstan: "Kasachstan",
+  Kuwait: "Kuwait",
+  Kyrgyzstan: "Kirgisistan",
+  Laos: "Laos",
+  Lebanon: "Libanon",
+  Malaysia: "Malaysia",
+  Mongolia: "Mongolei",
+  Myanmar: "Myanmar",
+  Nepal: "Nepal",
+  "North Korea": "Nordkorea",
+  Oman: "Oman",
+  Pakistan: "Pakistan",
+  Palestine: "Palästina",
+  Philippines: "Philippinen",
+  Qatar: "Katar",
+  Russia: "Russland",
+  "Saudi Arabia": "Saudi-Arabien",
+  "South Korea": "Südkorea",
+  "Sri Lanka": "Sri Lanka",
+  Syria: "Syrien",
+  Taiwan: "Taiwan",
+  Tajikistan: "Tadschikistan",
+  Thailand: "Thailand",
+  "Timor-Leste": "Osttimor",
+  Turkey: "Türkei",
+  Turkmenistan: "Turkmenistan",
+  "United Arab Emirates": "Vereinigte Arabische Emirate",
+  Uzbekistan: "Usbekistan",
+  Vietnam: "Vietnam",
+  Yemen: "Jemen"
+};
+
+const escapeXml = (value) =>
+  value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+
 const atlas = JSON.parse(
   await readFile(new URL("../node_modules/world-atlas/countries-110m.json", import.meta.url), "utf8")
 );
@@ -35,7 +88,10 @@ const projection = geoMercator()
 const path = geoPath(projection);
 
 const countries = asia.features
-  .map((country) => `    <path d="${path(country)}" />`)
+  .map((country) => {
+    const name = escapeXml(GERMAN_COUNTRY_NAMES[country.properties.name] ?? country.properties.name);
+    return `    <path d="${path(country)}" data-country="${name}" aria-label="${name}" />`;
+  })
   .join("\n");
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
@@ -55,6 +111,19 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
       <feDropShadow dx="0" dy="10" stdDeviation="13" flood-color="#000000" flood-opacity="0.12" />
     </filter>
   </defs>
+  <style>
+    path {
+      transition: fill 160ms ease, stroke 160ms ease, opacity 160ms ease;
+      cursor: default;
+    }
+
+    path:hover {
+      fill: #171717;
+      stroke: #171717;
+      opacity: 0.92;
+      cursor: pointer;
+    }
+  </style>
   <ellipse cx="500" cy="325" rx="440" ry="245" fill="url(#halo)" />
   <g fill="url(#land)" stroke="#181818" stroke-width="1.35" stroke-linejoin="round" vector-effect="non-scaling-stroke" filter="url(#shadow)">
 ${countries}

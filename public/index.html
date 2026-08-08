@@ -38,12 +38,42 @@
         gap: clamp(1.25rem, 3vw, 2.75rem);
       }
 
-      .asia-map {
-        display: block;
+      .map-wrap {
         width: min(100%, 52rem);
+      }
+
+      .asia-map,
+      .asia-map img,
+      .asia-map svg {
+        display: block;
+        width: 100%;
         max-height: 50svh;
         height: auto;
         object-fit: contain;
+      }
+
+      .country-tooltip {
+        position: fixed;
+        z-index: 10;
+        top: 0;
+        left: 0;
+        padding: 0.5rem 0.75rem;
+        border-radius: 999px;
+        background: #171717;
+        box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 18%);
+        color: #ffffff;
+        font-size: 0.8rem;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, calc(-100% - 0.8rem));
+        transition: opacity 120ms ease;
+        white-space: nowrap;
+      }
+
+      .country-tooltip[data-visible="true"] {
+        opacity: 1;
       }
 
       h1 {
@@ -57,8 +87,14 @@
   </head>
   <body>
     <main>
-      <img class="asia-map" src="/asia.svg" alt="Stilisierte Karte von Asien mit Ländergrenzen">
+      <div class="map-wrap">
+        <div class="asia-map" data-map>
+          <img src="/asia.svg" alt="Interaktive Karte von Asien mit Ländergrenzen">
+        </div>
+        <div class="country-tooltip" data-country-tooltip aria-live="polite"></div>
+      </div>
       <h1>alcofasia.com</h1>
     </main>
+    <script src="/map.js" type="module"></script>
   </body>
 </html>
