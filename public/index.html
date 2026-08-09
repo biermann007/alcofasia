@@ -168,6 +168,11 @@
         text-underline-offset: 0.2em;
       }
 
+      .detail-back-bottom {
+        display: block;
+        margin-top: clamp(1.5rem, 4vw, 2.5rem);
+      }
+
       .country-kicker {
         margin: clamp(1.5rem, 4vw, 3rem) 0 0.35rem;
         font-size: 0.75rem;
@@ -443,6 +448,7 @@
             <span class="availability">Nicht bestellbar</span>
           </div>
           <p class="sources">Quellen: <a href="https://www.who.int/publications/m/item/alcohol-afg-2019" target="_blank" rel="noopener noreferrer">Weltgesundheitsorganisation</a> · <a href="https://moi.gov.af/en/police-arrest-6-people-kabul-selling-and-transporting-alcoholic-beverages" target="_blank" rel="noopener noreferrer">Afghanisches Innenministerium</a></p>
+          <button class="detail-back detail-back-bottom" type="button" data-detail-back>← Zurück</button>
         </article>
         <article class="country-detail" data-country-detail="China" hidden tabindex="-1">
           <button class="detail-back" type="button" data-detail-back>← Zurück</button>
@@ -452,16 +458,16 @@
           <div class="country-copy">
             <p>Baijiu ist eine traditionelle chinesische Getreidespirituose. Sie wird unter anderem aus Sorghum, Weizen oder Reis hergestellt und nicht nach dem Ausgangsgetreide, sondern nach ihrem Aroma eingeteilt.</p>
             <p>In China wird Baijiu meist pur aus kleinen Gläsern zu gemeinsamen Mahlzeiten und feierlichen Trinksprüchen serviert. Der berühmteste Vertreter ist Kweichow Moutai aus der Provinz Guizhou.</p>
-            <p>Unsere erste Herstellerwahl ist Kweichow Moutai Co., Ltd. mit Yingbin Purple, Golden Prince und Flying Fairy. Als zweite Herstelleralternative ergänzen wir Wuliangye Yibin Co., Ltd. mit Wuliang Chun Mellow, Wuliang Chun Spring und dem Flaggschiff Wuliangye.</p>
-            <p>Moutai steht für Sauce Aroma auf Basis von rotem Sorghum und Weizen. Wuliangye vertritt den Strong-Aroma-Stil und verbindet fünf Getreidearten: Sorghum, Reis, Klebreis, Weizen und Mais.</p>
+            <p>Unsere erste Herstellerwahl ist Kweichow Moutai Co., Ltd. mit Yingbin Purple, Golden Prince und Flying Fairy. Als zweite Herstelleralternative ergänzen wir Wuliangye Yibin Co., Ltd. mit Wuliang Chun Mellow, Wuliang Chun Spring und dem Flaggschiff Wuliangye. Die dritte etablierte Wahl ist Luzhou Laojiao Co., Ltd. mit Touqu D9, Tequ Laojiu und Guojiao 1573 Classic.</p>
+            <p>Moutai steht für Sauce Aroma auf Basis von rotem Sorghum und Weizen. Wuliangye vertritt den Strong-Aroma-Stil mit fünf Getreidearten. Luzhou Laojiao gilt als Wegbereiter des Strong-Aroma-Baijiu und führt seine Brenntradition über 700 Jahre zurück.</p>
           </div>
           <dl class="spirit-facts">
             <div><dt>Spirituose</dt><dd>Baijiu</dd></div>
             <div><dt>Aromastil</dt><dd>Sauce Aroma</dd></div>
             <div><dt>Herkunft</dt><dd>Maotai, Guizhou, China</dd></div>
             <div><dt>Zutaten</dt><dd>Rotes Sorghum, Weizen, Wasser</dd></div>
-            <div><dt>Hersteller</dt><dd>Moutai · Wuliangye</dd></div>
-            <div><dt>Sortiment</dt><dd>2 Hersteller · je 3 Stufen</dd></div>
+            <div><dt>Hersteller</dt><dd>Moutai · Wuliangye · Luzhou Laojiao</dd></div>
+            <div><dt>Sortiment</dt><dd>3 Hersteller · je 3 Stufen</dd></div>
           </dl>
           <div class="manufacturer-block">
             <p class="product-label">1. Hersteller</p>
@@ -517,7 +523,35 @@
               </div>
             </div>
           </div>
-          <p class="sources">Quellen: <a href="https://www.moutai.be/products/" target="_blank" rel="noopener noreferrer">Kweichow Moutai</a> · <a href="https://www.wuliangye.com.cn/en/product/strong_aroma.html" target="_blank" rel="noopener noreferrer">Wuliangye Strong Aroma</a> · <a href="https://www.wuliangye.com.cn/en/product/wuliangye.html" target="_blank" rel="noopener noreferrer">Wuliangye Flaggschiff</a></p>
+          <div class="manufacturer-block">
+            <p class="product-label">3. Hersteller</p>
+            <h3 class="manufacturer-title">Luzhou Laojiao Co., Ltd.</h3>
+            <div class="product-grid">
+              <div class="product-card">
+                <p class="product-label">Low</p>
+                <h3 class="product-name">Luzhou Laojiao Touqu D9</h3>
+                <p class="product-meta">Baijiu · 52 % Vol. · 500 ml</p>
+                <p class="product-description">Süßer und sanfter Strong-Aroma-Baijiu für einen zugänglichen Einstieg.</p>
+                <span class="availability">Demnächst erhältlich</span>
+              </div>
+              <div class="product-card">
+                <p class="product-label">Standard</p>
+                <h3 class="product-name">Luzhou Laojiao Tequ Laojiu</h3>
+                <p class="product-meta">Baijiu · 52 % Vol. · 500 ml</p>
+                <p class="product-description">Ein klassischer, vollmundiger Strong-Aroma-Baijiu mit langem Nachhall.</p>
+                <span class="availability">Demnächst erhältlich</span>
+              </div>
+              <div class="product-card">
+                <p class="product-label">Premium</p>
+                <h3 class="product-name">Guojiao 1573 Classic</h3>
+                <p class="product-meta">Baijiu · 52 % Vol. · 500 ml</p>
+                <p class="product-description">Das Ultra-High-End-Flaggschiff aus den historischen Brennkammern von 1573.</p>
+                <span class="availability">Demnächst erhältlich</span>
+              </div>
+            </div>
+          </div>
+          <p class="sources">Quellen: <a href="https://www.moutai.be/products/" target="_blank" rel="noopener noreferrer">Kweichow Moutai</a> · <a href="https://www.wuliangye.com.cn/en/product/strong_aroma.html" target="_blank" rel="noopener noreferrer">Wuliangye</a> · <a href="https://www.lzlj.com/en/" target="_blank" rel="noopener noreferrer">Luzhou Laojiao</a></p>
+          <button class="detail-back detail-back-bottom" type="button" data-detail-back>← Zurück</button>
         </article>
         <article class="country-detail" data-country-detail="Russland" hidden tabindex="-1">
           <button class="detail-back" type="button" data-detail-back>← Zurück</button>
@@ -526,16 +560,16 @@
           <p class="country-subtitle">Russlands bekannteste Spirituose</p>
           <div class="country-copy">
             <p>Wodka ist die international bekannteste Spirituose Russlands. Der klare Getreidebrand wird traditionell möglichst rein und neutral hergestellt und meist gut gekühlt, pur und zu Speisen serviert.</p>
-            <p>Unsere erste Herstellerwahl ist Russian Standard Vodka LLC mit Original, Gold und Platinum. Als zweite Herstelleralternative ergänzen wir die LADOGA Group aus Sankt Petersburg mit Czar’s Original, Czar’s Gold und Imperial Collection Golden Snow.</p>
-            <p>Russian Standard basiert auf Winterweizen und Wasser aus dem Ladogasee. LADOGA verbindet Getreidealkohol und besonders weiches Wasser; die höheren Stufen nutzen Goldfiltration beziehungsweise echte Goldflocken.</p>
+            <p>Unsere erste Herstellerwahl ist Russian Standard Vodka LLC mit Original, Gold und Platinum. Als zweite Herstelleralternative ergänzen wir die LADOGA Group aus Sankt Petersburg mit Czar’s Original, Czar’s Gold und Imperial Collection Golden Snow. Die dritte etablierte Wahl ist Tatspirtprom JSC aus Kasan mit Tundra Authentic, Tundra Frozen Juniper und Tundra Forest Woody Notes.</p>
+            <p>Russian Standard basiert auf Winterweizen und Wasser aus dem Ladogasee. LADOGA verbindet Getreidealkohol und besonders weiches Wasser. Tundra verwendet Alkohol der Klasse Alpha und entwickelt die höheren Stufen mit Wacholder, Pinienkernen, Kräutern und weiteren Pflanzenessenzen.</p>
           </div>
           <dl class="spirit-facts">
             <div><dt>Spirituose</dt><dd>Wodka</dd></div>
             <div><dt>Stil</dt><dd>Premium Vodka</dd></div>
-            <div><dt>Herkunft</dt><dd>Sankt Petersburg, Russland</dd></div>
-            <div><dt>Zutaten</dt><dd>Winterweizen, Wasser</dd></div>
-            <div><dt>Hersteller</dt><dd>Russian Standard · LADOGA</dd></div>
-            <div><dt>Sortiment</dt><dd>2 Hersteller · je 3 Stufen</dd></div>
+            <div><dt>Herkunft</dt><dd>Sankt Petersburg und Kasan, Russland</dd></div>
+            <div><dt>Zutaten</dt><dd>Getreidealkohol, Wasser</dd></div>
+            <div><dt>Hersteller</dt><dd>Russian Standard · LADOGA · Tatspirtprom</dd></div>
+            <div><dt>Sortiment</dt><dd>3 Hersteller · je 3 Stufen</dd></div>
           </dl>
           <div class="manufacturer-block">
             <p class="product-label">1. Hersteller</p>
@@ -591,10 +625,38 @@
               </div>
             </div>
           </div>
+          <div class="manufacturer-block">
+            <p class="product-label">3. Hersteller</p>
+            <h3 class="manufacturer-title">Tatspirtprom JSC</h3>
+            <div class="product-grid">
+              <div class="product-card">
+                <p class="product-label">Low</p>
+                <h3 class="product-name">Tundra Authentic</h3>
+                <p class="product-meta">Wodka · 40 % Vol.</p>
+                <p class="product-description">Klarer Alpha-Wodka mit fünffach gefiltertem Wasser.</p>
+                <span class="availability">Derzeit nicht im Verkauf</span>
+              </div>
+              <div class="product-card">
+                <p class="product-label">Standard</p>
+                <h3 class="product-name">Tundra Frozen Juniper</h3>
+                <p class="product-meta">Wodka · 40 % Vol.</p>
+                <p class="product-description">Mit Wacholder, Pinienkern und einem feinen Akzent von Zitronenöl.</p>
+                <span class="availability">Derzeit nicht im Verkauf</span>
+              </div>
+              <div class="product-card">
+                <p class="product-label">Premium</p>
+                <h3 class="product-name">Tundra Forest Woody Notes</h3>
+                <p class="product-meta">Wodka · 40 % Vol.</p>
+                <p class="product-description">Kräuterbetonte Premiumabfüllung mit fünf aromatischen Destillaten.</p>
+                <span class="availability">Derzeit nicht im Verkauf</span>
+              </div>
+            </div>
+          </div>
           <div class="country-copy country-note">
             <p>Die Einfuhr russischer Spirituosen in die Europäische Union ist derzeit untersagt. Das Produkt wird deshalb redaktionell vorgestellt, aber nicht zum Kauf angeboten.</p>
           </div>
-          <p class="sources">Quellen: <a href="https://roust.com/en/brands/owned/russian-vodka/russian-standard-vodka/" target="_blank" rel="noopener noreferrer">Roust Group</a> · <a href="https://ladoga.com/catalog/vodka/" target="_blank" rel="noopener noreferrer">LADOGA</a> · <a href="https://www.consilium.europa.eu/en/policies/sanctions-against-russia-explained/" target="_blank" rel="noopener noreferrer">Rat der Europäischen Union</a></p>
+          <p class="sources">Quellen: <a href="https://roust.com/en/brands/owned/russian-vodka/russian-standard-vodka/" target="_blank" rel="noopener noreferrer">Roust Group</a> · <a href="https://ladoga.com/catalog/vodka/" target="_blank" rel="noopener noreferrer">LADOGA</a> · <a href="https://tatspirtprom.ru/en/about/" target="_blank" rel="noopener noreferrer">Tatspirtprom</a> · <a href="https://tatspirtprom.ru/catalog/tundra/" target="_blank" rel="noopener noreferrer">Tundra</a> · <a href="https://www.consilium.europa.eu/en/policies/sanctions-against-russia-explained/" target="_blank" rel="noopener noreferrer">Rat der Europäischen Union</a></p>
+          <button class="detail-back detail-back-bottom" type="button" data-detail-back>← Zurück</button>
         </article>
         <article class="country-detail" data-country-detail="Japan" hidden tabindex="-1">
           <button class="detail-back" type="button" data-detail-back>← Zurück</button>
@@ -603,17 +665,17 @@
           <p class="country-subtitle">Japans traditionelle Spirituose</p>
           <div class="country-copy">
             <p>Sake ist Japans bekanntestes alkoholisches Getränk, aber keine Spirituose: Er wird gebraut und nicht destilliert. Die traditionelle japanische Spirituose ist Shōchū, ein klarer Brand aus regionalen Zutaten wie Gerste, Süßkartoffeln oder Reis.</p>
-            <p>Unsere erste Herstellerwahl ist Sanwa Shurui Co., Ltd. mit der gerstenbasierten iichiko-Familie. Als zweite Herstelleralternative ergänzen wir Kirishima Shuzo Co., Ltd. mit Kuro Kirishima, Aka Kirishima und dem lang gereiften Kuro Kirishima MELT.</p>
-            <p>iichiko basiert auf Gerste und Gersten-Kōji. Kirishima verwendet Süßkartoffeln aus Kyūshū und Reis-Kōji; die Premiumabfüllung MELT wird mehr als 15 Jahre gereift, darunter auch in Eichenfässern.</p>
+            <p>Unsere erste Herstellerwahl ist Sanwa Shurui Co., Ltd. mit der gerstenbasierten iichiko-Familie. Als zweite Herstelleralternative ergänzen wir Kirishima Shuzo Co., Ltd. mit Kuro Kirishima, Aka Kirishima und Kuro Kirishima MELT. Die dritte etablierte Wahl ist Takara Shuzo Co., Ltd. mit Takara Shochu Jun, Ikkomon und Ikkomon Long-Term Aged Genshu.</p>
+            <p>iichiko basiert auf Gerste und Gersten-Kōji. Kirishima verwendet Süßkartoffeln aus Kyūshū und Reis-Kōji. Takara Shuzo braut und destilliert seit 1842; Ikkomon wird vollständig aus Süßkartoffeln einschließlich Süßkartoffel-Kōji hergestellt.</p>
             <p>Traditionell wird Shōchū pur, auf Eis, mit kaltem oder heißem Wasser sowie als leichter Highball mit Soda serviert. Durch seinen zurückhaltenden Charakter passt Silhouette zu vielen Speisen.</p>
           </div>
           <dl class="spirit-facts">
             <div><dt>Spirituose</dt><dd>Shōchū</dd></div>
             <div><dt>Stil</dt><dd>Honkaku Mugi Shōchū</dd></div>
-            <div><dt>Herkunft</dt><dd>Ōita, Kyūshū, Japan</dd></div>
+            <div><dt>Herkunft</dt><dd>Kyūshū und Kyōto, Japan</dd></div>
             <div><dt>Zutaten</dt><dd>Gerste, Gersten-Kōji, Wasser</dd></div>
-            <div><dt>Hersteller</dt><dd>Sanwa Shurui · Kirishima Shuzo</dd></div>
-            <div><dt>Sortiment</dt><dd>2 Hersteller · je 3 Stufen</dd></div>
+            <div><dt>Hersteller</dt><dd>Sanwa Shurui · Kirishima Shuzo · Takara Shuzo</dd></div>
+            <div><dt>Sortiment</dt><dd>3 Hersteller · je 3 Stufen</dd></div>
           </dl>
           <div class="manufacturer-block">
             <p class="product-label">1. Hersteller</p>
@@ -669,7 +731,35 @@
               </div>
             </div>
           </div>
-          <p class="sources">Quellen: <a href="https://www.iichiko.co.jp/products/" target="_blank" rel="noopener noreferrer">iichiko / Sanwa Shurui</a> · <a href="https://en.www.kirishima.co.jp/products/" target="_blank" rel="noopener noreferrer">Kirishima Shuzo</a> · <a href="https://en.www.kirishima.co.jp/products/spirits/kuro-kirishima-melt/" target="_blank" rel="noopener noreferrer">Kuro Kirishima MELT</a></p>
+          <div class="manufacturer-block">
+            <p class="product-label">3. Hersteller</p>
+            <h3 class="manufacturer-title">Takara Shuzo Co., Ltd.</h3>
+            <div class="product-grid">
+              <div class="product-card">
+                <p class="product-label">Low</p>
+                <h3 class="product-name">Takara Shochu Jun 25</h3>
+                <p class="product-meta">Kōrui Shōchū · 25 % Vol. · 720 ml</p>
+                <p class="product-description">Seit 1977 im Sortiment, klar und mild mit einem Anteil fassgereifter Destillate.</p>
+                <span class="availability">Demnächst erhältlich</span>
+              </div>
+              <div class="product-card">
+                <p class="product-label">Standard</p>
+                <h3 class="product-name">Ikkomon</h3>
+                <p class="product-meta">Imo Shōchū · 25 % Vol. · 720 ml</p>
+                <p class="product-description">Vollständig aus Süßkartoffeln, mit klarer Süße und elegantem Geschmack.</p>
+                <span class="availability">Demnächst erhältlich</span>
+              </div>
+              <div class="product-card">
+                <p class="product-label">Premium</p>
+                <h3 class="product-name">Ikkomon Long-Term Aged Genshu</h3>
+                <p class="product-meta">Imo Shōchū · 37 % Vol. · 720 ml</p>
+                <p class="product-description">Drei Jahre gereift und nach der Destillation ohne Wasserzugabe abgefüllt.</p>
+                <span class="availability">Demnächst erhältlich</span>
+              </div>
+            </div>
+          </div>
+          <p class="sources">Quellen: <a href="https://www.iichiko.co.jp/products/" target="_blank" rel="noopener noreferrer">iichiko / Sanwa Shurui</a> · <a href="https://en.www.kirishima.co.jp/products/" target="_blank" rel="noopener noreferrer">Kirishima Shuzo</a> · <a href="https://www.takara.co.jp/english/company/intro/takarashuzo.html" target="_blank" rel="noopener noreferrer">Takara Shuzo</a> · <a href="https://shop.takara.co.jp/shopdetail/000000000054" target="_blank" rel="noopener noreferrer">Ikkomon Long-Term Aged</a></p>
+          <button class="detail-back detail-back-bottom" type="button" data-detail-back>← Zurück</button>
         </article>
         <button class="view-toggle" type="button" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>
