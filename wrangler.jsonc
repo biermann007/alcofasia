@@ -1,18 +1,31 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "alcofasia",
+  "main": "src/index.js",
   "compatibility_date": "2026-08-09",
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS"
   },
-  "routes": [
+  "d1_databases": [
     {
-      "pattern": "alcofasia.com/*",
-      "zone_name": "alcofasia.com"
-    },
-    {
-      "pattern": "www.alcofasia.com/*",
-      "zone_name": "alcofasia.com"
+      "binding": "DB",
+      "database_name": "alcofasia",
+      // Nach `npx wrangler d1 create alcofasia` die ausgegebene ID hier eintragen.
+      "database_id": "HIER_DIE_DATENBANK_ID_EINTRAGEN"
     }
-  ]
+  ],
+  "vars": {
+    // Aus dem Cloudflare-Dashboard unter Zero Trust → Access → Applications.
+    // ACCESS_TEAM_DOMAIN ist z. B. "meinteam.cloudflareaccess.com",
+    // ACCESS_AUD die Application Audience Tag der Admin-Anwendung.
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    "ANTHROPIC_MODEL": "claude-sonnet-4-5"
+  },
+  "observability": {
+    "enabled": true
+  }
+  // ANTHROPIC_API_KEY wird nicht hier, sondern als Secret gesetzt:
+  //   npx wrangler secret put ANTHROPIC_API_KEY
 }

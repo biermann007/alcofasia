@@ -4,12 +4,18 @@
   "private": true,
   "scripts": {
     "build:map": "node scripts/build-map.mjs",
+    "extract": "node scripts/extract-content.mjs",
+    "db:init": "wrangler d1 execute alcofasia --remote --file=./migrations/0001_init.sql",
+    "db:seed": "wrangler d1 execute alcofasia --remote --file=./migrations/0002_seed.sql",
+    "db:init:local": "wrangler d1 execute alcofasia --local --file=./migrations/0001_init.sql",
+    "db:seed:local": "wrangler d1 execute alcofasia --local --file=./migrations/0002_seed.sql",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "check": "wrangler deploy --dry-run"
   },
   "devDependencies": {
     "d3-geo": "^3.1.1",
+    "linkedom": "^0.18.13",
     "topojson-client": "^3.1.0",
     "world-atlas": "^2.0.2",
     "wrangler": "^4.0.0"
