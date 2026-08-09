@@ -89,6 +89,132 @@
         text-align: center;
       }
 
+      .country-word {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      .country-detail {
+        width: min(100%, 42rem);
+        margin: 0 auto;
+        padding: clamp(0.5rem, 2vw, 1rem) 0;
+      }
+
+      .detail-back {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.8rem;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      .country-kicker {
+        margin: clamp(1.5rem, 4vw, 3rem) 0 0.35rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .country-detail h2 {
+        margin: 0;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 400;
+        letter-spacing: -0.055em;
+        line-height: 0.95;
+      }
+
+      .country-subtitle {
+        margin: 0.75rem 0 clamp(1.5rem, 4vw, 2.5rem);
+        font-size: clamp(1rem, 2.5vw, 1.35rem);
+      }
+
+      .country-copy {
+        display: grid;
+        gap: 1rem;
+        font-size: clamp(0.9rem, 1.8vw, 1rem);
+        line-height: 1.65;
+      }
+
+      .country-copy p {
+        margin: 0;
+      }
+
+      .spirit-facts {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin: clamp(1.5rem, 4vw, 2.5rem) 0;
+        padding: clamp(1rem, 3vw, 1.5rem) 0;
+        border-block: 1px solid currentColor;
+      }
+
+      .spirit-facts div {
+        display: grid;
+        gap: 0.25rem;
+      }
+
+      .spirit-facts dt {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        opacity: 0.65;
+        text-transform: uppercase;
+      }
+
+      .spirit-facts dd {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      .product-label {
+        margin: 0 0 0.35rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        opacity: 0.65;
+        text-transform: uppercase;
+      }
+
+      .product-name {
+        margin: 0;
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+        font-weight: 400;
+      }
+
+      .product-meta,
+      .sources {
+        margin: 0.4rem 0 0;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .availability {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.6rem 0.85rem;
+        border: 1px solid currentColor;
+        font-size: 0.75rem;
+      }
+
+      .sources {
+        margin-top: 1.5rem;
+        opacity: 0.7;
+      }
+
+      .sources a {
+        color: inherit;
+        text-underline-offset: 0.2em;
+      }
+
       .view-toggle {
         display: block;
         margin: 1rem auto 0;
@@ -184,6 +310,12 @@
           transition: none;
         }
       }
+
+      @media (max-width: 34rem) {
+        .spirit-facts {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -194,6 +326,30 @@
         </div>
         <div class="country-tooltip" data-country-tooltip aria-live="polite"></div>
         <div class="country-list" id="country-list" data-country-list hidden></div>
+        <article class="country-detail" data-country-detail hidden tabindex="-1">
+          <button class="detail-back" type="button" data-detail-back>← Zurück</button>
+          <p class="country-kicker">China</p>
+          <h2>Baijiu</h2>
+          <p class="country-subtitle">Chinas bekannteste Spirituose</p>
+          <div class="country-copy">
+            <p>Baijiu ist eine traditionelle chinesische Getreidespirituose. Sie wird unter anderem aus Sorghum, Weizen oder Reis hergestellt und nicht nach dem Ausgangsgetreide, sondern nach ihrem Aroma eingeteilt.</p>
+            <p>In China wird Baijiu meist pur aus kleinen Gläsern zu gemeinsamen Mahlzeiten und feierlichen Trinksprüchen serviert. Der berühmteste Vertreter ist Kweichow Moutai aus der Provinz Guizhou.</p>
+            <p>Der klassische Moutai Flying Fairy wird aus rotem Sorghum, Weizen und Wasser hergestellt. Er gehört zum kräftigen Sauce-Aroma-Stil: vielschichtig und herzhaft, mit fermentierten Getreidenoten, reifer Frucht, feinen Kräutern und einem langen Nachhall.</p>
+          </div>
+          <dl class="spirit-facts">
+            <div><dt>Spirituose</dt><dd>Baijiu</dd></div>
+            <div><dt>Aromastil</dt><dd>Sauce Aroma</dd></div>
+            <div><dt>Herkunft</dt><dd>Maotai, Guizhou, China</dd></div>
+            <div><dt>Zutaten</dt><dd>Rotes Sorghum, Weizen, Wasser</dd></div>
+          </dl>
+          <div class="product-card">
+            <p class="product-label">Produkt</p>
+            <h3 class="product-name">Kweichow Moutai Flying Fairy</h3>
+            <p class="product-meta">Baijiu · 53 % Vol. · 500 ml</p>
+            <span class="availability">Demnächst erhältlich</span>
+          </div>
+          <p class="sources">Quellen: <a href="https://www.iwsc.net/news/spirits/baijiu-learn-about-chinas-national-drink-and-the-best-bottles-to-try" target="_blank" rel="noopener noreferrer">IWSC</a> · <a href="https://www.moutai.be/products/moutai-flying-fairy-53/" target="_blank" rel="noopener noreferrer">Kweichow Moutai</a></p>
+        </article>
         <button class="view-toggle" type="button" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>
       <h1><button class="theme-toggle" type="button" data-theme-toggle aria-label="Hell-Dunkel-Modus wechseln" aria-pressed="false">alcofasia.com</button></h1>
