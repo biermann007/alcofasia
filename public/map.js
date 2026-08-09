@@ -9,9 +9,7 @@ const countryDetails = new Map(
 );
 const detailBackButtons = document.querySelectorAll("[data-detail-back]");
 const viewToggle = document.querySelector("[data-view-toggle]");
-const themeToggle = document.querySelector("[data-theme-toggle]");
-const themeColor = document.querySelector('meta[name="theme-color"]');
-const root = document.documentElement;
+const ui = window.alcofasiaUi;
 let returnToList = false;
 let activeDetail;
 
@@ -43,39 +41,13 @@ for (const button of detailBackButtons) {
   button.addEventListener("click", hideCountryDetail);
 }
 
-const applyTheme = (theme) => {
-  const isDark = theme === "dark";
-
-  root.dataset.theme = isDark ? "dark" : "light";
-  themeToggle.setAttribute("aria-pressed", String(isDark));
-  themeColor.content = isDark ? "#000000" : "#ffffff";
-};
-
-try {
-  applyTheme(localStorage.getItem("theme") === "dark" ? "dark" : "light");
-} catch {
-  applyTheme("light");
-}
-
-themeToggle.addEventListener("click", () => {
-  const theme = root.dataset.theme === "dark" ? "light" : "dark";
-
-  applyTheme(theme);
-
-  try {
-    localStorage.setItem("theme", theme);
-  } catch {
-    // The mode still works when browser storage is unavailable.
-  }
-});
-
 const moveTooltip = (event) => {
   tooltip.style.left = `${event.clientX}px`;
   tooltip.style.top = `${event.clientY}px`;
 };
 
 const showCountry = (event) => {
-  tooltip.textContent = event.currentTarget.dataset.country;
+  tooltip.textContent = ui.countryLabel(event.currentTarget.dataset.country);
   moveTooltip(event);
   tooltip.dataset.visible = "true";
 };
@@ -95,6 +67,51 @@ try {
 
   const countries = [...map.querySelectorAll("path[data-country]")];
 
+  const updateViewToggle = () => {
+    const showMapLabel = ui.getLanguage() === "en" ? "Show map" : "Karte anzeigen";
+    const showCountriesLabel = ui.getLanguage() === "en" ? "Show countries" : "Länder anzeigen";
+    viewToggle.textContent = countryList.hidden ? showCountriesLabel : showMapLabel;
+  };
+
+  const renderCountryList = () => {
+    const names = countries
+      .map((country) => country.dataset.country)
+      .sort((a, b) => ui.countryLabel(a).localeCompare(ui.countryLabel(b), ui.getLanguage()));
+
+    countryList.replaceChildren(
+      ...names.map((name) => {
+        const hasDetails = countryDetails.has(name);
+        const word = document.createElement(hasDetails ? "button" : "span");
+        word.textContent = ui.countryLabel(name);
+
+        if (hasDetails) {
+          word.type = "button";
+          word.className = "country-word";
+          word.addEventListener("click", () => showCountryDetail(name));
+        }
+
+        return word;
+      })
+    );
+  };
+
+  const updateMapLanguage = () => {
+    const isEnglish = ui.getLanguage() === "en";
+
+    for (const country of countries) {
+      const countryName = country.dataset.country;
+      const label = ui.countryLabel(countryName);
+      const hasDetails = countryDetails.has(countryName);
+      country.setAttribute("aria-label", hasDetails
+        ? `${label} – ${isEnglish ? "content available" : "Inhalt verfügbar"}`
+        : label);
+    }
+
+    map.querySelector("svg")?.setAttribute("aria-label", isEnglish ? "Interactive map of Asia" : "Interaktive Länderkarte");
+    renderCountryList();
+    updateViewToggle();
+  };
+
   for (const country of countries) {
     country.addEventListener("pointerenter", showCountry);
     country.addEventListener("pointermove", moveTooltip);
@@ -106,7 +123,6 @@ try {
       country.classList.add("has-content");
       country.setAttribute("role", "button");
       country.setAttribute("tabindex", "0");
-      country.setAttribute("aria-label", `${countryName} – Inhalt verfügbar`);
       country.addEventListener("click", () => showCountryDetail(countryName));
       country.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -117,26 +133,8 @@ try {
     }
   }
 
-  const names = countries
-    .map((country) => country.dataset.country)
-    .sort((a, b) => a.localeCompare(b, "de"));
-
-  countryList.replaceChildren(
-    ...names.map((name) => {
-      const hasDetails = countryDetails.has(name);
-      const word = document.createElement(hasDetails ? "button" : "span");
-      word.textContent = name;
-
-      if (hasDetails) {
-        word.type = "button";
-        word.className = "country-word";
-        word.addEventListener("click", () => showCountryDetail(name));
-      }
-
-      return word;
-    })
-  );
-
+  updateMapLanguage();
+  window.addEventListener("alcofasia:languagechange", updateMapLanguage);
   viewToggle.disabled = false;
   viewToggle.addEventListener("click", () => {
     const showCountries = countryList.hidden;
@@ -144,8 +142,8 @@ try {
     map.hidden = showCountries;
     countryList.hidden = !showCountries;
     tooltip.dataset.visible = "false";
-    viewToggle.textContent = showCountries ? "Karte anzeigen" : "Länder anzeigen";
     viewToggle.setAttribute("aria-expanded", String(showCountries));
+    updateViewToggle();
   });
 } catch (error) {
   console.warn(error);
