@@ -73,6 +73,25 @@
         transition: filter 240ms ease;
       }
 
+      .asia-map path.has-content {
+        fill: #ffffff;
+        stroke: #050505;
+        stroke-width: 2.1;
+        filter:
+          drop-shadow(0 0 2px rgba(17, 17, 17, 0.7))
+          drop-shadow(0 0 7px rgba(17, 17, 17, 0.32));
+      }
+
+      .asia-map path.has-content:hover,
+      .asia-map path.has-content:focus-visible {
+        fill: #171717;
+        stroke: #171717;
+        outline: none;
+        filter:
+          drop-shadow(0 0 3px rgba(17, 17, 17, 0.8))
+          drop-shadow(0 0 10px rgba(17, 17, 17, 0.48));
+      }
+
       :root[data-theme="dark"] .asia-map svg {
         filter: invert(1) grayscale(1);
       }

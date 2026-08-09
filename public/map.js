@@ -103,8 +103,10 @@ try {
     const countryName = country.dataset.country;
 
     if (countryDetails.has(countryName)) {
+      country.classList.add("has-content");
       country.setAttribute("role", "button");
       country.setAttribute("tabindex", "0");
+      country.setAttribute("aria-label", `${countryName} – Inhalt verfügbar`);
       country.addEventListener("click", () => showCountryDetail(countryName));
       country.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
