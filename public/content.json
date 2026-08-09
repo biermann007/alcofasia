@@ -1,0 +1,2266 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-09T07:05:49.227Z",
+  "countries": [
+    {
+      "key": "Afghanistan",
+      "name": {
+        "de": "Afghanistan",
+        "en": "Afghanistan"
+      },
+      "title": {
+        "de": "Keine legale Spirituose",
+        "en": "No legal spirit"
+      },
+      "subtitle": {
+        "de": "Keine nationale Produktauswahl",
+        "en": "No national product selection"
+      },
+      "paragraphs": [
+        {
+          "de": "Afghanistan hat derzeit keine legal vermarktete nationale Spirituosenmarke. Die Weltgesundheitsorganisation führt das Land mit einem vollständigen Verbot für alkoholische Getränke.",
+          "en": "Afghanistan currently has no legally marketed national spirits brand. The World Health Organization lists the country as having a total ban on alcoholic beverages."
+        },
+        {
+          "de": "Auch der Verkauf und Transport von Alkohol werden aktuell verfolgt: Das afghanische Innenministerium berichtete 2025 über Festnahmen und beschlagnahmte alkoholische Getränke in Kabul.",
+          "en": "The sale and transport of alcohol are also currently prosecuted: in 2025, the Afghan Ministry of Interior reported arrests and the seizure of alcoholic beverages in Kabul."
+        },
+        {
+          "de": "Deshalb weisen wir Afghanistan transparent aus, bieten aber weder Low-, Standard- noch Premiumprodukte an. Nicht registrierte oder privat gebrannte Erzeugnisse kommen wegen Rechtslage, Herkunft und Produktsicherheit nicht für den Verkauf infrage.",
+          "en": "We therefore list Afghanistan transparently but offer no Low, Standard or Premium products. Unregistered or privately distilled products are not considered for sale because of the legal situation, provenance and product safety."
+        }
+      ],
+      "facts": [
+        {
+          "label": {
+            "de": "Spirituose",
+            "en": "Spirit"
+          },
+          "value": {
+            "de": "Keine legale nationale Auswahl",
+            "en": "No legal national selection"
+          }
+        },
+        {
+          "label": {
+            "de": "Status",
+            "en": "Status"
+          },
+          "value": {
+            "de": "Vollständiges Alkoholverbot",
+            "en": "Total alcohol ban"
+          }
+        },
+        {
+          "label": {
+            "de": "Herkunft",
+            "en": "Origin"
+          },
+          "value": {
+            "de": "Afghanistan",
+            "en": "Afghanistan"
+          }
+        },
+        {
+          "label": {
+            "de": "Zutaten",
+            "en": "Ingredients"
+          },
+          "value": {
+            "de": "–",
+            "en": "–"
+          }
+        },
+        {
+          "label": {
+            "de": "Hersteller",
+            "en": "Producer"
+          },
+          "value": {
+            "de": "Kein legaler Hersteller nachweisbar",
+            "en": "No legal producer identified"
+          }
+        },
+        {
+          "label": {
+            "de": "Sortiment",
+            "en": "Range"
+          },
+          "value": {
+            "de": "Nicht verfügbar",
+            "en": "Not available"
+          }
+        }
+      ],
+      "manufacturers": [
+        {
+          "label": {
+            "de": "–",
+            "en": "–"
+          },
+          "name": "",
+          "products": [
+            {
+              "tier": {
+                "de": "Keine Kategorie",
+                "en": "No category"
+              },
+              "name": "Keine legale Produktauswahl",
+              "meta": {
+                "de": "Low · Standard · Premium entfallen",
+                "en": "Low · Standard · Premium not applicable"
+              },
+              "description": {
+                "de": "Wir nehmen für Afghanistan keine alkoholischen Produkte in das Sortiment auf.",
+                "en": "We do not add alcoholic products from Afghanistan to the range."
+              },
+              "availability": {
+                "de": "Nicht bestellbar",
+                "en": "Not available to order"
+              },
+              "list": {
+                "origin": {
+                  "de": "Afghanistan",
+                  "en": "Afghanistan"
+                },
+                "style": {
+                  "de": "Keine legale Spirituose",
+                  "en": "No legal spirit"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "note": {
+        "de": "",
+        "en": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.who.int/publications/m/item/alcohol-afg-2019",
+          "label": {
+            "de": "Weltgesundheitsorganisation",
+            "en": "Weltgesundheitsorganisation"
+          }
+        },
+        {
+          "url": "https://moi.gov.af/en/police-arrest-6-people-kabul-selling-and-transporting-alcoholic-beverages",
+          "label": {
+            "de": "Afghanisches Innenministerium",
+            "en": "Afghanisches Innenministerium"
+          }
+        }
+      ]
+    },
+    {
+      "key": "China",
+      "name": {
+        "de": "China",
+        "en": "China"
+      },
+      "title": {
+        "de": "Baijiu",
+        "en": "Baijiu"
+      },
+      "subtitle": {
+        "de": "Chinas bekannteste Spirituose",
+        "en": "China’s best-known spirit"
+      },
+      "paragraphs": [
+        {
+          "de": "Baijiu ist eine traditionelle chinesische Getreidespirituose. Sie wird unter anderem aus Sorghum, Weizen oder Reis hergestellt und nicht nach dem Ausgangsgetreide, sondern nach ihrem Aroma eingeteilt.",
+          "en": "Baijiu is a traditional Chinese grain spirit. It is made from ingredients including sorghum, wheat or rice and is classified by aroma rather than by its base grain."
+        },
+        {
+          "de": "In China wird Baijiu meist pur aus kleinen Gläsern zu gemeinsamen Mahlzeiten und feierlichen Trinksprüchen serviert. Der berühmteste Vertreter ist Kweichow Moutai aus der Provinz Guizhou.",
+          "en": "In China, baijiu is usually served neat in small glasses with shared meals and ceremonial toasts. Its most famous representative is Kweichow Moutai from Guizhou province."
+        },
+        {
+          "de": "Unsere erste Herstellerwahl ist Kweichow Moutai Co., Ltd. mit Yingbin Purple, Golden Prince und Flying Fairy. Als zweite Herstelleralternative ergänzen wir Wuliangye Yibin Co., Ltd. mit Wuliang Chun Mellow, Wuliang Chun Spring und dem Flaggschiff Wuliangye. Die dritte etablierte Wahl ist Luzhou Laojiao Co., Ltd. mit Touqu D9, Tequ Laojiu und Guojiao 1573 Classic.",
+          "en": "Our first producer selection is Kweichow Moutai Co., Ltd. with Yingbin Purple, Golden Prince and Flying Fairy. Our second producer alternative is Wuliangye Yibin Co., Ltd. with Wuliang Chun Mellow, Wuliang Chun Spring and the flagship Wuliangye. The third established choice is Luzhou Laojiao Co., Ltd. with Touqu D9, Tequ Laojiu and Guojiao 1573 Classic."
+        },
+        {
+          "de": "Moutai steht für Sauce Aroma auf Basis von rotem Sorghum und Weizen. Wuliangye vertritt den Strong-Aroma-Stil mit fünf Getreidearten. Luzhou Laojiao gilt als Wegbereiter des Strong-Aroma-Baijiu und führt seine Brenntradition über 700 Jahre zurück.",
+          "en": "Moutai represents sauce aroma based on red sorghum and wheat. Wuliangye represents the strong-aroma style with five grains. Luzhou Laojiao is regarded as a pioneer of strong-aroma baijiu and traces its distilling tradition back more than 700 years."
+        }
+      ],
+      "facts": [
+        {
+          "label": {
+            "de": "Spirituose",
+            "en": "Spirit"
+          },
+          "value": {
+            "de": "Baijiu",
+            "en": "Baijiu"
+          }
+        },
+        {
+          "label": {
+            "de": "Aromastil",
+            "en": "Aroma style"
+          },
+          "value": {
+            "de": "Sauce Aroma",
+            "en": "Sauce Aroma"
+          }
+        },
+        {
+          "label": {
+            "de": "Herkunft",
+            "en": "Origin"
+          },
+          "value": {
+            "de": "Maotai, Guizhou, China",
+            "en": "Maotai, Guizhou, China"
+          }
+        },
+        {
+          "label": {
+            "de": "Zutaten",
+            "en": "Ingredients"
+          },
+          "value": {
+            "de": "Rotes Sorghum, Weizen, Wasser",
+            "en": "Red sorghum, wheat, water"
+          }
+        },
+        {
+          "label": {
+            "de": "Hersteller",
+            "en": "Producer"
+          },
+          "value": {
+            "de": "Moutai · Wuliangye · Luzhou Laojiao",
+            "en": "Moutai · Wuliangye · Luzhou Laojiao"
+          }
+        },
+        {
+          "label": {
+            "de": "Sortiment",
+            "en": "Range"
+          },
+          "value": {
+            "de": "3 Hersteller · je 3 Stufen",
+            "en": "3 producers · 3 tiers each"
+          }
+        }
+      ],
+      "manufacturers": [
+        {
+          "label": {
+            "de": "1. Hersteller",
+            "en": "1st producer"
+          },
+          "name": "Kweichow Moutai Co., Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Moutai Yingbin Purple",
+              "meta": {
+                "de": "Baijiu · 53 % Vol. · 500 ml",
+                "en": "Baijiu · 53% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Frisch und mild mit Apfel- und Birnenaromen – der zugängliche Einstieg.",
+                "en": "Fresh and mild with apple and pear aromas — an accessible introduction."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Moutai Golden Prince",
+              "meta": {
+                "de": "Baijiu · 53 % Vol. · 500 ml",
+                "en": "Baijiu · 53% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Fruchtig mit Apfel, Pfirsich und gerösteten Mandeln.",
+                "en": "Fruity with apple, peach and toasted almonds."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Moutai Flying Fairy",
+              "meta": {
+                "de": "Baijiu · 53 % Vol. · 500 ml",
+                "en": "Baijiu · 53% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Das berühmte Flaggschiff: vollmundig, elegant und lang anhaltend.",
+                "en": "The famous flagship: full-bodied, elegant and long-lasting."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "2. Hersteller",
+            "en": "2nd producer"
+          },
+          "name": "Wuliangye Yibin Co., Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Wuliang Chun Mellow",
+              "meta": {
+                "de": "Baijiu · 40 % Vol. · 500 ml",
+                "en": "Baijiu · 40% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Weich und rund – die zugängliche Mid-End-Abfüllung.",
+                "en": "Soft and rounded — the accessible mid-range expression."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Wuliang Chun Spring",
+              "meta": {
+                "de": "Baijiu · 52 % Vol. · 500 ml",
+                "en": "Baijiu · 52% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Vollmundig und vielschichtig mit sauberem, frischem Finale.",
+                "en": "Full-bodied and layered with a clean, fresh finish."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Wuliangye",
+              "meta": {
+                "de": "Baijiu · 52 % Vol. · 500 ml",
+                "en": "Baijiu · 52% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Das internationale Flaggschiff und der Maßstab für Strong Aroma Baijiu.",
+                "en": "The international flagship and a benchmark for strong-aroma baijiu."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "3. Hersteller",
+            "en": "3rd producer"
+          },
+          "name": "Luzhou Laojiao Co., Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Luzhou Laojiao Touqu D9",
+              "meta": {
+                "de": "Baijiu · 52 % Vol. · 500 ml",
+                "en": "Baijiu · 52% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Süßer und sanfter Strong-Aroma-Baijiu für einen zugänglichen Einstieg.",
+                "en": "A sweeter, gentler strong-aroma baijiu for an accessible introduction."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Luzhou Laojiao Tequ Laojiu",
+              "meta": {
+                "de": "Baijiu · 52 % Vol. · 500 ml",
+                "en": "Baijiu · 52% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Ein klassischer, vollmundiger Strong-Aroma-Baijiu mit langem Nachhall.",
+                "en": "A classic, full-bodied strong-aroma baijiu with a long finish."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Guojiao 1573 Classic",
+              "meta": {
+                "de": "Baijiu · 52 % Vol. · 500 ml",
+                "en": "Baijiu · 52% ABV · 500 ml"
+              },
+              "description": {
+                "de": "Das Ultra-High-End-Flaggschiff aus den historischen Brennkammern von 1573.",
+                "en": "The ultra-high-end flagship from the historic cellars dating to 1573."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "China",
+                  "en": "China"
+                },
+                "style": {
+                  "de": "Baijiu",
+                  "en": "Baijiu"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "note": {
+        "de": "",
+        "en": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.moutai.be/products/",
+          "label": {
+            "de": "Kweichow Moutai",
+            "en": "Kweichow Moutai"
+          }
+        },
+        {
+          "url": "https://www.wuliangye.com.cn/en/product/strong_aroma.html",
+          "label": {
+            "de": "Wuliangye",
+            "en": "Wuliangye"
+          }
+        },
+        {
+          "url": "https://www.lzlj.com/en/",
+          "label": {
+            "de": "Luzhou Laojiao",
+            "en": "Luzhou Laojiao"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Israel",
+      "name": {
+        "de": "Israel",
+        "en": "Israel"
+      },
+      "title": {
+        "de": "Arak",
+        "en": "Arak"
+      },
+      "subtitle": {
+        "de": "Israels bekannteste traditionelle Spirituose",
+        "en": "Israel’s best-known traditional spirit"
+      },
+      "paragraphs": [
+        {
+          "de": "Arak ist eine klare, ungesüßte Anisspirituose aus der Levante. In Israel wird sie häufig mit Wasser und Eis serviert. Dabei wird der klare Brand durch das ätherische Anisöl milchig weiß.",
+          "en": "Arak is a clear, unsweetened anise spirit from the Levant. In Israel, it is often served with water and ice. The essential anise oil then turns the clear spirit milky white."
+        },
+        {
+          "de": "Unsere erste Herstellerwahl ist Joseph Gold & Sons, dessen Familiengeschichte bis 1824 zurückreicht, mit Elite Arak, Amir Ha’Arak und Alouf Arak. Als zweite etablierte Alternative folgt die Familienbrennerei Kawar mit Kawar 40, Kawar 45 und Kawar Special 53. Die dritte Wahl ist ZOARA Distillery mit modernem Arak aus Medjool-Datteln.",
+          "en": "Our first producer selection is Joseph Gold & Sons, whose family history dates back to 1824, with Elite Arak, Amir Ha’Arak and Alouf Arak. The second established alternative is the Kawar family distillery with Kawar 40, Kawar 45 and Kawar Special 53. The third choice is ZOARA Distillery with modern arak made from Medjool dates."
+        },
+        {
+          "de": "Joseph Gold prägt den israelischen Arak-Markt mit klassischen Anisbränden. Kawar verbindet Traubenalkohol aus Galiläa mit syrischem Anis. ZOARA destilliert dagegen Medjool-Datteln aus dem Jordantal und ergänzt Anis mit frischem Estragon.",
+          "en": "Joseph Gold has shaped Israel’s arak market with classic anise spirits. Kawar combines grape spirit from Galilee with Syrian anise. ZOARA instead distils Medjool dates from the Jordan Valley and complements the anise with fresh tarragon."
+        },
+        {
+          "de": "Traditionell wird ein Teil Arak mit ungefähr zwei Teilen Wasser verdünnt und anschließend über Eis gegossen. Er begleitet Mezze, salzige Speisen und lange gemeinsame Mahlzeiten.",
+          "en": "Traditionally, one part arak is diluted with about two parts water and then poured over ice. It accompanies mezze, savoury dishes and long shared meals."
+        }
+      ],
+      "facts": [
+        {
+          "label": {
+            "de": "Spirituose",
+            "en": "Spirit"
+          },
+          "value": {
+            "de": "Arak",
+            "en": "Arak"
+          }
+        },
+        {
+          "label": {
+            "de": "Stil",
+            "en": "Style"
+          },
+          "value": {
+            "de": "Ungesüßte Anisspirituose",
+            "en": "Unsweetened anise spirit"
+          }
+        },
+        {
+          "label": {
+            "de": "Herkunft",
+            "en": "Origin"
+          },
+          "value": {
+            "de": "Haifa, Galiläa und Jordantal, Israel",
+            "en": "Haifa, Galilee and the Jordan Valley, Israel"
+          }
+        },
+        {
+          "label": {
+            "de": "Zutaten",
+            "en": "Ingredients"
+          },
+          "value": {
+            "de": "Alkohol aus Trauben oder Datteln, Anis, Wasser",
+            "en": "Spirit from grapes or dates, anise, water"
+          }
+        },
+        {
+          "label": {
+            "de": "Hersteller",
+            "en": "Producer"
+          },
+          "value": {
+            "de": "Joseph Gold · Kawar · ZOARA",
+            "en": "Joseph Gold · Kawar · ZOARA"
+          }
+        },
+        {
+          "label": {
+            "de": "Sortiment",
+            "en": "Range"
+          },
+          "value": {
+            "de": "3 Hersteller · je 3 Stufen",
+            "en": "3 producers · 3 tiers each"
+          }
+        }
+      ],
+      "manufacturers": [
+        {
+          "label": {
+            "de": "1. Hersteller",
+            "en": "1st producer"
+          },
+          "name": "Joseph Gold & Sons",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Elite Arak",
+              "meta": {
+                "de": "Arak · 40 % Vol. · 700 ml",
+                "en": "Arak · 40% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Der bekannte, dreifach destillierte Klassiker ohne Zuckerzusatz.",
+                "en": "The well-known, triple-distilled classic with no added sugar."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Amir Ha’Arak",
+              "meta": {
+                "de": "Arak · 45 % Vol. · 700 ml",
+                "en": "Arak · 45% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Kräftiger als die Basislinie, mit klarem Anisprofil und weichem Körper.",
+                "en": "Stronger than the core expression, with a clean anise profile and smooth body."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Alouf Arak",
+              "meta": {
+                "de": "Arak · 50 % Vol. · 700 ml",
+                "en": "Arak · 50% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Die hochprozentige Spitzenabfüllung mit süßem Anis- und Feigencharakter.",
+                "en": "The high-strength top expression with sweet anise and fig character."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "2. Hersteller",
+            "en": "2nd producer"
+          },
+          "name": "Sons of Baheej Kawar Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Kawar 40",
+              "meta": {
+                "de": "Arak · 40 % Vol. · 700 ml",
+                "en": "Arak · 40% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Der milde Einstieg der Familienbrennerei aus Galiläa.",
+                "en": "The gentle introduction to the family distillery from Galilee."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Kawar 45",
+              "meta": {
+                "de": "Arak · 45 % Vol. · 700 ml",
+                "en": "Arak · 45% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Ausgewogen, klar und intensiv mit Traubenalkohol und syrischem Anis.",
+                "en": "Balanced, clean and intense, with grape spirit and Syrian anise."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Kawar Special 53",
+              "meta": {
+                "de": "Arak · 53 % Vol. · 700 ml",
+                "en": "Arak · 53% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Die kräftige Premiumstufe mit konzentriertem, langem Anisnachhall.",
+                "en": "The powerful premium tier with a concentrated, long anise finish."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "3. Hersteller",
+            "en": "3rd producer"
+          },
+          "name": "ZOARA Distillery / Jordan Spirits",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "ZOARA zrira Arak",
+              "meta": {
+                "de": "Dattel-Arak · 40 % Vol. · 300 ml",
+                "en": "Date arak · 40% ABV · 300 ml"
+              },
+              "description": {
+                "de": "Die kleine Probierabfüllung aus Medjool-Datteln, Anis und Estragon.",
+                "en": "The small tasting bottle made from Medjool dates, anise and tarragon."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "ZOARA Arak",
+              "meta": {
+                "de": "Dattel-Arak · 40 % Vol. · 750 ml",
+                "en": "Date arak · 40% ABV · 750 ml"
+              },
+              "description": {
+                "de": "Vollmundiger Craft-Arak mit frischer Anisnote und rundem Dattelcharakter.",
+                "en": "Full-bodied craft arak with fresh anise and rounded date character."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Mad Jewel",
+              "meta": {
+                "de": "Goldene Anisspirituose · 40 % Vol. · 750 ml",
+                "en": "Golden anise spirit · 40% ABV · 750 ml"
+              },
+              "description": {
+                "de": "Prämierte, goldfarbene Interpretation mit Datteln, Anis und frischem Estragon.",
+                "en": "Award-winning golden interpretation with dates, anise and fresh tarragon."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Israel",
+                  "en": "Israel"
+                },
+                "style": {
+                  "de": "Arak",
+                  "en": "Arak"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "note": {
+        "de": "",
+        "en": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.tabletmag.com/sections/food/articles/magic-arak-anise-flavored-liquor",
+          "label": {
+            "de": "Joseph Gold & Sons",
+            "en": "Joseph Gold & Sons"
+          }
+        },
+        {
+          "url": "https://arak-kawar.com/en/alco_product/",
+          "label": {
+            "de": "Kawar",
+            "en": "Kawar"
+          }
+        },
+        {
+          "url": "https://jordanspirits.com/en/",
+          "label": {
+            "de": "ZOARA Distillery",
+            "en": "ZOARA Distillery"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Russland",
+      "name": {
+        "de": "Russland",
+        "en": "Russia"
+      },
+      "title": {
+        "de": "Wodka",
+        "en": "Vodka"
+      },
+      "subtitle": {
+        "de": "Russlands bekannteste Spirituose",
+        "en": "Russia’s best-known spirit"
+      },
+      "paragraphs": [
+        {
+          "de": "Wodka ist die international bekannteste Spirituose Russlands. Der klare Getreidebrand wird traditionell möglichst rein und neutral hergestellt und meist gut gekühlt, pur und zu Speisen serviert.",
+          "en": "Vodka is Russia’s internationally best-known spirit. The clear grain spirit is traditionally produced to be as pure and neutral as possible and is usually served well chilled, neat and with food."
+        },
+        {
+          "de": "Unsere erste Herstellerwahl ist Russian Standard Vodka LLC mit Original, Gold und Platinum. Als zweite Herstelleralternative ergänzen wir die LADOGA Group aus Sankt Petersburg mit Czar’s Original, Czar’s Gold und Imperial Collection Golden Snow. Die dritte etablierte Wahl ist Tatspirtprom JSC aus Kasan mit Tundra Authentic, Tundra Frozen Juniper und Tundra Forest Woody Notes.",
+          "en": "Our first producer selection is Russian Standard Vodka LLC with Original, Gold and Platinum. Our second producer alternative is the LADOGA Group from Saint Petersburg with Czar’s Original, Czar’s Gold and Imperial Collection Golden Snow. The third established choice is Tatspirtprom JSC from Kazan with Tundra Authentic, Tundra Frozen Juniper and Tundra Forest Woody Notes."
+        },
+        {
+          "de": "Russian Standard basiert auf Winterweizen und Wasser aus dem Ladogasee. LADOGA verbindet Getreidealkohol und besonders weiches Wasser. Tundra verwendet Alkohol der Klasse Alpha und entwickelt die höheren Stufen mit Wacholder, Pinienkernen, Kräutern und weiteren Pflanzenessenzen.",
+          "en": "Russian Standard is based on winter wheat and water from Lake Ladoga. LADOGA combines grain spirit with particularly soft water. Tundra uses Alpha-grade spirit and develops its higher tiers with juniper, pine nuts, herbs and other botanical essences."
+        }
+      ],
+      "facts": [
+        {
+          "label": {
+            "de": "Spirituose",
+            "en": "Spirit"
+          },
+          "value": {
+            "de": "Wodka",
+            "en": "Vodka"
+          }
+        },
+        {
+          "label": {
+            "de": "Stil",
+            "en": "Style"
+          },
+          "value": {
+            "de": "Premium Vodka",
+            "en": "Premium vodka"
+          }
+        },
+        {
+          "label": {
+            "de": "Herkunft",
+            "en": "Origin"
+          },
+          "value": {
+            "de": "Sankt Petersburg und Kasan, Russland",
+            "en": "Saint Petersburg and Kazan, Russia"
+          }
+        },
+        {
+          "label": {
+            "de": "Zutaten",
+            "en": "Ingredients"
+          },
+          "value": {
+            "de": "Getreidealkohol, Wasser",
+            "en": "Grain spirit, water"
+          }
+        },
+        {
+          "label": {
+            "de": "Hersteller",
+            "en": "Producer"
+          },
+          "value": {
+            "de": "Russian Standard · LADOGA · Tatspirtprom",
+            "en": "Russian Standard · LADOGA · Tatspirtprom"
+          }
+        },
+        {
+          "label": {
+            "de": "Sortiment",
+            "en": "Range"
+          },
+          "value": {
+            "de": "3 Hersteller · je 3 Stufen",
+            "en": "3 producers · 3 tiers each"
+          }
+        }
+      ],
+      "manufacturers": [
+        {
+          "label": {
+            "de": "1. Hersteller",
+            "en": "1st producer"
+          },
+          "name": "Russian Standard Vodka LLC",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Russian Standard Original",
+              "meta": {
+                "de": "Wodka · 40 % Vol.",
+                "en": "Vodka · 40% ABV"
+              },
+              "description": {
+                "de": "Klar und weich mit dezenter Getreidenote.",
+                "en": "Clean and smooth with a subtle grain note."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Russian Standard Gold",
+              "meta": {
+                "de": "Wodka · 40 % Vol.",
+                "en": "Vodka · 40% ABV"
+              },
+              "description": {
+                "de": "Weich und reichhaltig, verfeinert mit sibirischem Ginseng.",
+                "en": "Smooth and rich, refined with Siberian ginseng."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Russian Standard Platinum",
+              "meta": {
+                "de": "Wodka · 40 % Vol.",
+                "en": "Vodka · 40% ABV"
+              },
+              "description": {
+                "de": "Silberfiltriert, seidig weich und besonders klar.",
+                "en": "Silver-filtered, silky smooth and exceptionally clean."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "2. Hersteller",
+            "en": "2nd producer"
+          },
+          "name": "LADOGA Group",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Czar’s Original",
+              "meta": {
+                "de": "Wodka · 40 % Vol. · 700 ml",
+                "en": "Vodka · 40% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Vierfach destilliert und in elf Stufen gereinigt.",
+                "en": "Distilled four times and purified in eleven stages."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Czar’s Gold",
+              "meta": {
+                "de": "Wodka · 40 % Vol. · 700 ml",
+                "en": "Vodka · 40% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Zwölfstufig gereinigt und abschließend durch Goldmembranen filtriert.",
+                "en": "Purified in twelve stages and finally filtered through gold membranes."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Imperial Collection Golden Snow",
+              "meta": {
+                "de": "Wodka · 40 % Vol. · 700 ml",
+                "en": "Vodka · 40% ABV · 700 ml"
+              },
+              "description": {
+                "de": "Sammlerabfüllung mit 23-karätigen Goldflocken.",
+                "en": "Collector’s expression with 23-carat gold flakes."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "3. Hersteller",
+            "en": "3rd producer"
+          },
+          "name": "Tatspirtprom JSC",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Tundra Authentic",
+              "meta": {
+                "de": "Wodka · 40 % Vol.",
+                "en": "Vodka · 40% ABV"
+              },
+              "description": {
+                "de": "Klarer Alpha-Wodka mit fünffach gefiltertem Wasser.",
+                "en": "Clean Alpha-grade vodka made with five-times filtered water."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Tundra Frozen Juniper",
+              "meta": {
+                "de": "Wodka · 40 % Vol.",
+                "en": "Vodka · 40% ABV"
+              },
+              "description": {
+                "de": "Mit Wacholder, Pinienkern und einem feinen Akzent von Zitronenöl.",
+                "en": "With juniper, pine nut and a subtle accent of lemon oil."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Tundra Forest Woody Notes",
+              "meta": {
+                "de": "Wodka · 40 % Vol.",
+                "en": "Vodka · 40% ABV"
+              },
+              "description": {
+                "de": "Kräuterbetonte Premiumabfüllung mit fünf aromatischen Destillaten.",
+                "en": "A herb-forward premium expression with five aromatic distillates."
+              },
+              "availability": {
+                "de": "Derzeit nicht im Verkauf",
+                "en": "Currently not for sale"
+              },
+              "list": {
+                "origin": {
+                  "de": "Russland",
+                  "en": "Russia"
+                },
+                "style": {
+                  "de": "Wodka",
+                  "en": "Vodka"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "note": {
+        "de": "",
+        "en": ""
+      },
+      "sources": [
+        {
+          "url": "https://roust.com/en/brands/owned/russian-vodka/russian-standard-vodka/",
+          "label": {
+            "de": "Roust Group",
+            "en": "Roust Group"
+          }
+        },
+        {
+          "url": "https://ladoga.com/catalog/vodka/",
+          "label": {
+            "de": "LADOGA",
+            "en": "LADOGA"
+          }
+        },
+        {
+          "url": "https://tatspirtprom.ru/en/about/",
+          "label": {
+            "de": "Tatspirtprom",
+            "en": "Tatspirtprom"
+          }
+        },
+        {
+          "url": "https://tatspirtprom.ru/catalog/tundra/",
+          "label": {
+            "de": "Tundra",
+            "en": "Tundra"
+          }
+        },
+        {
+          "url": "https://www.consilium.europa.eu/en/policies/sanctions-against-russia-explained/",
+          "label": {
+            "de": "Rat der Europäischen Union",
+            "en": "Rat der Europäischen Union"
+          }
+        }
+      ]
+    },
+    {
+      "key": "Japan",
+      "name": {
+        "de": "Japan",
+        "en": "Japan"
+      },
+      "title": {
+        "de": "Shōchū",
+        "en": "Shōchū"
+      },
+      "subtitle": {
+        "de": "Japans traditionelle Spirituose",
+        "en": "Japan’s traditional spirit"
+      },
+      "paragraphs": [
+        {
+          "de": "Sake ist Japans bekanntestes alkoholisches Getränk, aber keine Spirituose: Er wird gebraut und nicht destilliert. Die traditionelle japanische Spirituose ist Shōchū, ein klarer Brand aus regionalen Zutaten wie Gerste, Süßkartoffeln oder Reis.",
+          "en": "Sake is Japan’s best-known alcoholic drink, but it is not a spirit: it is brewed, not distilled. Japan’s traditional spirit is shochu, a clear distillate made from regional ingredients such as barley, sweet potatoes or rice."
+        },
+        {
+          "de": "Unsere erste Herstellerwahl ist Sanwa Shurui Co., Ltd. mit der gerstenbasierten iichiko-Familie. Als zweite Herstelleralternative ergänzen wir Kirishima Shuzo Co., Ltd. mit Kuro Kirishima, Aka Kirishima und Kuro Kirishima MELT. Die dritte etablierte Wahl ist Takara Shuzo Co., Ltd. mit Takara Shochu Jun, Ikkomon und Ikkomon Long-Term Aged Genshu.",
+          "en": "Our first producer selection is Sanwa Shurui Co., Ltd. with the barley-based iichiko family. Our second producer alternative is Kirishima Shuzo Co., Ltd. with Kuro Kirishima, Aka Kirishima and Kuro Kirishima MELT. The third established choice is Takara Shuzo Co., Ltd. with Takara Shochu Jun, Ikkomon and Ikkomon Long-Term Aged Genshu."
+        },
+        {
+          "de": "iichiko basiert auf Gerste und Gersten-Kōji. Kirishima verwendet Süßkartoffeln aus Kyūshū und Reis-Kōji. Takara Shuzo braut und destilliert seit 1842; Ikkomon wird vollständig aus Süßkartoffeln einschließlich Süßkartoffel-Kōji hergestellt.",
+          "en": "iichiko is based on barley and barley koji. Kirishima uses sweet potatoes from Kyushu and rice koji. Takara Shuzo has brewed and distilled since 1842; Ikkomon is made entirely from sweet potatoes, including sweet-potato koji."
+        },
+        {
+          "de": "Traditionell wird Shōchū pur, auf Eis, mit kaltem oder heißem Wasser sowie als leichter Highball mit Soda serviert. Durch seinen zurückhaltenden Charakter passt Silhouette zu vielen Speisen.",
+          "en": "Shochu is traditionally served neat, on ice, with cold or hot water, or as a light highball with soda. Silhouette’s restrained character makes it a versatile food companion."
+        }
+      ],
+      "facts": [
+        {
+          "label": {
+            "de": "Spirituose",
+            "en": "Spirit"
+          },
+          "value": {
+            "de": "Shōchū",
+            "en": "Shōchū"
+          }
+        },
+        {
+          "label": {
+            "de": "Stil",
+            "en": "Style"
+          },
+          "value": {
+            "de": "Honkaku Mugi Shōchū",
+            "en": "Honkaku Mugi Shōchū"
+          }
+        },
+        {
+          "label": {
+            "de": "Herkunft",
+            "en": "Origin"
+          },
+          "value": {
+            "de": "Kyūshū und Kyōto, Japan",
+            "en": "Kyushu and Kyoto, Japan"
+          }
+        },
+        {
+          "label": {
+            "de": "Zutaten",
+            "en": "Ingredients"
+          },
+          "value": {
+            "de": "Gerste, Gersten-Kōji, Wasser",
+            "en": "Barley, barley koji, water"
+          }
+        },
+        {
+          "label": {
+            "de": "Hersteller",
+            "en": "Producer"
+          },
+          "value": {
+            "de": "Sanwa Shurui · Kirishima Shuzo · Takara Shuzo",
+            "en": "Sanwa Shurui · Kirishima Shuzo · Takara Shuzo"
+          }
+        },
+        {
+          "label": {
+            "de": "Sortiment",
+            "en": "Range"
+          },
+          "value": {
+            "de": "3 Hersteller · je 3 Stufen",
+            "en": "3 producers · 3 tiers each"
+          }
+        }
+      ],
+      "manufacturers": [
+        {
+          "label": {
+            "de": "1. Hersteller",
+            "en": "1st producer"
+          },
+          "name": "Sanwa Shurui Co., Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "iichiko 25",
+              "meta": {
+                "de": "Mugi Shōchū · 25 % Vol. · 900 ml",
+                "en": "Barley shochu · 25% ABV · 900 ml"
+              },
+              "description": {
+                "de": "Mild, fruchtig und unkompliziert – der Bestseller der Basislinie.",
+                "en": "Mild, fruity and approachable — the bestseller in the core range."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "iichiko Silhouette",
+              "meta": {
+                "de": "Mugi Shōchū · 25 % Vol. · 720 ml",
+                "en": "Barley shochu · 25% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Leicht, weich und vielseitig – Japans Nr. 1 Shōchū-Marke.",
+                "en": "Light, smooth and versatile — Japan’s No. 1 shochu brand."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "iichiko Special",
+              "meta": {
+                "de": "Mugi Shōchū · 30 % Vol. · 720 ml",
+                "en": "Barley shochu · 30% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Lang gereift mit vollerem Aroma und weicher Tiefe.",
+                "en": "Long-aged with a fuller aroma and smooth depth."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "2. Hersteller",
+            "en": "2nd producer"
+          },
+          "name": "Kirishima Shuzo Co., Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Kuro Kirishima",
+              "meta": {
+                "de": "Imo Shōchū · 25 % Vol. · 720 ml",
+                "en": "Sweet potato shochu · 25% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Runde Süße und ein klarer, trockener Nachhall.",
+                "en": "Rounded sweetness with a clean, dry finish."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Aka Kirishima",
+              "meta": {
+                "de": "Imo Shōchū · 25 % Vol. · 900 ml",
+                "en": "Sweet potato shochu · 25% ABV · 900 ml"
+              },
+              "description": {
+                "de": "Elegantes, fruchtiges Aroma aus violetten Murasaki-Masari-Süßkartoffeln.",
+                "en": "An elegant, fruity aroma from purple Murasaki Masari sweet potatoes."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Kuro Kirishima MELT",
+              "meta": {
+                "de": "Spirituose auf Shōchū-Basis · 30 % Vol. · 720 ml",
+                "en": "Shochu-based spirit · 30% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Über 15 Jahre gereift, mit Eichenholz und feiner Vanillesüße.",
+                "en": "Aged for over 15 years, with oak and delicate vanilla sweetness."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "label": {
+            "de": "3. Hersteller",
+            "en": "3rd producer"
+          },
+          "name": "Takara Shuzo Co., Ltd.",
+          "products": [
+            {
+              "tier": {
+                "de": "Low",
+                "en": "Low"
+              },
+              "name": "Takara Shochu Jun 25",
+              "meta": {
+                "de": "Kōrui Shōchū · 25 % Vol. · 720 ml",
+                "en": "Korui shochu · 25% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Seit 1977 im Sortiment, klar und mild mit einem Anteil fassgereifter Destillate.",
+                "en": "In the range since 1977, clean and mild with a proportion of barrel-aged distillates."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Standard",
+                "en": "Standard"
+              },
+              "name": "Ikkomon",
+              "meta": {
+                "de": "Imo Shōchū · 25 % Vol. · 720 ml",
+                "en": "Sweet potato shochu · 25% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Vollständig aus Süßkartoffeln, mit klarer Süße und elegantem Geschmack.",
+                "en": "Made entirely from sweet potatoes, with clean sweetness and an elegant taste."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            },
+            {
+              "tier": {
+                "de": "Premium",
+                "en": "Premium"
+              },
+              "name": "Ikkomon Long-Term Aged Genshu",
+              "meta": {
+                "de": "Imo Shōchū · 37 % Vol. · 720 ml",
+                "en": "Sweet potato shochu · 37% ABV · 720 ml"
+              },
+              "description": {
+                "de": "Drei Jahre gereift und nach der Destillation ohne Wasserzugabe abgefüllt.",
+                "en": "Aged for three years and bottled after distillation without added water."
+              },
+              "availability": {
+                "de": "Demnächst erhältlich",
+                "en": "Coming soon"
+              },
+              "list": {
+                "origin": {
+                  "de": "Japan",
+                  "en": "Japan"
+                },
+                "style": {
+                  "de": "Shōchū",
+                  "en": "Shōchū"
+                },
+                "ingredients": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "alcohol": {
+                  "de": "–",
+                  "en": "–"
+                },
+                "classification": {
+                  "de": "–",
+                  "en": "–"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "note": {
+        "de": "",
+        "en": ""
+      },
+      "sources": [
+        {
+          "url": "https://www.iichiko.co.jp/products/",
+          "label": {
+            "de": "iichiko / Sanwa Shurui",
+            "en": "iichiko / Sanwa Shurui"
+          }
+        },
+        {
+          "url": "https://en.www.kirishima.co.jp/products/",
+          "label": {
+            "de": "Kirishima Shuzo",
+            "en": "Kirishima Shuzo"
+          }
+        },
+        {
+          "url": "https://www.takara.co.jp/english/company/intro/takarashuzo.html",
+          "label": {
+            "de": "Takara Shuzo",
+            "en": "Takara Shuzo"
+          }
+        },
+        {
+          "url": "https://shop.takara.co.jp/shopdetail/000000000054",
+          "label": {
+            "de": "Ikkomon Long-Term Aged",
+            "en": "Ikkomon Long-Term Aged"
+          }
+        }
+      ]
+    }
+  ]
+}
