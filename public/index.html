@@ -74,26 +74,55 @@
       }
 
       .asia-map path.has-content {
-        fill: #ffffff;
-        stroke: #050505;
+        fill: #f7fbfd;
+        stroke: #628ba4;
         stroke-width: 2.1;
-        filter:
-          drop-shadow(0 0 2px rgba(17, 17, 17, 0.7))
-          drop-shadow(0 0 7px rgba(17, 17, 17, 0.32));
+        animation: content-glow 2.8s ease-in-out infinite;
       }
 
       .asia-map path.has-content:hover,
       .asia-map path.has-content:focus-visible {
-        fill: #171717;
-        stroke: #171717;
+        fill: #dcebf3;
+        stroke: #4f7f9b;
         outline: none;
+        animation: none;
         filter:
-          drop-shadow(0 0 3px rgba(17, 17, 17, 0.8))
-          drop-shadow(0 0 10px rgba(17, 17, 17, 0.48));
+          drop-shadow(0 0 3px rgba(79, 127, 155, 0.8))
+          drop-shadow(0 0 11px rgba(79, 127, 155, 0.58));
       }
 
       :root[data-theme="dark"] .asia-map svg {
+        filter: none;
+      }
+
+      :root[data-theme="dark"] .asia-map path:not(.has-content) {
         filter: invert(1) grayscale(1);
+      }
+
+      :root[data-theme="dark"] .asia-map path.has-content {
+        fill: #101820;
+        stroke: #79a9c7;
+      }
+
+      :root[data-theme="dark"] .asia-map path.has-content:hover,
+      :root[data-theme="dark"] .asia-map path.has-content:focus-visible {
+        fill: #1a2b36;
+        stroke: #8bb8d2;
+      }
+
+      @keyframes content-glow {
+        0%,
+        100% {
+          filter:
+            drop-shadow(0 0 2px rgba(86, 137, 168, 0.38))
+            drop-shadow(0 0 6px rgba(86, 137, 168, 0.24));
+        }
+
+        50% {
+          filter:
+            drop-shadow(0 0 4px rgba(100, 157, 191, 0.7))
+            drop-shadow(0 0 13px rgba(100, 157, 191, 0.48));
+        }
       }
 
       .country-list {
@@ -364,6 +393,13 @@
         body,
         .asia-map svg {
           transition: none;
+        }
+
+        .asia-map path.has-content {
+          animation: none;
+          filter:
+            drop-shadow(0 0 3px rgba(86, 137, 168, 0.56))
+            drop-shadow(0 0 9px rgba(86, 137, 168, 0.34));
         }
       }
 
