@@ -150,6 +150,10 @@
         margin: 0;
       }
 
+      .country-note {
+        margin-top: 1.5rem;
+      }
+
       .spirit-facts {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -326,7 +330,7 @@
         </div>
         <div class="country-tooltip" data-country-tooltip aria-live="polite"></div>
         <div class="country-list" id="country-list" data-country-list hidden></div>
-        <article class="country-detail" data-country-detail hidden tabindex="-1">
+        <article class="country-detail" data-country-detail="China" hidden tabindex="-1">
           <button class="detail-back" type="button" data-detail-back>← Zurück</button>
           <p class="country-kicker">China</p>
           <h2>Baijiu</h2>
@@ -352,6 +356,35 @@
             <span class="availability">Demnächst erhältlich</span>
           </div>
           <p class="sources">Quellen: <a href="https://www.iwsc.net/news/spirits/baijiu-learn-about-chinas-national-drink-and-the-best-bottles-to-try" target="_blank" rel="noopener noreferrer">IWSC</a> · <a href="https://www.moutai.be/products/moutai-flying-fairy-53/" target="_blank" rel="noopener noreferrer">Kweichow Moutai</a></p>
+        </article>
+        <article class="country-detail" data-country-detail="Russland" hidden tabindex="-1">
+          <button class="detail-back" type="button" data-detail-back>← Zurück</button>
+          <p class="country-kicker">Russland</p>
+          <h2>Wodka</h2>
+          <p class="country-subtitle">Russlands bekannteste Spirituose</p>
+          <div class="country-copy">
+            <p>Wodka ist die international bekannteste Spirituose Russlands. Der klare Getreidebrand wird traditionell möglichst rein und neutral hergestellt und meist gut gekühlt, pur und zu Speisen serviert.</p>
+            <p>Unsere repräsentative Auswahl ist Russian Standard Original. Hersteller ist Russian Standard Vodka LLC, ein Unternehmen der Roust Group. Produziert wird der Wodka in Sankt Petersburg.</p>
+            <p>Russian Standard Original entsteht aus russischem Winterweizen und Wasser aus dem Ladogasee. Sein Profil ist klar und weich, mit dezenter Getreidesüße und einem trockenen, sauberen Nachhall.</p>
+          </div>
+          <dl class="spirit-facts">
+            <div><dt>Spirituose</dt><dd>Wodka</dd></div>
+            <div><dt>Stil</dt><dd>Premium Vodka</dd></div>
+            <div><dt>Herkunft</dt><dd>Sankt Petersburg, Russland</dd></div>
+            <div><dt>Zutaten</dt><dd>Winterweizen, Wasser</dd></div>
+            <div><dt>Hersteller</dt><dd>Russian Standard Vodka LLC</dd></div>
+            <div><dt>Einordnung</dt><dd>Bekanntes Flaggschiff</dd></div>
+          </dl>
+          <div class="product-card">
+            <p class="product-label">Ausgewähltes Flaggschiff</p>
+            <h3 class="product-name">Russian Standard Original</h3>
+            <p class="product-meta">Wodka · 40 % Vol.</p>
+            <span class="availability">Derzeit nicht im Verkauf</span>
+          </div>
+          <div class="country-copy country-note">
+            <p>Die Einfuhr russischer Spirituosen in die Europäische Union ist derzeit untersagt. Das Produkt wird deshalb redaktionell vorgestellt, aber nicht zum Kauf angeboten.</p>
+          </div>
+          <p class="sources">Quellen: <a href="https://roust.com/en/brands/owned/russian-vodka/russian-standard-vodka/" target="_blank" rel="noopener noreferrer">Roust Group</a> · <a href="https://www.consilium.europa.eu/en/policies/sanctions-against-russia-explained/" target="_blank" rel="noopener noreferrer">Rat der Europäischen Union</a></p>
         </article>
         <button class="view-toggle" type="button" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>

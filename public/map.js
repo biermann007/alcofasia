@@ -1,32 +1,47 @@
 const map = document.querySelector("[data-map]");
 const tooltip = document.querySelector("[data-country-tooltip]");
 const countryList = document.querySelector("[data-country-list]");
-const countryDetail = document.querySelector("[data-country-detail]");
-const detailBack = document.querySelector("[data-detail-back]");
+const countryDetails = new Map(
+  [...document.querySelectorAll("[data-country-detail]")].map((detail) => [
+    detail.dataset.countryDetail,
+    detail
+  ])
+);
+const detailBackButtons = document.querySelectorAll("[data-detail-back]");
 const viewToggle = document.querySelector("[data-view-toggle]");
 const themeToggle = document.querySelector("[data-theme-toggle]");
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const root = document.documentElement;
 let returnToList = false;
+let activeDetail;
 
-const showChinaDetail = () => {
+const showCountryDetail = (countryName) => {
+  activeDetail = countryDetails.get(countryName);
+
+  if (!activeDetail) {
+    return;
+  }
+
   returnToList = !countryList.hidden;
   map.hidden = true;
   countryList.hidden = true;
-  countryDetail.hidden = false;
+  activeDetail.hidden = false;
   viewToggle.hidden = true;
   tooltip.dataset.visible = "false";
-  countryDetail.focus();
+  activeDetail.focus();
 };
 
 const hideCountryDetail = () => {
-  countryDetail.hidden = true;
+  activeDetail.hidden = true;
   map.hidden = returnToList;
   countryList.hidden = !returnToList;
   viewToggle.hidden = false;
+  activeDetail = undefined;
 };
 
-detailBack.addEventListener("click", hideCountryDetail);
+for (const button of detailBackButtons) {
+  button.addEventListener("click", hideCountryDetail);
+}
 
 const applyTheme = (theme) => {
   const isDark = theme === "dark";
@@ -85,14 +100,16 @@ try {
     country.addEventListener("pointermove", moveTooltip);
     country.addEventListener("pointerleave", hideCountry);
 
-    if (country.dataset.country === "China") {
+    const countryName = country.dataset.country;
+
+    if (countryDetails.has(countryName)) {
       country.setAttribute("role", "button");
       country.setAttribute("tabindex", "0");
-      country.addEventListener("click", showChinaDetail);
+      country.addEventListener("click", () => showCountryDetail(countryName));
       country.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          showChinaDetail();
+          showCountryDetail(countryName);
         }
       });
     }
@@ -104,13 +121,14 @@ try {
 
   countryList.replaceChildren(
     ...names.map((name) => {
-      const word = document.createElement(name === "China" ? "button" : "span");
+      const hasDetails = countryDetails.has(name);
+      const word = document.createElement(hasDetails ? "button" : "span");
       word.textContent = name;
 
-      if (name === "China") {
+      if (hasDetails) {
         word.type = "button";
         word.className = "country-word";
-        word.addEventListener("click", showChinaDetail);
+        word.addEventListener("click", () => showCountryDetail(name));
       }
 
       return word;
