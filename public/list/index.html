@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <title>alcofasia.com/list</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: Arial, Helvetica, sans-serif;
+        --background: #ffffff;
+        --foreground: #111111;
+        --muted: #666666;
+        --line: #d8d8d8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        min-height: 100svh;
+        flex-direction: column;
+        background: var(--background);
+        color: var(--foreground);
+      }
+
+      main {
+        width: min(100%, 96rem);
+        margin: 0 auto;
+        padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
+      }
+
+      h1 {
+        margin: 0 0 clamp(2rem, 5vw, 4rem);
+        font-size: clamp(1.25rem, 3vw, 2.5rem);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+      }
+
+      table {
+        width: 100%;
+        min-width: 82rem;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 1rem 0.85rem;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 400;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      td {
+        font-size: 0.84rem;
+        line-height: 1.45;
+      }
+
+      tbody th {
+        color: var(--foreground);
+        font-size: 0.84rem;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      footer {
+        margin-top: auto;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      footer a {
+        color: inherit;
+        font-size: 0.8rem;
+        text-decoration: none;
+      }
+
+      footer a:hover,
+      footer a:focus-visible {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #000000;
+          --foreground: #f5f5f5;
+          --muted: #a0a0a0;
+          --line: #383838;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>alcofasia.com/list</h1>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Produkt</th>
+              <th scope="col">Hersteller</th>
+              <th scope="col">Herkunft</th>
+              <th scope="col">Stil</th>
+              <th scope="col">Zutaten</th>
+              <th scope="col">Alkoholgehalt</th>
+              <th scope="col">Einordnung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">China</th>
+              <td>Kweichow Moutai Flying Fairy</td>
+              <td>Kweichow Moutai Co., Ltd.</td>
+              <td>Maotai, Guizhou, China</td>
+              <td>Sauce Aroma Baijiu</td>
+              <td>Rotes Sorghum, Weizen, Wasser</td>
+              <td>53 % Vol.</td>
+              <td>Bekanntestes Flaggschiff</td>
+            </tr>
+            <tr>
+              <th scope="row">Russland</th>
+              <td>Russian Standard Original</td>
+              <td>Russian Standard Vodka LLC</td>
+              <td>Sankt Petersburg, Russland</td>
+              <td>Premium Vodka</td>
+              <td>Winterweizen, Wasser</td>
+              <td>40 % Vol.</td>
+              <td>Bekanntes Flaggschiff</td>
+            </tr>
+            <tr>
+              <th scope="row">Japan</th>
+              <td>iichiko Silhouette</td>
+              <td>Sanwa Shurui Co., Ltd.</td>
+              <td>Ōita, Kyūshū, Japan</td>
+              <td>Honkaku Mugi Shōchū</td>
+              <td>Gerste, Gersten-Kōji, Wasser</td>
+              <td>25 % Vol.</td>
+              <td>Japans Nr. 1 Shōchū-Marke</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <footer>
+      <a href="https://franz-paul.com/impressum.html" target="_blank" rel="noopener noreferrer">©franz-paul</a>
+    </footer>
+  </body>
+</html>
