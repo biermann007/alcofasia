@@ -5,22 +5,43 @@
   "compatibility_date": "2026-08-09",
   "assets": {
     "directory": "./public",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Ohne diese Liste liefert Cloudflare passende Dateien direkt aus und der
+    // Worker läuft gar nicht – die Platzhalter blieben dann leer. Genannt sind
+    // nur die beiden Seiten, in die Inhalte eingesetzt werden; alles andere
+    // (CSS, Karte, Skripte) geht weiterhin unmittelbar an die Dateien.
+    "run_worker_first": ["/", "/index.html", "/list", "/list/", "/list/index.html"]
   },
+  "routes": [
+    {
+      "pattern": "alcofasia.com/*",
+      "zone_name": "alcofasia.com"
+    },
+    {
+      "pattern": "www.alcofasia.com/*",
+      "zone_name": "alcofasia.com"
+    }
+  ],
+  // Ohne diese Zeile schaltet Wrangler zusätzlich eine workers.dev-Adresse frei.
+  // Die Seite wäre dann unter zwei Adressen erreichbar, was Suchmaschinen als
+  // doppelten Inhalt sehen.
+  "workers_dev": false,
+  "preview_urls": false,
   "d1_databases": [
     {
+      // Der Bindungsname muss DB bleiben – der Worker greift über env.DB darauf zu.
       "binding": "DB",
       "database_name": "alcofasia",
-      // Nach `npx wrangler d1 create alcofasia` die ausgegebene ID hier eintragen.
-      "database_id": "HIER_DIE_DATENBANK_ID_EINTRAGEN"
+      "database_id": "1f7c0794-664a-4e57-8d77-b9c2fc21a4be"
     }
   ],
   "vars": {
-    // Aus dem Cloudflare-Dashboard unter Zero Trust → Access → Applications.
-    // ACCESS_TEAM_DOMAIN ist z. B. "meinteam.cloudflareaccess.com",
-    // ACCESS_AUD die Application Audience Tag der Admin-Anwendung.
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
+    // Cloudflare-Access-Anwendung "alcofasia.com Admin", Ziel alcofasia.com/admin*.
+    // Teamdomain steht unter Zero Trust → Settings, der AUD-Tag bei der
+    // Anwendung unter Additional settings. Solange beide leer sind,
+    // verweigert /admin bewusst den Dienst.
+    "ACCESS_TEAM_DOMAIN": "rfpb.cloudflareaccess.com",
+    "ACCESS_AUD": "340b84a04db06e1af4e7353c5ec95dcb46e452bd449ac400a94e1432a1bde0f6",
     "ANTHROPIC_MODEL": "claude-sonnet-4-5"
   },
   "observability": {

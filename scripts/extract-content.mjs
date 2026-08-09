@@ -194,6 +194,10 @@ for (const article of document.querySelectorAll("[data-country-detail]")) {
 
   const noticeDe = text(article.querySelector(".country-note p"));
 
+  // Ein Alkoholverbot steht bisher nur in der Faktenliste. Für das Laufband
+  // über der Karte wird daraus ein eigenes Merkmal.
+  const alkoholverbot = facts.some((f) => /Alkoholverbot/i.test(f.value_de)) ? 1 : 0;
+
   const sources = [...article.querySelectorAll(".sources a")].map((a, i) => ({
     position: i,
     title: text(a),
@@ -205,6 +209,7 @@ for (const article of document.querySelectorAll("[data-country-detail]")) {
     name_de: nameDe,
     name_en: countryNames[nameDe] ?? nameDe,
     status: "veroeffentlicht",
+    alkoholverbot,
     // Die bisherige Reihenfolge auf der Listenseite ist die des Hinzufügens.
     sort_order: ++dokumentReihenfolge,
     spirit_de: text(article.querySelector("h2")),
@@ -304,6 +309,7 @@ for (const nameDe of [...mapCountries].sort((a, b) => a.localeCompare(b, "de")))
     name_de: nameDe,
     name_en: nameEn ?? nameDe,
     status: "leer",
+    alkoholverbot: 0,
     sort_order: 100,
     spirit_de: null, spirit_en: null,
     subtitle_de: null, subtitle_en: null,
@@ -322,14 +328,16 @@ const q = (v) => (v == null ? "NULL" : `'${String(v).replaceAll("'", "''")}'`);
 const sql = [
   "-- Automatisch erzeugt von scripts/extract-content.mjs – nicht von Hand ändern.",
   "-- Neu erzeugen mit: npm run extract",
-  "PRAGMA foreign_keys = ON;",
-  "BEGIN TRANSACTION;"
+  "--",
+  "-- Bewusst ohne PRAGMA und ohne BEGIN/COMMIT: D1 verwaltet die Transaktion",
+  "-- selbst und weist explizite Transaktionsbefehle zurück.",
+  ""
 ];
 
 for (const c of countries) {
   sql.push(
-    `INSERT INTO countries (slug, name_de, name_en, status, sort_order, spirit_de, spirit_en, subtitle_de, subtitle_en, notice_de, notice_en, glow_rgb, stroke_hex, fill_hex, hover_fill_hex, dark_fill_hex, dark_hover_hex, glow_delay) VALUES (${[
-      c.slug, c.name_de, c.name_en, c.status, c.sort_order, c.spirit_de, c.spirit_en, c.subtitle_de, c.subtitle_en,
+    `INSERT INTO countries (slug, name_de, name_en, status, alkoholverbot, sort_order, spirit_de, spirit_en, subtitle_de, subtitle_en, notice_de, notice_en, glow_rgb, stroke_hex, fill_hex, hover_fill_hex, dark_fill_hex, dark_hover_hex, glow_delay) VALUES (${[
+      c.slug, c.name_de, c.name_en, c.status, c.alkoholverbot, c.sort_order, c.spirit_de, c.spirit_en, c.subtitle_de, c.subtitle_en,
       c.notice_de, c.notice_en, c.glow_rgb, c.stroke_hex, c.fill_hex, c.hover_fill_hex,
       c.dark_fill_hex, c.dark_hover_hex, c.glow_delay
     ].map(q).join(", ")});`
@@ -354,8 +362,6 @@ for (const c of countries) {
   for (const s of c.sources)
     sql.push(`INSERT INTO sources (country_id, position, title, url) VALUES (${cid}, ${s.position}, ${q(s.title)}, ${q(s.url)});`);
 }
-
-sql.push("COMMIT;");
 
 await mkdir(new URL("content/", root), { recursive: true });
 await writeFile(new URL("content/seed.json", root), JSON.stringify(countries, null, 2) + "\n");

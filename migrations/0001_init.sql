@@ -8,7 +8,7 @@
 -- Wörterbuch in site-ui.js, das bisher bei jedem neuen Land mitgepflegt
 -- werden musste.
 
-PRAGMA foreign_keys = ON;
+-- Ohne PRAGMA-Zeile: D1 verwaltet Fremdschlüssel selbst und weist den Befehl zurück.
 
 CREATE TABLE countries (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +31,10 @@ CREATE TABLE countries (
   spirit_en       TEXT,
   subtitle_de     TEXT,
   subtitle_en     TEXT,
+
+  -- Im Land ist Alkohol verboten. Steuert die rote Darstellung im Laufband
+  -- über der Karte.
+  alkoholverbot   INTEGER NOT NULL DEFAULT 0,
 
   -- Abschließender Hinweiskasten, z. B. das EU-Einfuhrverbot bei Russland
   notice_de       TEXT,

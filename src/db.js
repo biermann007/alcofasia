@@ -58,7 +58,7 @@ export async function loadCountry(env, slug) {
 const COUNTRY_FIELDS = [
   "spirit_de", "spirit_en", "subtitle_de", "subtitle_en", "notice_de", "notice_en",
   "glow_rgb", "stroke_hex", "fill_hex", "hover_fill_hex", "dark_fill_hex",
-  "dark_hover_hex", "glow_delay", "status", "sort_order"
+  "dark_hover_hex", "glow_delay", "status", "sort_order", "alkoholverbot"
 ];
 
 // Speichert ein Land vollständig neu. Kindtabellen werden ersetzt statt

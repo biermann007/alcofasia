@@ -100,7 +100,9 @@ function uebersichtSeite(countries, benutzer) {
         <tr>
           <td><a href="/admin/land/${escapeHtml(c.slug)}">${escapeHtml(c.name_de)}</a></td>
           <td>${escapeHtml(c.name_en)}</td>
-          <td><span class="status status-${escapeHtml(c.status)}">${escapeHtml(c.status)}</span></td>
+          <td><span class="status status-${escapeHtml(c.status)}">${escapeHtml(c.status)}</span>${
+            c.alkoholverbot ? ' <span class="status" style="border-color:#b3261e;color:#b3261e">Verbot</span>' : ""
+          }</td>
           <td>${escapeHtml(c.spirit_de ?? "–")}</td>
           <td>${c.producers.length || "–"}</td>
           <td>${produkte || "–"}</td>
@@ -159,6 +161,15 @@ function bearbeitenSeite(country, benutzer) {
           <option value="entwurf">Entwurf – nur hier sichtbar</option>
           <option value="veroeffentlicht">veröffentlicht – auf der Seite sichtbar</option>
         </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Alkoholverbot</legend>
+        <label style="display:flex;gap:0.5rem;align-items:flex-start">
+          <input type="checkbox" name="alkoholverbot" style="width:auto;margin-top:0.25rem">
+          <span>Im Land ist Alkohol verboten. Das Land erscheint dann im Laufband
+          über der Karte rot statt leuchtend.</span>
+        </label>
       </fieldset>
 
       <fieldset>
@@ -333,6 +344,7 @@ function formularFuellen(daten) {
     const eingabe = formular.elements[feld];
     if (eingabe) eingabe.value = daten[feld] ?? "";
   }
+  formular.elements.alkoholverbot.checked = Boolean(Number(daten.alkoholverbot ?? 0));
   for (const k of Object.keys(bereiche)) bereiche[k].replaceChildren();
   for (const p of daten.paragraphs ?? []) bereiche.absaetze.append(absatzBlock(p));
   for (const f of daten.facts ?? []) bereiche.fakten.append(faktBlock(f));
@@ -371,6 +383,7 @@ function formularLesen() {
     const eingabe = formular.elements[feld];
     if (eingabe) daten[feld] = eingabe.value.trim() || null;
   }
+  daten.alkoholverbot = formular.elements.alkoholverbot.checked ? 1 : 0;
   daten.paragraphs = [...bereiche.absaetze.children].map(blockLesen);
   daten.facts = [...bereiche.fakten.children].map(blockLesen);
   daten.sources = [...bereiche.quellen.children].map(blockLesen);

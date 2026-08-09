@@ -127,9 +127,27 @@ export function renderCountryColors(countries) {
 
 // Die Karte braucht die Zuordnung deutscher auf englische Ländernamen für
 // Tooltip und Länderliste. Bisher stand sie fest in site-ui.js.
+//
+// Zusätzlich bekommt das Laufband über der Karte je Land seinen Zustand:
+//   verboten – Alkohol ist im Land verboten, Eintrag erscheint rot
+//   inhalt   – es gibt eine Detailseite, Eintrag leuchtet
+//   leer     – noch nichts hinterlegt, Eintrag ist nur Text ohne Verweis
 export function renderCountryNames(countries) {
   const paare = Object.fromEntries(countries.map((c) => [c.name_de, c.name_en]));
-  return `window.alcofasiaCountryNames = ${JSON.stringify(paare)};`;
+
+  const laender = countries.map((c) => ({
+    de: c.name_de,
+    en: c.name_en,
+    zustand: c.alkoholverbot ? "verboten" : c.status === "veroeffentlicht" ? "inhalt" : "leer",
+    // Nur gesetzt, wenn das Land eine eigene Farbe trägt – sonst leuchtet es
+    // in der Grundfarbe der Seite.
+    glow: c.glow_rgb ?? null
+  }));
+
+  return (
+    `window.alcofasiaCountryNames = ${JSON.stringify(paare)};\n` +
+    `window.alcofasiaLaender = ${JSON.stringify(laender)};`
+  );
 }
 
 const LISTEN_SPALTEN = [

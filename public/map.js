@@ -8,6 +8,8 @@ const countryDetails = new Map(
   ])
 );
 const detailBackButtons = document.querySelectorAll("[data-detail-back]");
+const ticker = document.querySelector("[data-ticker]");
+const tickerSpur = document.querySelector("[data-ticker-spur]");
 const viewToggle = document.querySelector("[data-view-toggle]");
 const ui = window.alcofasiaUi;
 let returnToList = false;
@@ -25,6 +27,7 @@ const showCountryDetail = (countryName) => {
   countryList.hidden = true;
   activeDetail.hidden = false;
   viewToggle.hidden = true;
+  if (ticker) ticker.hidden = true;
   tooltip.dataset.visible = "false";
   activeDetail.focus();
 };
@@ -34,6 +37,7 @@ const hideCountryDetail = () => {
   map.hidden = returnToList;
   countryList.hidden = !returnToList;
   viewToggle.hidden = false;
+  if (ticker && tickerSpur?.childElementCount) ticker.hidden = false;
   activeDetail = undefined;
 };
 
@@ -131,6 +135,97 @@ try {
         }
       });
     }
+  }
+
+  // ------------------------------------------------------------- Laufband
+  //
+  // Über der Karte laufen alle Länder in zufälliger Reihenfolge durch. Rot
+  // steht für ein Alkoholverbot, leuchtend für hinterlegte Inhalte, blass für
+  // Länder ohne Eintrag. Die Reihenfolge wird bei jedem Aufruf neu gemischt.
+
+  const laender = window.alcofasiaLaender ?? [];
+
+  const gemischt = (liste) => {
+    const kopie = [...liste];
+    for (let i = kopie.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [kopie[i], kopie[j]] = [kopie[j], kopie[i]];
+    }
+    return kopie;
+  };
+
+  const reihenfolge = gemischt(laender);
+
+  const tickerEintrag = (land) => {
+    const hatDetail = countryDetails.has(land.de);
+    const knoten = document.createElement(hatDetail ? "button" : "span");
+    knoten.className = "ticker-eintrag";
+    knoten.dataset.tickerLand = land.de;
+
+    if (land.zustand === "verboten") knoten.classList.add("verboten");
+    else if (land.zustand === "inhalt") knoten.classList.add("hat-inhalt");
+
+    if (land.glow) knoten.style.setProperty("--eigen-glow", land.glow);
+
+    if (hatDetail) {
+      knoten.type = "button";
+      knoten.addEventListener("click", () => showCountryDetail(land.de));
+    }
+
+    return knoten;
+  };
+
+  const tickerGruppe = (ariaVerborgen) => {
+    const gruppe = document.createElement("div");
+    gruppe.className = "ticker-gruppe";
+
+    // Die zweite Gruppe ist nur die Wiederholung für den nahtlosen Übergang.
+    // Sie wird für Vorlesewerkzeuge und die Tabulatorreihenfolge stillgelegt,
+    // sonst käme jedes Land doppelt vor.
+    if (ariaVerborgen) {
+      gruppe.setAttribute("aria-hidden", "true");
+      gruppe.inert = true;
+    }
+
+    for (const [i, land] of reihenfolge.entries()) {
+      gruppe.append(tickerEintrag(land));
+      if (i < reihenfolge.length - 1) {
+        const trenner = document.createElement("span");
+        trenner.className = "ticker-trenner";
+        trenner.textContent = "·";
+        trenner.setAttribute("aria-hidden", "true");
+        gruppe.append(trenner);
+      }
+    }
+
+    return gruppe;
+  };
+
+  const tickerBeschriften = () => {
+    const isEnglish = ui.getLanguage() === "en";
+    for (const knoten of tickerSpur.querySelectorAll("[data-ticker-land]")) {
+      const name = knoten.dataset.tickerLand;
+      knoten.textContent = ui.countryLabel(name);
+
+      if (knoten.tagName !== "BUTTON") continue;
+      const verboten = knoten.classList.contains("verboten");
+      knoten.setAttribute(
+        "aria-label",
+        verboten
+          ? `${ui.countryLabel(name)} – ${isEnglish ? "alcohol banned" : "Alkohol verboten"}`
+          : `${ui.countryLabel(name)} – ${isEnglish ? "content available" : "Inhalt verfügbar"}`
+      );
+    }
+    ticker.setAttribute("aria-label", isEnglish ? "Countries at a glance" : "Länder im Überblick");
+  };
+
+  if (ticker && tickerSpur && laender.length) {
+    tickerSpur.replaceChildren(tickerGruppe(false), tickerGruppe(true));
+    // Gleichmäßiges Tempo unabhängig davon, wie viele Länder gepflegt sind.
+    tickerSpur.style.setProperty("--ticker-dauer", `${Math.round(reihenfolge.length * 2.2)}s`);
+    ticker.hidden = false;
+    tickerBeschriften();
+    window.addEventListener("alcofasia:languagechange", tickerBeschriften);
   }
 
   updateMapLanguage();
