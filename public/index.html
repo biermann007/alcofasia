@@ -188,6 +188,21 @@
         text-transform: uppercase;
       }
 
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .product-card {
+        display: flex;
+        min-height: 13rem;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        border: 1px solid currentColor;
+      }
+
       .product-name {
         margin: 0;
         font-size: clamp(1.2rem, 3vw, 1.6rem);
@@ -195,15 +210,21 @@
       }
 
       .product-meta,
+      .product-description,
       .sources {
         margin: 0.4rem 0 0;
         font-size: 0.8rem;
         line-height: 1.5;
       }
 
+      .product-description {
+        margin: 0.75rem 0 1rem;
+        opacity: 0.75;
+      }
+
       .availability {
         display: inline-block;
-        margin-top: 1rem;
+        margin-top: auto;
         padding: 0.6rem 0.85rem;
         border: 1px solid currentColor;
         font-size: 0.75rem;
@@ -316,7 +337,8 @@
       }
 
       @media (max-width: 34rem) {
-        .spirit-facts {
+        .spirit-facts,
+        .product-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -338,8 +360,8 @@
           <div class="country-copy">
             <p>Baijiu ist eine traditionelle chinesische Getreidespirituose. Sie wird unter anderem aus Sorghum, Weizen oder Reis hergestellt und nicht nach dem Ausgangsgetreide, sondern nach ihrem Aroma eingeteilt.</p>
             <p>In China wird Baijiu meist pur aus kleinen Gläsern zu gemeinsamen Mahlzeiten und feierlichen Trinksprüchen serviert. Der berühmteste Vertreter ist Kweichow Moutai aus der Provinz Guizhou.</p>
-            <p>Hersteller ist Kweichow Moutai Co., Ltd. Das bekannteste Flaggschiff des Hauses ist Moutai Flying Fairy 53 % – unsere repräsentative Auswahl für China.</p>
-            <p>Der klassische Moutai Flying Fairy wird aus rotem Sorghum, Weizen und Wasser hergestellt. Er gehört zum kräftigen Sauce-Aroma-Stil: vielschichtig und herzhaft, mit fermentierten Getreidenoten, reifer Frucht, feinen Kräutern und einem langen Nachhall.</p>
+            <p>Hersteller ist Kweichow Moutai Co., Ltd. Wir führen die Familie in drei Stufen: Moutai Yingbin Purple als Einstieg, Golden Prince als Standard und Flying Fairy als Premium-Flaggschiff.</p>
+            <p>Alle drei werden aus rotem Sorghum, Weizen und Wasser hergestellt und gehören zum Sauce-Aroma-Stil. Mit jeder Stufe nimmt die aromatische Tiefe zu – von frisch und mild bis vielschichtig, vollmundig und lang.</p>
           </div>
           <dl class="spirit-facts">
             <div><dt>Spirituose</dt><dd>Baijiu</dd></div>
@@ -347,15 +369,32 @@
             <div><dt>Herkunft</dt><dd>Maotai, Guizhou, China</dd></div>
             <div><dt>Zutaten</dt><dd>Rotes Sorghum, Weizen, Wasser</dd></div>
             <div><dt>Hersteller</dt><dd>Kweichow Moutai Co., Ltd.</dd></div>
-            <div><dt>Einordnung</dt><dd>Bekanntestes Flaggschiff</dd></div>
+            <div><dt>Sortiment</dt><dd>Low · Standard · Premium</dd></div>
           </dl>
-          <div class="product-card">
-            <p class="product-label">Ausgewähltes Flaggschiff</p>
-            <h3 class="product-name">Kweichow Moutai Flying Fairy</h3>
-            <p class="product-meta">Baijiu · 53 % Vol. · 500 ml</p>
-            <span class="availability">Demnächst erhältlich</span>
+          <div class="product-grid">
+            <div class="product-card">
+              <p class="product-label">Low</p>
+              <h3 class="product-name">Moutai Yingbin Purple</h3>
+              <p class="product-meta">Baijiu · 53 % Vol. · 500 ml</p>
+              <p class="product-description">Frisch und mild mit Apfel- und Birnenaromen – der zugängliche Einstieg.</p>
+              <span class="availability">Demnächst erhältlich</span>
+            </div>
+            <div class="product-card">
+              <p class="product-label">Standard</p>
+              <h3 class="product-name">Moutai Golden Prince</h3>
+              <p class="product-meta">Baijiu · 53 % Vol. · 500 ml</p>
+              <p class="product-description">Fruchtig mit Apfel, Pfirsich und gerösteten Mandeln.</p>
+              <span class="availability">Demnächst erhältlich</span>
+            </div>
+            <div class="product-card">
+              <p class="product-label">Premium</p>
+              <h3 class="product-name">Moutai Flying Fairy</h3>
+              <p class="product-meta">Baijiu · 53 % Vol. · 500 ml</p>
+              <p class="product-description">Das berühmte Flaggschiff: vollmundig, elegant und lang anhaltend.</p>
+              <span class="availability">Demnächst erhältlich</span>
+            </div>
           </div>
-          <p class="sources">Quellen: <a href="https://www.iwsc.net/news/spirits/baijiu-learn-about-chinas-national-drink-and-the-best-bottles-to-try" target="_blank" rel="noopener noreferrer">IWSC</a> · <a href="https://www.moutai.be/products/moutai-flying-fairy-53/" target="_blank" rel="noopener noreferrer">Kweichow Moutai</a></p>
+          <p class="sources">Quellen: <a href="https://www.iwsc.net/news/spirits/baijiu-learn-about-chinas-national-drink-and-the-best-bottles-to-try" target="_blank" rel="noopener noreferrer">IWSC</a> · <a href="https://www.moutai.be/products/" target="_blank" rel="noopener noreferrer">Kweichow Moutai</a></p>
         </article>
         <article class="country-detail" data-country-detail="Russland" hidden tabindex="-1">
           <button class="detail-back" type="button" data-detail-back>← Zurück</button>
@@ -364,8 +403,8 @@
           <p class="country-subtitle">Russlands bekannteste Spirituose</p>
           <div class="country-copy">
             <p>Wodka ist die international bekannteste Spirituose Russlands. Der klare Getreidebrand wird traditionell möglichst rein und neutral hergestellt und meist gut gekühlt, pur und zu Speisen serviert.</p>
-            <p>Unsere repräsentative Auswahl ist Russian Standard Original. Hersteller ist Russian Standard Vodka LLC, ein Unternehmen der Roust Group. Produziert wird der Wodka in Sankt Petersburg.</p>
-            <p>Russian Standard Original entsteht aus russischem Winterweizen und Wasser aus dem Ladogasee. Sein Profil ist klar und weich, mit dezenter Getreidesüße und einem trockenen, sauberen Nachhall.</p>
+            <p>Hersteller ist Russian Standard Vodka LLC, ein Unternehmen der Roust Group. Produziert wird in Sankt Petersburg. Wir führen Original als Low, Gold als Standard und Platinum als Premium.</p>
+            <p>Die Basis bilden russischer Winterweizen und Wasser aus dem Ladogasee. Gold ergänzt sibirischen Ginseng; Platinum erhält durch Silberfiltration ein besonders weiches und klares Profil.</p>
           </div>
           <dl class="spirit-facts">
             <div><dt>Spirituose</dt><dd>Wodka</dd></div>
@@ -373,13 +412,30 @@
             <div><dt>Herkunft</dt><dd>Sankt Petersburg, Russland</dd></div>
             <div><dt>Zutaten</dt><dd>Winterweizen, Wasser</dd></div>
             <div><dt>Hersteller</dt><dd>Russian Standard Vodka LLC</dd></div>
-            <div><dt>Einordnung</dt><dd>Bekanntes Flaggschiff</dd></div>
+            <div><dt>Sortiment</dt><dd>Low · Standard · Premium</dd></div>
           </dl>
-          <div class="product-card">
-            <p class="product-label">Ausgewähltes Flaggschiff</p>
-            <h3 class="product-name">Russian Standard Original</h3>
-            <p class="product-meta">Wodka · 40 % Vol.</p>
-            <span class="availability">Derzeit nicht im Verkauf</span>
+          <div class="product-grid">
+            <div class="product-card">
+              <p class="product-label">Low</p>
+              <h3 class="product-name">Russian Standard Original</h3>
+              <p class="product-meta">Wodka · 40 % Vol.</p>
+              <p class="product-description">Klar und weich mit dezenter Getreidenote.</p>
+              <span class="availability">Derzeit nicht im Verkauf</span>
+            </div>
+            <div class="product-card">
+              <p class="product-label">Standard</p>
+              <h3 class="product-name">Russian Standard Gold</h3>
+              <p class="product-meta">Wodka · 40 % Vol.</p>
+              <p class="product-description">Weich und reichhaltig, verfeinert mit sibirischem Ginseng.</p>
+              <span class="availability">Derzeit nicht im Verkauf</span>
+            </div>
+            <div class="product-card">
+              <p class="product-label">Premium</p>
+              <h3 class="product-name">Russian Standard Platinum</h3>
+              <p class="product-meta">Wodka · 40 % Vol.</p>
+              <p class="product-description">Silberfiltriert, seidig weich und besonders klar.</p>
+              <span class="availability">Derzeit nicht im Verkauf</span>
+            </div>
           </div>
           <div class="country-copy country-note">
             <p>Die Einfuhr russischer Spirituosen in die Europäische Union ist derzeit untersagt. Das Produkt wird deshalb redaktionell vorgestellt, aber nicht zum Kauf angeboten.</p>
@@ -393,8 +449,8 @@
           <p class="country-subtitle">Japans traditionelle Spirituose</p>
           <div class="country-copy">
             <p>Sake ist Japans bekanntestes alkoholisches Getränk, aber keine Spirituose: Er wird gebraut und nicht destilliert. Die traditionelle japanische Spirituose ist Shōchū, ein klarer Brand aus regionalen Zutaten wie Gerste, Süßkartoffeln oder Reis.</p>
-            <p>Unsere Auswahl ist iichiko Silhouette, ein Honkaku-Mugi-Shōchū aus der Präfektur Ōita auf Kyūshū. Hersteller ist Sanwa Shurui Co., Ltd. Die Marke bezeichnet Silhouette als Japans Nr. 1 Shōchū.</p>
-            <p>iichiko Silhouette wird aus zweizeiliger Gerste, Gersten-Kōji und weichem Wasser hergestellt und nur einmal destilliert. Der Geschmack ist leicht und weich, mit feiner Gerste, nussigen und floralen Anklängen, dezenter Frucht und einem sauberen Nachhall.</p>
+            <p>Hersteller ist Sanwa Shurui Co., Ltd. aus der Präfektur Ōita auf Kyūshū. Wir führen iichiko 25 als Low, Silhouette als Standard und das lang gereifte iichiko Special als Premium.</p>
+            <p>Alle drei basieren auf Gerste, Gersten-Kōji und weichem Wasser. Die Bandbreite reicht vom milden Bestseller über die international bekannte Silhouette bis zur aromatisch tieferen, lang gereiften Premiumabfüllung.</p>
             <p>Traditionell wird Shōchū pur, auf Eis, mit kaltem oder heißem Wasser sowie als leichter Highball mit Soda serviert. Durch seinen zurückhaltenden Charakter passt Silhouette zu vielen Speisen.</p>
           </div>
           <dl class="spirit-facts">
@@ -403,15 +459,32 @@
             <div><dt>Herkunft</dt><dd>Ōita, Kyūshū, Japan</dd></div>
             <div><dt>Zutaten</dt><dd>Gerste, Gersten-Kōji, Wasser</dd></div>
             <div><dt>Hersteller</dt><dd>Sanwa Shurui Co., Ltd.</dd></div>
-            <div><dt>Einordnung</dt><dd>Japans Nr. 1 Shōchū-Marke</dd></div>
+            <div><dt>Sortiment</dt><dd>Low · Standard · Premium</dd></div>
           </dl>
-          <div class="product-card">
-            <p class="product-label">Ausgewählter Marktführer</p>
-            <h3 class="product-name">iichiko Silhouette</h3>
-            <p class="product-meta">Mugi Shōchū · 25 % Vol. · 720 ml</p>
-            <span class="availability">Demnächst erhältlich</span>
+          <div class="product-grid">
+            <div class="product-card">
+              <p class="product-label">Low</p>
+              <h3 class="product-name">iichiko 25</h3>
+              <p class="product-meta">Mugi Shōchū · 25 % Vol. · 900 ml</p>
+              <p class="product-description">Mild, fruchtig und unkompliziert – der Bestseller der Basislinie.</p>
+              <span class="availability">Demnächst erhältlich</span>
+            </div>
+            <div class="product-card">
+              <p class="product-label">Standard</p>
+              <h3 class="product-name">iichiko Silhouette</h3>
+              <p class="product-meta">Mugi Shōchū · 25 % Vol. · 720 ml</p>
+              <p class="product-description">Leicht, weich und vielseitig – Japans Nr. 1 Shōchū-Marke.</p>
+              <span class="availability">Demnächst erhältlich</span>
+            </div>
+            <div class="product-card">
+              <p class="product-label">Premium</p>
+              <h3 class="product-name">iichiko Special</h3>
+              <p class="product-meta">Mugi Shōchū · 30 % Vol. · 720 ml</p>
+              <p class="product-description">Lang gereift mit vollerem Aroma und weicher Tiefe.</p>
+              <span class="availability">Demnächst erhältlich</span>
+            </div>
           </div>
-          <p class="sources">Quellen: <a href="https://www.iichiko.com/index" target="_blank" rel="noopener noreferrer">iichiko / Sanwa Shurui</a> · <a href="https://japan-food.jetro.go.jp/shochu/index.html" target="_blank" rel="noopener noreferrer">JFOODO / JETRO</a></p>
+          <p class="sources">Quellen: <a href="https://www.iichiko.com/index" target="_blank" rel="noopener noreferrer">iichiko / Sanwa Shurui</a> · <a href="https://www.iichiko.co.jp/products/" target="_blank" rel="noopener noreferrer">iichiko Produktübersicht</a> · <a href="https://japan-food.jetro.go.jp/shochu/index.html" target="_blank" rel="noopener noreferrer">JFOODO / JETRO</a></p>
         </article>
         <button class="view-toggle" type="button" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>
