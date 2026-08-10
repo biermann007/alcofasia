@@ -439,15 +439,26 @@ document.getElementById("uebersetzen").addEventListener("click", async () => {
 const bereichVorschlag = document.getElementById("vorschlagsbereich");
 
 document.getElementById("recherchieren").addEventListener("click", async () => {
-  statusText.textContent = "Recherchiert – das dauert meist eine halbe bis eine Minute …";
+  // Die Recherche braucht je nach Land einige Minuten: bis zu zwölf Websuchen
+  // plus das Schreiben des ganzen Datensatzes. Die mitlaufende Uhr zeigt,
+  // dass nichts hängt.
+  const start = Date.now();
+  const anzeige = () => {
+    const s = Math.round((Date.now() - start) / 1000);
+    const zeit = s < 60 ? s + " s" : Math.floor(s / 60) + " min " + (s % 60) + " s";
+    statusText.textContent = "Recherchiert seit " + zeit + " – das kann einige Minuten dauern …";
+  };
+  anzeige();
+  const uhr = setInterval(anzeige, 1000);
   bereichVorschlag.replaceChildren();
   try {
     const ergebnis = await ruf("/admin/api/recherche/" + land.slug);
-    statusText.textContent = "";
     vorschlagAnzeigen(ergebnis);
   } catch (fehler) {
-    statusText.textContent = "";
     melden("Recherche fehlgeschlagen: " + fehler.message, "fehler");
+  } finally {
+    clearInterval(uhr);
+    statusText.textContent = "";
   }
 });
 
@@ -501,7 +512,7 @@ function vorschlagAnzeigen({ vorschlag, besuchteQuellen, modell }) {
   kasten.querySelector("[data-uebernehmen]").addEventListener("click", () => {
     formularFuellen(vorschlagInFormular(vorschlag, aktuell));
     kasten.remove();
-    melden("Übernommen. Bitte prüfen und dann speichern.");
+    melden("Übernommen. Die englischen Felder füllt danach der Knopf \u201EEnglisch ergänzen\u201C. Bitte prüfen und dann speichern.");
   });
   kasten.querySelector("[data-verwerfen]").addEventListener("click", () => kasten.remove());
 

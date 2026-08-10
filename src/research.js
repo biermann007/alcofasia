@@ -2,6 +2,9 @@
 //
 // Der Vorschlag wird nie direkt gespeichert. Er geht an den Adminbereich, wird
 // dort dem aktuellen Stand gegenübergestellt und feldweise übernommen.
+//
+// Die Recherche liefert nur die deutschen Felder – das halbiert die Ausgabe
+// und damit die Wartezeit. Englisch ergänzt der Übersetzungsschritt im Admin.
 
 const API = "https://api.anthropic.com/v1/messages";
 const STANDARD_MODELL = "claude-sonnet-4-5";
@@ -12,17 +15,11 @@ const PRODUKT_SCHEMA = {
     tier: { type: "string", enum: ["low", "standard", "premium"], description: "Preisstufe" },
     name: { type: "string", description: "Genauer Produktname wie auf der Flasche" },
     meta_de: { type: "string", description: "Kategorie, Alkoholgehalt und Flaschengröße, z. B. 'Baijiu · 53 % Vol. · 500 ml'" },
-    meta_en: { type: "string" },
     description_de: { type: "string", description: "Ein Satz zum Geschmacksprofil, sachlich, ohne Werbesprache" },
-    description_en: { type: "string" },
     category_de: { type: "string", description: "Stilbezeichnung, z. B. 'Sauce Aroma Baijiu'" },
-    category_en: { type: "string" },
     ingredients_de: { type: "string", description: "Zutaten, z. B. 'Rotes Sorghum, Weizen, Wasser'" },
-    ingredients_en: { type: "string" },
     abv_de: { type: "string", description: "Alkoholgehalt im Format '53 % Vol.'" },
-    abv_en: { type: "string", description: "Alkoholgehalt im Format '53% ABV'" },
-    positioning_de: { type: "string", description: "Kurze Einordnung, z. B. 'Bekanntestes Flaggschiff'" },
-    positioning_en: { type: "string" }
+    positioning_de: { type: "string", description: "Kurze Einordnung, z. B. 'Bekanntestes Flaggschiff'" }
   },
   required: ["tier", "name", "meta_de", "description_de", "category_de", "abv_de", "positioning_de"]
 };
@@ -35,15 +32,13 @@ const VORSCHLAG_SCHEMA = {
       description: "true, wenn im Land kein legal vermarktetes nationales Destillat existiert (z. B. bei einem Alkoholverbot)"
     },
     spirit_de: { type: "string", description: "Name der landestypischen Spirituose, z. B. 'Baijiu'" },
-    spirit_en: { type: "string" },
     subtitle_de: { type: "string", description: "Halbsatz als Untertitel, z. B. 'Chinas bekannteste Spirituose'" },
-    subtitle_en: { type: "string" },
     paragraphs: {
       type: "array",
       description: "Drei bis vier Absätze: was die Spirituose ist, wie sie getrunken wird, welche Hersteller gewählt wurden und was sie unterscheidet",
       items: {
         type: "object",
-        properties: { text_de: { type: "string" }, text_en: { type: "string" } },
+        properties: { text_de: { type: "string" } },
         required: ["text_de"]
       }
     },
@@ -53,8 +48,8 @@ const VORSCHLAG_SCHEMA = {
       items: {
         type: "object",
         properties: {
-          label_de: { type: "string" }, label_en: { type: "string" },
-          value_de: { type: "string" }, value_en: { type: "string" }
+          label_de: { type: "string" },
+          value_de: { type: "string" }
         },
         required: ["label_de", "value_de"]
       }
@@ -67,7 +62,6 @@ const VORSCHLAG_SCHEMA = {
         properties: {
           name: { type: "string", description: "Vollständiger Firmenname" },
           origin_de: { type: "string", description: "Ort, Region, Land" },
-          origin_en: { type: "string" },
           products: { type: "array", items: PRODUKT_SCHEMA }
         },
         required: ["name", "origin_de", "products"]
@@ -77,7 +71,6 @@ const VORSCHLAG_SCHEMA = {
       type: "string",
       description: "Nur setzen, wenn es einen rechtlichen Vorbehalt gibt, etwa ein EU-Einfuhrverbot"
     },
-    notice_en: { type: "string" },
     sources: {
       type: "array",
       description: "Belege, bevorzugt Herstellerseiten und amtliche Quellen",
@@ -105,7 +98,7 @@ Vorgehen:
 - Gibt es im Land keine legal vermarktete nationale Spirituose, setze keine_legale_auswahl auf true, lasse producers leer und beschreibe die Rechtslage in den Absätzen.
 - Bestehen Einfuhr- oder Verkaufsbeschränkungen für den europäischen Markt, halte sie in notice_de fest.
 
-Ton: sachlich, knapp, keine Werbesprache, keine Kaufempfehlungen. Deutsch ist die Ausgangssprache, die englischen Felder sind eine treue Übersetzung im selben nüchternen Ton.
+Ton: sachlich, knapp, keine Werbesprache, keine Kaufempfehlungen. Du schreibst ausschließlich die deutschen Felder; die englische Fassung entsteht später in einem eigenen Übersetzungsschritt.
 
 Erfinde nichts. Was du nicht belegen kannst, lässt du weg und trägst es in unsicherheiten ein. Lieber zwei belegte Hersteller als drei, von denen einer geraten ist.`;
 
