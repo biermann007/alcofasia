@@ -72,9 +72,46 @@ try {
   const countries = [...map.querySelectorAll("path[data-country]")];
 
   const updateViewToggle = () => {
-    const showMapLabel = ui.getLanguage() === "en" ? "Show map" : "Karte anzeigen";
-    const showCountriesLabel = ui.getLanguage() === "en" ? "Show countries" : "Länder anzeigen";
-    viewToggle.textContent = countryList.hidden ? showCountriesLabel : showMapLabel;
+    const isEnglish = ui.getLanguage() === "en";
+
+    if (!countryList.hidden) {
+      viewToggle.textContent = isEnglish ? "Show map" : "Karte anzeigen";
+      viewToggle.removeAttribute("aria-label");
+      return;
+    }
+
+    // Länderzähler: Gesamtzahl im Linktext, dahinter grün die Länder mit
+    // fertiger Detailseite und rot die noch offenen.
+    const gesamt = countries.length;
+    const bearbeitet = countries.filter((c) => countryDetails.has(c.dataset.country)).length;
+    const offen = gesamt - bearbeitet;
+
+    const zahl = (wert, klasse) => {
+      const knoten = document.createElement("span");
+      knoten.className = klasse;
+      knoten.textContent = wert;
+      return knoten;
+    };
+
+    const trenner = document.createElement("span");
+    trenner.className = "anzahl-trenner";
+    trenner.textContent = "/";
+
+    viewToggle.replaceChildren(
+      document.createTextNode(isEnglish ? `Show ${gesamt} countries ` : `${gesamt} Länder anzeigen `),
+      zahl(bearbeitet, "anzahl-bearbeitet"),
+      document.createTextNode(" "),
+      trenner,
+      document.createTextNode(" "),
+      zahl(offen, "anzahl-offen")
+    );
+
+    viewToggle.setAttribute(
+      "aria-label",
+      isEnglish
+        ? `Show ${gesamt} countries – ${bearbeitet} with content, ${offen} pending`
+        : `${gesamt} Länder anzeigen – ${bearbeitet} bearbeitet, ${offen} offen`
+    );
   };
 
   const renderCountryList = () => {

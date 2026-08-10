@@ -425,6 +425,31 @@
         opacity: 0.4;
       }
 
+      /* Länderzähler hinter „… Länder anzeigen“:
+         grün = Detailseite vorhanden, rot = noch offen.
+         Rot entspricht der Verbots-Farbe des Laufbands. */
+      .view-toggle .anzahl-bearbeitet {
+        color: #1a7f37;
+        font-weight: 600;
+      }
+
+      .view-toggle .anzahl-offen {
+        color: #b3261e;
+        font-weight: 600;
+      }
+
+      .view-toggle .anzahl-trenner {
+        opacity: 0.35;
+      }
+
+      :root[data-theme="dark"] .view-toggle .anzahl-bearbeitet {
+        color: #4cc38a;
+      }
+
+      :root[data-theme="dark"] .view-toggle .anzahl-offen {
+        color: #ff6b5e;
+      }
+
       .country-tooltip {
         position: fixed;
         z-index: 10;
