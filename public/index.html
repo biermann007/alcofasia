@@ -491,22 +491,24 @@
       }
 
       /* Der Buddha unter der Wortmarke. Kein Text, keine Erklärung – er führt
-         auf /buddha. Alle neun Sekunden huscht ein schmaler Lichtreflex über
+         auf /buddha. Alle sieben Sekunden huscht ein schmaler Lichtreflex über
          die Form (kein Pulsieren): ein schräges Band wandert einmal quer
-         durch, auf die Silhouette beschnitten. Hell ein weißer Glanz auf der
-         dunklen Form, dunkel ein kühler Schimmer im Glow-Ton der Karte. */
+         durch, auf die Silhouette beschnitten. Seit 11.08. in Antikgold statt
+         Schwarz/Weiß – wie eine vergoldete Statue; der Reflex ist in beiden
+         Modi ein warmes Licht, wie Glanz auf Metall. */
       .buddha-link {
-        --buddha-glow: 17 17 17;
-        --buddha-glanz: rgb(255 255 255 / 90%);
+        --buddha-glow: 179 144 58;
+        --buddha-glanz: rgb(255 248 225 / 90%);
         display: inline-block;
         margin-top: 1.6rem;
-        color: inherit;
+        color: #b3903a;
         line-height: 0;
       }
 
       :root[data-theme="dark"] .buddha-link {
-        --buddha-glow: 190 210 235;
-        --buddha-glanz: rgb(125 165 215 / 75%);
+        --buddha-glow: 226 190 106;
+        --buddha-glanz: rgb(255 233 178 / 80%);
+        color: #d2a94e;
       }
 
       .buddha-link svg {
