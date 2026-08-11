@@ -9,10 +9,12 @@ import {
   renderCountryColors,
   renderCountryNames,
   renderListHead,
-  renderListRows
+  renderListRows,
+  renderBuddhaLaender,
+  renderBuddhaText
 } from "./render.js";
 import { handleAdmin } from "./admin.js";
-import { laenderOderLeer } from "./cache.js";
+import { laenderOderLeer, buddhaTexteOderLeer } from "./cache.js";
 
 function seiteUmschreiben(response, ersetzungen, fehler) {
   let rewriter = new HTMLRewriter();
@@ -59,6 +61,16 @@ export default {
         "[data-list-rows]": renderListRows(alle),
         "script[data-country-names]": renderCountryNames(alle)
       }, fehler);
+    }
+
+    if (pfad === "/buddha" || pfad === "/buddha/" || pfad === "/buddha/index.html") {
+      const { laender: alle, fehler } = await laenderOderLeer(env);
+      const { texte, fehler: buddhaFehler } = await buddhaTexteOderLeer(env);
+      return seiteUmschreiben(antwort, {
+        "[data-buddha-laender]": renderBuddhaLaender(alle),
+        "[data-buddha-top3]": renderBuddhaText(texte.top3),
+        "[data-buddha-empfehlung]": renderBuddhaText(texte.empfehlung)
+      }, fehler || buddhaFehler);
     }
 
     return antwort;

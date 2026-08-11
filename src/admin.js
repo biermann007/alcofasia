@@ -5,7 +5,7 @@
 // Das hält den Code klein und kommt ohne Bauschritt aus.
 
 import { angemeldeterBenutzer } from "./access.js";
-import { loadCountries, loadCountry, saveCountry, protokolliereRecherche } from "./db.js";
+import { loadCountries, loadCountry, saveCountry, protokolliereRecherche, loadBuddhaTexte, saveBuddhaTexte } from "./db.js";
 import { landRecherchieren, felderUebersetzen } from "./research.js";
 import { cacheLeeren } from "./cache.js";
 
@@ -122,7 +122,8 @@ function uebersichtSeite(countries, benutzer) {
     <p class="hinweis">
       Angemeldet als ${escapeHtml(benutzer)} ·
       ${countries.length} Länder, davon ${gepflegt} veröffentlicht und ${entwuerfe} im Entwurf ·
-      <a href="/">Zur Seite</a>
+      <a href="/">Zur Seite</a> ·
+      <a href="/admin/buddha">Buddha-Seite</a>
     </p>
     <table>
       <thead>
@@ -133,6 +134,87 @@ function uebersichtSeite(countries, benutzer) {
       </thead>
       <tbody>${zeilen}</tbody>
     </table>`
+  );
+}
+
+// ------------------------------------------------------------- Buddha-Seite
+//
+// Zwei Textbereiche der Seite /buddha: "Top 3" und "Empfehlung", jeweils
+// deutsch und englisch. Leerzeilen in der Eingabe trennen Absätze.
+
+const BUDDHA_SKRIPT = String.raw`
+const formular = document.getElementById("formular");
+const statusText = document.getElementById("status-text");
+const meldungen = document.getElementById("meldungen");
+
+const melden = (text, art = "erfolg") => {
+  meldungen.innerHTML = '<div class="meldung ' + art + '">' + text + "</div>";
+  meldungen.scrollIntoView({ behavior: "smooth", block: "nearest" });
+};
+
+formular.addEventListener("submit", async (ereignis) => {
+  ereignis.preventDefault();
+  statusText.textContent = "Speichert \u2026";
+  try {
+    const antwort = await fetch("/admin/api/buddha", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        top3: { text_de: formular.elements.top3_de.value, text_en: formular.elements.top3_en.value },
+        empfehlung: { text_de: formular.elements.empfehlung_de.value, text_en: formular.elements.empfehlung_en.value }
+      })
+    });
+    const ergebnis = await antwort.json().catch(() => ({ fehler: "Antwort war kein JSON" }));
+    if (!antwort.ok) throw new Error(ergebnis.fehler ?? ("Fehler " + antwort.status));
+    statusText.textContent = "";
+    melden("Gespeichert. Die Seite zeigt die \u00c4nderung innerhalb einer halben Minute.");
+  } catch (fehler) {
+    statusText.textContent = "";
+    melden("Speichern fehlgeschlagen: " + fehler.message, "fehler");
+  }
+});
+`;
+
+function buddhaSeite(texte, benutzer) {
+  const wert = (key, feld) => escapeHtml(texte[key]?.[feld] ?? "");
+  return seite(
+    "Buddha-Seite",
+    `
+    <p class="hinweis"><a href="/admin">← Alle Länder</a> · angemeldet als ${escapeHtml(benutzer)}</p>
+    <h1>Buddha-Seite</h1>
+    <p class="hinweis">
+      Die beiden Textbereiche der Seite <a href="/buddha">/buddha</a>.
+      Leerzeilen trennen Absätze. Links steht Deutsch, rechts Englisch.
+    </p>
+
+    <div id="meldungen"></div>
+
+    <form id="formular">
+      <h2>Top 3</h2>
+      <fieldset>
+        <legend>Erscheint rechts oben auf der Seite</legend>
+        <div class="paar">
+          <label>Text (deutsch)<textarea name="top3_de" style="min-height:10rem">${wert("top3", "text_de")}</textarea></label>
+          <label>Text (englisch)<textarea name="top3_en" style="min-height:10rem">${wert("top3", "text_en")}</textarea></label>
+        </div>
+      </fieldset>
+
+      <h2>Empfehlung</h2>
+      <fieldset>
+        <legend>Erscheint auf der Seite unter den Top 3</legend>
+        <div class="paar">
+          <label>Text (deutsch)<textarea name="empfehlung_de" style="min-height:10rem">${wert("empfehlung", "text_de")}</textarea></label>
+          <label>Text (englisch)<textarea name="empfehlung_en" style="min-height:10rem">${wert("empfehlung", "text_en")}</textarea></label>
+        </div>
+      </fieldset>
+
+      <div class="leiste">
+        <button type="submit" class="haupt">Speichern</button>
+        <span id="status-text" style="color:var(--gedaempft)"></span>
+      </div>
+    </form>
+
+    <script>${BUDDHA_SKRIPT}</script>`
   );
 }
 
@@ -337,6 +419,11 @@ const bereiche = {
   quellen: document.getElementById("quellen")
 };
 
+// Nur echte Listen durchlaufen. Ein String ist ebenfalls iterierbar – Zeichen
+// für Zeichen. Als die Recherche die Absätze einmal als einen String lieferte,
+// entstanden daraus tausende leere Absatzblöcke im Formular.
+const listeErzwingen = (wert) => (Array.isArray(wert) ? wert : []);
+
 function formularFuellen(daten) {
   for (const feld of ["status", "spirit_de", "spirit_en", "subtitle_de", "subtitle_en",
                       "notice_de", "notice_en", "glow_rgb", "stroke_hex", "fill_hex",
@@ -346,10 +433,10 @@ function formularFuellen(daten) {
   }
   formular.elements.alkoholverbot.checked = Boolean(Number(daten.alkoholverbot ?? 0));
   for (const k of Object.keys(bereiche)) bereiche[k].replaceChildren();
-  for (const p of daten.paragraphs ?? []) bereiche.absaetze.append(absatzBlock(p));
-  for (const f of daten.facts ?? []) bereiche.fakten.append(faktBlock(f));
-  for (const h of daten.producers ?? []) bereiche.hersteller.append(herstellerBlock(h));
-  for (const s of daten.sources ?? []) bereiche.quellen.append(quelleBlock(s));
+  for (const p of listeErzwingen(daten.paragraphs)) bereiche.absaetze.append(absatzBlock(p));
+  for (const f of listeErzwingen(daten.facts)) bereiche.fakten.append(faktBlock(f));
+  for (const h of listeErzwingen(daten.producers)) bereiche.hersteller.append(herstellerBlock(h));
+  for (const s of listeErzwingen(daten.sources)) bereiche.quellen.append(quelleBlock(s));
 }
 
 formularFuellen(land);
@@ -579,6 +666,16 @@ export async function handleAdmin(request, env, optionen = {}) {
   try {
     if (pfad === "/admin" && request.method === "GET") {
       return html(uebersichtSeite(await loadCountries(env), benutzer));
+    }
+
+    if (pfad === "/admin/buddha" && request.method === "GET") {
+      return html(buddhaSeite(await loadBuddhaTexte(env), benutzer));
+    }
+
+    if (pfad === "/admin/api/buddha" && request.method === "POST") {
+      await saveBuddhaTexte(env, await request.json(), benutzer);
+      cacheLeeren();
+      return json({ ok: true });
     }
 
     const bearbeiten = pfad.match(/^\/admin\/land\/([a-z0-9-]+)$/);

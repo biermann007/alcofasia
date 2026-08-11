@@ -267,6 +267,13 @@ try {
 
   updateMapLanguage();
   window.addEventListener("alcofasia:languagechange", updateMapLanguage);
+
+  // Direktlink, z. B. von der Buddha-Seite: /#land=Russland öffnet die
+  // Detailansicht sofort. Unbekannte Länder werden still ignoriert.
+  const direktLand = new URLSearchParams(location.hash.slice(1)).get("land");
+  if (direktLand && countryDetails.has(direktLand)) {
+    showCountryDetail(direktLand);
+  }
   viewToggle.disabled = false;
   viewToggle.addEventListener("click", () => {
     const showCountries = countryList.hidden;

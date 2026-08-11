@@ -1,4 +1,5 @@
-// Sprache, Hell-Dunkel-Umschaltung und Tiefe-Schalter.
+// Sprache und Hell-Dunkel-Umschaltung. Die Tiefen-Optik ist immer an
+// (data-tiefe="an" steht fest am <html>-Element der Startseite).
 //
 // Die englischen Fassungen stehen nicht mehr in einem Wörterbuch, sondern als
 // data-en-Attribut direkt am jeweiligen Element. Der Worker setzt sie beim
@@ -8,7 +9,6 @@
 const root = document.documentElement;
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const themeControl = document.querySelector("[data-theme-control]");
-const tiefeControl = document.querySelector("[data-tiefe-control]");
 const languageControls = document.querySelectorAll("[data-language]");
 const controlsLabel = document.querySelector(".site-controls");
 
@@ -27,22 +27,6 @@ for (const element of translatableElements) {
 let language = "de";
 
 const countryLabel = (country) => (language === "en" ? countryNames[country] || country : country);
-
-const updateTiefeLabel = () => {
-  if (!tiefeControl) {
-    return;
-  }
-
-  const an = root.dataset.tiefe === "an";
-  tiefeControl.textContent =
-    language === "en" ? (an ? "Depth: on" : "Depth: off") : an ? "Tiefe: an" : "Tiefe: aus";
-  tiefeControl.setAttribute("aria-pressed", String(an));
-};
-
-const applyTiefe = (tiefe) => {
-  root.dataset.tiefe = tiefe === "aus" ? "aus" : "an";
-  updateTiefeLabel();
-};
 
 const updateThemeLabel = () => {
   if (!themeControl) {
@@ -84,7 +68,6 @@ const applyLanguage = (nextLanguage) => {
   }
 
   updateThemeLabel();
-  updateTiefeLabel();
   window.dispatchEvent(new CustomEvent("alcofasia:languagechange", { detail: { language } }));
 };
 
@@ -111,31 +94,17 @@ themeControl?.addEventListener("click", () => {
   }
 });
 
-tiefeControl?.addEventListener("click", () => {
-  const tiefe = root.dataset.tiefe === "an" ? "aus" : "an";
-  applyTiefe(tiefe);
-
-  try {
-    localStorage.setItem("tiefe", tiefe);
-  } catch {
-    // The depth control still works when browser storage is unavailable.
-  }
-});
-
 let initialTheme = "light";
 let initialLanguage = "de";
-let initialTiefe = "an";
 
 try {
   initialTheme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
   initialLanguage = localStorage.getItem("language") === "en" ? "en" : "de";
-  initialTiefe = localStorage.getItem("tiefe") === "aus" ? "aus" : "an";
 } catch {
   // German and the light theme remain the defaults.
 }
 
 applyTheme(initialTheme);
-applyTiefe(initialTiefe);
 applyLanguage(initialLanguage);
 
 window.alcofasiaUi = {

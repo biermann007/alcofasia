@@ -188,12 +188,73 @@ export async function landRecherchieren(env, country) {
     .filter(Boolean);
 
   return {
-    vorschlag: aufruf.input,
+    vorschlag: vorschlagBereinigen(aufruf.input),
     besuchteQuellen: [...new Set(quellenAusSuche)],
     modell: ergebnis.model,
     input_tokens: ergebnis.usage?.input_tokens ?? null,
     output_tokens: ergebnis.usage?.output_tokens ?? null
   };
+}
+
+// Das Modell hält sich meistens, aber nicht immer an das Schema. Einmal kamen
+// die Absätze als ein einziger String statt als Liste von Objekten zurück –
+// der Admin iterierte dann Zeichen für Zeichen und zeigte tausende leere
+// Blöcke. Deshalb wird der Vorschlag hier begradigt, bevor er den Server
+// verlässt.
+function vorschlagBereinigen(vorschlag) {
+  let p = vorschlag?.paragraphs;
+  if (typeof p === "string") p = stringZuAbsaetzen(p);
+  if (Array.isArray(p)) {
+    // Eine Liste: Strings in Objekte verpacken, Leeres aussortieren.
+    vorschlag.paragraphs = p
+      .map((eintrag) => (typeof eintrag === "string" ? { text_de: eintrag.trim() } : eintrag))
+      .filter((eintrag) => eintrag && typeof eintrag === "object" && (eintrag.text_de ?? "").trim());
+  } else {
+    vorschlag.paragraphs = [];
+  }
+  return vorschlag;
+}
+
+// Ein als String geliefertes paragraphs-Feld in eine Liste verwandeln.
+//
+// Vorfall 11.08. (Philippinen): Der String war diesmal ein komplettes, hübsch
+// formatiertes JSON-Array. Das Teilen an Leerzeilen machte aus jeder
+// JSON-Klammer einen eigenen "Absatz" – [, {, "text_de": … und } landeten
+// einzeln als Text auf der Seite. Deshalb: erst als JSON lesen, dann notfalls
+// die text_de-Werte herausziehen, erst zuletzt stumpf an Leerzeilen teilen.
+function stringZuAbsaetzen(text) {
+  const roh = text.trim();
+
+  // 1. Sauberes JSON? Dann ist nichts weiter zu tun.
+  if (roh.startsWith("[") || roh.startsWith("{")) {
+    try {
+      const geparst = JSON.parse(roh);
+      return Array.isArray(geparst) ? geparst : [geparst];
+    } catch {
+      // Kein gültiges JSON (bei den Philippinen: unmaskierte Anführungszeichen
+      // im Text) – unten weiterversuchen.
+    }
+  }
+
+  // 2. An Leerzeilen teilen; gab es keine, ersatzweise an Zeilenumbrüchen.
+  let teile = roh.split(/\n\s*\n/);
+  if (teile.length === 1 && roh.includes("\n")) teile = roh.split("\n");
+  teile = teile.map((t) => t.trim()).filter(Boolean);
+
+  // 3. Sind es JSON-Bruchstücke, nur den Inhalt der text_de-Werte behalten.
+  if (teile.some((t) => t.includes('"text_de"'))) {
+    teile = teile
+      .filter((t) => t.includes('"text_de"'))
+      .map((t) =>
+        t
+          .replace(/^.*?"text_de"\s*:\s*"/, "")
+          .replace(/"\s*[,}\]\s]*$/, "")
+          .replace(/\\"/g, '"')
+      );
+  }
+
+  // 4. Reine JSON-Zeichen aussortieren, falls doch etwas durchrutscht.
+  return teile.filter((t) => !/^[\[\]{}",:\s]*$/.test(t));
 }
 
 /**

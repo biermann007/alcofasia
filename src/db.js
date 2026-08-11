@@ -153,6 +153,34 @@ export async function saveCountry(env, slug, data, benutzer) {
   }
 }
 
+// ------------------------------------------------------------- Buddha-Seite
+//
+// Zwei frei bearbeitbare Textbereiche ("top3" und "empfehlung"), gepflegt
+// unter /admin/buddha. Rückgabe als Objekt: { top3: {…}, empfehlung: {…} }.
+
+export async function loadBuddhaTexte(env) {
+  const { results } = await env.DB.prepare("SELECT * FROM buddha_texte").all();
+  return Object.fromEntries(results.map((zeile) => [zeile.key, zeile]));
+}
+
+export async function saveBuddhaTexte(env, daten, benutzer) {
+  const statements = [];
+  for (const key of ["top3", "empfehlung"]) {
+    if (!(key in daten)) continue;
+    const eintrag = daten[key] ?? {};
+    statements.push(
+      env.DB.prepare(
+        `INSERT INTO buddha_texte (key, text_de, text_en, updated_at, updated_by)
+         VALUES (?, ?, ?, datetime('now'), ?)
+         ON CONFLICT(key) DO UPDATE SET
+           text_de = excluded.text_de, text_en = excluded.text_en,
+           updated_at = excluded.updated_at, updated_by = excluded.updated_by`
+      ).bind(key, eintrag.text_de?.trim() || null, eintrag.text_en?.trim() || null, benutzer ?? null)
+    );
+  }
+  if (statements.length) await env.DB.batch(statements);
+}
+
 export async function protokolliereRecherche(env, countryId, eintrag) {
   const row = await env.DB.prepare(
     `INSERT INTO research_runs (country_id, created_by, model, status, proposal, error, input_tokens, output_tokens)

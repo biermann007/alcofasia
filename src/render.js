@@ -205,3 +205,40 @@ export function renderListRows(countries) {
 
   return zellen.join("");
 }
+
+// ------------------------------------------------------------- Buddha-Seite
+
+// Alphabetische Liste aller veröffentlichten Länder mit ihrem Getränk, z. B.
+// "Russland — Vodka". Jeder Eintrag verlinkt über /#land=… direkt auf die
+// Detailansicht der Startseite (map.js öffnet sie beim Laden).
+export function renderBuddhaLaender(countries) {
+  return countries
+    .filter((c) => c.status === "veroeffentlicht")
+    .sort((a, b) => a.name_de.localeCompare(b.name_de, "de"))
+    .map((c) => {
+      const de = c.spirit_de ? `${c.name_de} — ${c.spirit_de}` : c.name_de;
+      const en = (c.name_en || c.spirit_en)
+        ? (c.spirit_en || c.spirit_de
+            ? `${c.name_en ?? c.name_de} — ${c.spirit_en ?? c.spirit_de}`
+            : c.name_en ?? c.name_de)
+        : de;
+      return `\n            <li><a href="/#land=${encodeURIComponent(c.name_de)}"${enAttr(de, en)}>${escapeHtml(de)}</a></li>`;
+    })
+    .join("");
+}
+
+// Ein Buddha-Textbereich. Leerzeilen in der Eingabe trennen Absätze; die
+// englische Fassung wird Absatz für Absatz zugeordnet – fehlt sie für einen
+// Absatz, bleibt dort der deutsche Text stehen.
+export function renderBuddhaText(eintrag = {}) {
+  const absaetze = (wert) =>
+    String(wert ?? "")
+      .split(/\n\s*\n/)
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+  const de = absaetze(eintrag?.text_de);
+  const en = absaetze(eintrag?.text_en);
+
+  return de.map((text, i) => `\n          ${zeile("p", null, text, en[i])}`).join("");
+}

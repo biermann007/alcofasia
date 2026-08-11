@@ -5,13 +5,15 @@
 // Eigenes Modul, damit sich Worker und Adminbereich nicht gegenseitig
 // importieren müssen.
 
-import { loadCountries } from "./db.js";
+import { loadCountries, loadBuddhaTexte } from "./db.js";
 
 const CACHE_MS = 30_000;
 let cache = { zeit: 0, daten: null };
+let buddhaCache = { zeit: 0, daten: null };
 
 export function cacheLeeren() {
   cache = { zeit: 0, daten: null };
+  buddhaCache = { zeit: 0, daten: null };
 }
 
 export async function laenderMitCache(env) {
@@ -37,5 +39,23 @@ export async function laenderOderLeer(env) {
   } catch (fehler) {
     console.error("Länder konnten nicht geladen werden:", fehler);
     return { laender: [], fehler: String(fehler?.message ?? fehler) };
+  }
+}
+
+// Dieselbe Vorsicht für die Buddha-Texte: Fehlt die Tabelle noch (Migration
+// nicht eingespielt), erscheint die Seite ohne die beiden Textbereiche statt
+// mit einem Fehler.
+export async function buddhaTexteOderLeer(env) {
+  const jetzt = Date.now();
+  if (buddhaCache.daten && jetzt - buddhaCache.zeit < CACHE_MS) {
+    return { texte: buddhaCache.daten, fehler: null };
+  }
+  try {
+    const daten = await loadBuddhaTexte(env);
+    buddhaCache = { zeit: jetzt, daten };
+    return { texte: daten, fehler: null };
+  } catch (fehler) {
+    console.error("Buddha-Texte konnten nicht geladen werden:", fehler);
+    return { texte: {}, fehler: String(fehler?.message ?? fehler) };
   }
 }
