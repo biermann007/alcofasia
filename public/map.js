@@ -45,6 +45,18 @@ for (const button of detailBackButtons) {
   button.addEventListener("click", hideCountryDetail);
 }
 
+// Direktlink, z. B. von der Buddha-Seite: /#land=Russland öffnet die
+// Detailansicht sofort – noch bevor die Karte geladen wird, sonst blitzt
+// sie kurz auf. Die Artikel stehen schon im HTML, die Karte wird dafür
+// nicht gebraucht. Unbekannte Länder werden still ignoriert; das
+// Kennzeichen aus index.html wird danach wieder entfernt, damit die
+// Karte in diesem Fall normal erscheint.
+const direktLand = new URLSearchParams(location.hash.slice(1)).get("land");
+if (direktLand && countryDetails.has(direktLand)) {
+  showCountryDetail(direktLand);
+}
+delete document.documentElement.dataset.direktland;
+
 const moveTooltip = (event) => {
   tooltip.style.left = `${event.clientX}px`;
   tooltip.style.top = `${event.clientY}px`;
@@ -268,12 +280,6 @@ try {
   updateMapLanguage();
   window.addEventListener("alcofasia:languagechange", updateMapLanguage);
 
-  // Direktlink, z. B. von der Buddha-Seite: /#land=Russland öffnet die
-  // Detailansicht sofort. Unbekannte Länder werden still ignoriert.
-  const direktLand = new URLSearchParams(location.hash.slice(1)).get("land");
-  if (direktLand && countryDetails.has(direktLand)) {
-    showCountryDetail(direktLand);
-  }
   viewToggle.disabled = false;
   viewToggle.addEventListener("click", () => {
     const showCountries = countryList.hidden;

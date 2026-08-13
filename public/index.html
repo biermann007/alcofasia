@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
     <title>alcofasia.com</title>
+    <script>
+      // Direktlink wie /#land=Thailand (z. B. von der Buddha-Seite): die
+      // Karte gar nicht erst zeigen, damit sie nicht kurz aufblitzt, bevor
+      // map.js den Länderbeitrag öffnet. map.js entfernt das Kennzeichen
+      // wieder, sobald der Direktlink verarbeitet ist.
+      if (new URLSearchParams(location.hash.slice(1)).get("land")) {
+        document.documentElement.dataset.direktland = "an";
+      }
+    </script>
     <link rel="stylesheet" href="/site-controls.css">
     <style data-country-colors></style>
     <style>
@@ -64,6 +73,14 @@
       .map-wrap {
         width: min(100%, 52rem);
         min-width: 0;
+      }
+
+      /* Solange ein Direktlink auf einen Länderbeitrag verarbeitet wird,
+         bleibt alles rund um die Karte unsichtbar. */
+      :root[data-direktland] .ticker,
+      :root[data-direktland] .asia-map,
+      :root[data-direktland] .view-toggle {
+        display: none;
       }
 
       .asia-map,
