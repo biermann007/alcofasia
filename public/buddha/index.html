@@ -44,7 +44,7 @@
       }
 
       main {
-        width: min(100%, 72rem);
+        width: min(100%, 80rem);
         margin: 0 auto;
         padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
       }
@@ -62,9 +62,25 @@
         text-decoration: none;
       }
 
+      /* Die beiden „o“ in der Wortmarke: der goldene Buddha der
+         Startseite, auf Kleinbuchstaben-Größe gebracht und optisch auf
+         die Zeile gesetzt. */
+      .buddha-o {
+        width: 0.68em;
+        height: 0.68em;
+        margin: 0 0.015em;
+        fill: #b3903a;
+        transform: translateY(0.045em);
+        vertical-align: baseline;
+      }
+
+      :root[data-theme="dark"] .buddha-o {
+        fill: #d2a94e;
+      }
+
       .buddha-spalten {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
         gap: clamp(2rem, 6vw, 5rem);
         align-items: start;
       }
@@ -84,11 +100,25 @@
         text-transform: uppercase;
       }
 
-      /* Linke Spalte: alle bearbeiteten Länder, alphabetisch. */
+      /* Linke Spalte: alle bearbeiteten Länder, alphabetisch in zwei
+         Spalten — erst die linke von oben nach unten, dann die rechte.
+         So sind alle Länder ohne Scrollen sichtbar. */
       .laender-liste {
         margin: 0;
         padding: 0;
+        columns: 2;
+        column-gap: clamp(2rem, 4vw, 3.5rem);
         list-style: none;
+      }
+
+      .laender-liste li {
+        break-inside: avoid;
+      }
+
+      @media (max-width: 34rem) {
+        .laender-liste {
+          columns: 1;
+        }
       }
 
       .laender-liste li {
@@ -124,6 +154,19 @@
         max-width: 65ch;
         font-size: 0.95rem;
         line-height: 1.6;
+        white-space: pre-line; /* einfache Zeilenumbrüche aus dem Admin bleiben erhalten */
+      }
+
+      /* Zwischenüberschrift aus dem Admin (Zeile beginnt mit "## ") */
+      .buddha-text h3 {
+        margin: 1.6em 0 0.6em;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .buddha-text h3:first-child {
+        margin-top: 0;
       }
 
       .buddha-text p:last-child {
@@ -165,7 +208,9 @@
       </button>
     </nav>
     <main>
-      <h1><a href="/">I love you</a></h1>
+      <!-- Die beiden o sind der goldene Buddha der Startseite. Für
+           Vorlesewerkzeuge bleibt es über aria-label der Satz "I love you". -->
+      <h1><a href="/" aria-label="I love you">I l<svg class="buddha-o" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M 14.58 22.05 L 13.35 22.33 L 12.08 22.45 L 10.81 22.42 L 9.54 22.24 L 8.30 21.90 L 7.11 21.41 L 5.98 20.78 L 4.94 20.01 L 3.99 19.12 L 3.16 18.11 L 2.45 17.01 L 1.88 15.82 L 1.46 14.57 L 1.20 13.28 L 1.09 11.96 L 1.15 10.63 L 1.37 9.32 L 1.75 8.04 L 2.29 6.81 L 2.97 5.66 L 3.80 4.59 L 4.74 3.64 L 5.80 2.81 L 6.96 2.11 L 8.19 1.56 L 9.49 1.16 L 10.82 0.93 L 12.17 0.86 L 13.53 0.96 L 14.86 1.22 L 16.15 1.65 L 17.37 2.23 L 18.52 2.96 L 19.56 3.82 L 20.49 4.80 L 21.30 5.89 L 21.96 7.07 L 22.47 8.32 L 22.84 9.62 L 23.05 10.96 L 23.09 12.30 L 22.97 13.65 L 22.69 14.97 L 22.25 16.25 L 21.66 17.46 L 20.93 18.59 L 20.06 19.63 L 19.07 20.55 L 17.93 19.17 L 18.76 18.40 L 19.48 17.53 L 20.10 16.58 L 20.60 15.56 L 20.96 14.49 L 21.20 13.38 L 21.30 12.26 L 21.26 11.12 L 21.09 10.01 L 20.77 8.92 L 20.32 7.88 L 19.75 6.91 L 19.07 6.01 L 18.29 5.20 L 17.41 4.49 L 16.46 3.89 L 15.44 3.41 L 14.37 3.06 L 13.27 2.83 L 12.15 2.74 L 11.02 2.79 L 9.91 2.97 L 8.82 3.28 L 7.78 3.72 L 6.80 4.28 L 5.89 4.95 L 5.06 5.74 L 4.34 6.61 L 3.72 7.57 L 3.22 8.60 L 2.85 9.69 L 2.61 10.81 L 2.51 11.96 L 2.55 13.12 L 2.72 14.27 L 3.04 15.39 L 3.49 16.47 L 4.06 17.49 L 4.76 18.43 L 5.57 19.29 L 6.48 20.05 L 7.49 20.69 L 8.56 21.21 L 9.70 21.60 L 10.87 21.84 L 12.08 21.95 L 13.29 21.90 L 14.49 21.71 Z"/><g transform="translate(12 13.5) scale(0.72) translate(-12 -11.3)"><circle cx="12" cy="2.6" r="0.85"/><circle cx="12" cy="5.6" r="2.35"/><path d="M 12 9.2 C 10.3 9.2 9.1 10.3 8.5 12.1 C 8.1 13.3 8.2 14.2 8.7 14.7 L 10.9 14.7 C 11.1 14.1 11.5 13.8 12 13.8 C 12.5 13.8 12.9 14.1 13.1 14.7 L 15.3 14.7 C 15.8 14.2 15.9 13.3 15.5 12.1 C 14.9 10.3 13.7 9.2 12 9.2 Z"/><path d="M 4.3 18.3 C 4.3 16.9 5.8 15.9 7.8 15.66 C 9.4 15.47 10.8 15.98 12 15.98 C 13.2 15.98 14.6 15.47 16.2 15.66 C 18.2 15.9 19.7 16.9 19.7 18.3 C 19.7 19.4 17.9 20 15.3 20 L 8.7 20 C 6.1 20 4.3 19.4 4.3 18.3 Z"/></g></svg>ve y<svg class="buddha-o" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M 14.58 22.05 L 13.35 22.33 L 12.08 22.45 L 10.81 22.42 L 9.54 22.24 L 8.30 21.90 L 7.11 21.41 L 5.98 20.78 L 4.94 20.01 L 3.99 19.12 L 3.16 18.11 L 2.45 17.01 L 1.88 15.82 L 1.46 14.57 L 1.20 13.28 L 1.09 11.96 L 1.15 10.63 L 1.37 9.32 L 1.75 8.04 L 2.29 6.81 L 2.97 5.66 L 3.80 4.59 L 4.74 3.64 L 5.80 2.81 L 6.96 2.11 L 8.19 1.56 L 9.49 1.16 L 10.82 0.93 L 12.17 0.86 L 13.53 0.96 L 14.86 1.22 L 16.15 1.65 L 17.37 2.23 L 18.52 2.96 L 19.56 3.82 L 20.49 4.80 L 21.30 5.89 L 21.96 7.07 L 22.47 8.32 L 22.84 9.62 L 23.05 10.96 L 23.09 12.30 L 22.97 13.65 L 22.69 14.97 L 22.25 16.25 L 21.66 17.46 L 20.93 18.59 L 20.06 19.63 L 19.07 20.55 L 17.93 19.17 L 18.76 18.40 L 19.48 17.53 L 20.10 16.58 L 20.60 15.56 L 20.96 14.49 L 21.20 13.38 L 21.30 12.26 L 21.26 11.12 L 21.09 10.01 L 20.77 8.92 L 20.32 7.88 L 19.75 6.91 L 19.07 6.01 L 18.29 5.20 L 17.41 4.49 L 16.46 3.89 L 15.44 3.41 L 14.37 3.06 L 13.27 2.83 L 12.15 2.74 L 11.02 2.79 L 9.91 2.97 L 8.82 3.28 L 7.78 3.72 L 6.80 4.28 L 5.89 4.95 L 5.06 5.74 L 4.34 6.61 L 3.72 7.57 L 3.22 8.60 L 2.85 9.69 L 2.61 10.81 L 2.51 11.96 L 2.55 13.12 L 2.72 14.27 L 3.04 15.39 L 3.49 16.47 L 4.06 17.49 L 4.76 18.43 L 5.57 19.29 L 6.48 20.05 L 7.49 20.69 L 8.56 21.21 L 9.70 21.60 L 10.87 21.84 L 12.08 21.95 L 13.29 21.90 L 14.49 21.71 Z"/><g transform="translate(12 13.5) scale(0.72) translate(-12 -11.3)"><circle cx="12" cy="2.6" r="0.85"/><circle cx="12" cy="5.6" r="2.35"/><path d="M 12 9.2 C 10.3 9.2 9.1 10.3 8.5 12.1 C 8.1 13.3 8.2 14.2 8.7 14.7 L 10.9 14.7 C 11.1 14.1 11.5 13.8 12 13.8 C 12.5 13.8 12.9 14.1 13.1 14.7 L 15.3 14.7 C 15.8 14.2 15.9 13.3 15.5 12.1 C 14.9 10.3 13.7 9.2 12 9.2 Z"/><path d="M 4.3 18.3 C 4.3 16.9 5.8 15.9 7.8 15.66 C 9.4 15.47 10.8 15.98 12 15.98 C 13.2 15.98 14.6 15.47 16.2 15.66 C 18.2 15.9 19.7 16.9 19.7 18.3 C 19.7 19.4 17.9 20 15.3 20 L 8.7 20 C 6.1 20 4.3 19.4 4.3 18.3 Z"/></g></svg>u</a></h1>
       <div class="buddha-spalten">
         <section aria-label="Bearbeitete Länder">
           <h2 data-en="Countries">Länder</h2>

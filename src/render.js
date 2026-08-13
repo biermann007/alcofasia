@@ -227,18 +227,27 @@ export function renderBuddhaLaender(countries) {
     .join("");
 }
 
-// Ein Buddha-Textbereich. Leerzeilen in der Eingabe trennen Absätze; die
-// englische Fassung wird Absatz für Absatz zugeordnet – fehlt sie für einen
-// Absatz, bleibt dort der deutsche Text stehen.
+// Ein Buddha-Textbereich. Kein HTML – stattdessen drei einfache Regeln:
+// Leerzeilen trennen Absätze, einzelne Zeilenumbrüche bleiben erhalten
+// (CSS white-space: pre-line auf der Seite), und ein Block, der mit "## "
+// beginnt, wird zur Zwischenüberschrift. Die englische Fassung wird Block
+// für Block zugeordnet – fehlt sie, bleibt der deutsche Text stehen.
 export function renderBuddhaText(eintrag = {}) {
-  const absaetze = (wert) =>
+  const bloecke = (wert) =>
     String(wert ?? "")
       .split(/\n\s*\n/)
       .map((t) => t.trim())
       .filter(Boolean);
 
-  const de = absaetze(eintrag?.text_de);
-  const en = absaetze(eintrag?.text_en);
+  const de = bloecke(eintrag?.text_de);
+  const en = bloecke(eintrag?.text_en);
 
-  return de.map((text, i) => `\n          ${zeile("p", null, text, en[i])}`).join("");
+  const ohneRaute = (t) => (t?.startsWith("## ") ? t.slice(3).trim() : t);
+
+  return de
+    .map((text, i) => {
+      const tag = text.startsWith("## ") ? "h3" : "p";
+      return `\n          ${zeile(tag, null, ohneRaute(text), ohneRaute(en[i]))}`;
+    })
+    .join("");
 }

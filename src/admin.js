@@ -184,7 +184,10 @@ function buddhaSeite(texte, benutzer) {
     <h1>Buddha-Seite</h1>
     <p class="hinweis">
       Die beiden Textbereiche der Seite <a href="/buddha">/buddha</a>.
-      Leerzeilen trennen Absätze. Links steht Deutsch, rechts Englisch.
+      Leerzeilen trennen Absätze, einfache Zeilenumbrüche bleiben erhalten,
+      und eine Zeile, die mit <code>##&nbsp;</code> beginnt, wird zur
+      Zwischenüberschrift. HTML wird nicht interpretiert.
+      Links steht Deutsch, rechts Englisch.
     </p>
 
     <div id="meldungen"></div>
