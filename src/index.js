@@ -11,7 +11,8 @@ import {
   renderListHead,
   renderListRows,
   renderBuddhaLaender,
-  renderBuddhaText
+  renderBuddhaText,
+  renderArenaLaender
 } from "./render.js";
 import { handleAdmin } from "./admin.js";
 import { laenderOderLeer, buddhaTexteOderLeer } from "./cache.js";
@@ -60,6 +61,13 @@ export default {
         "[data-list-head]": renderListHead(),
         "[data-list-rows]": renderListRows(alle),
         "script[data-country-names]": renderCountryNames(alle)
+      }, fehler);
+    }
+
+    if (pfad === "/arena" || pfad === "/arena/" || pfad === "/arena/index.html") {
+      const { laender: alle, fehler } = await laenderOderLeer(env);
+      return seiteUmschreiben(antwort, {
+        "script[data-arena-laender]": renderArenaLaender(alle)
       }, fehler);
     }
 

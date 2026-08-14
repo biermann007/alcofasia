@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <title>alcofasia.com/arena</title>
+    <link rel="stylesheet" href="/site-controls.css">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, Helvetica, sans-serif;
+        --background: #ffffff;
+        --foreground: #111111;
+        --muted: #666666;
+        --line: #d8d8d8;
+        --richtig: #1a7f37;
+        --falsch: #b3261e;
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --background: #000000;
+        --foreground: #f5f5f5;
+        --muted: #a0a0a0;
+        --line: #383838;
+        --richtig: #4cc38a;
+        --falsch: #ff6b5e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        min-height: 100svh;
+        flex-direction: column;
+        background: var(--background);
+        color: var(--foreground);
+        transition: background-color 240ms ease, color 240ms ease;
+      }
+
+      main {
+        width: min(100%, 44rem);
+        margin: 0 auto;
+        padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
+      }
+
+      h1 {
+        margin: 0 0 clamp(2rem, 5vw, 4rem);
+        font-size: clamp(1.25rem, 3vw, 2.5rem);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+      }
+
+      h1 a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      h2 {
+        margin: 0 0 1.1rem;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 400;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .erklaerung {
+        margin: 0 0 2rem;
+        max-width: 55ch;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .bestwert {
+        margin: 0 0 2rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      /* Knöpfe im Stil der Seite: Text mit Unterstreichung, kein Kasten. */
+      .arena-knopf {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.95rem;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      .arena-knopf:hover,
+      .arena-knopf:focus-visible {
+        outline: none;
+        text-decoration-thickness: 2px;
+      }
+
+      /* Spielstand über der Frage: Runde links, Punkte rechts. */
+      .stand {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+        color: var(--muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .frage {
+        margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+        font-size: clamp(1.4rem, 4vw, 2.2rem);
+        font-weight: 400;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
+
+      .frage strong {
+        font-weight: 600;
+      }
+
+      /* Die vier Antworten: schlichte Zeilen mit Trennlinien, wie die
+         Länderliste der Buddha-Seite. */
+      .antworten {
+        display: grid;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .antworten li {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .antworten li:first-child {
+        border-top: 1px solid var(--line);
+      }
+
+      .antwort {
+        display: block;
+        width: 100%;
+        padding: 0.9rem 0.25rem;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-size: 1rem;
+        text-align: left;
+      }
+
+      .antwort:hover:not(:disabled),
+      .antwort:focus-visible {
+        outline: none;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      .antwort:disabled {
+        cursor: default;
+      }
+
+      /* Auflösung: die richtige Antwort wird grün, eine falsch gewählte rot.
+         Farben entsprechen dem Länderzähler der Startseite. */
+      .antwort.richtig {
+        color: var(--richtig);
+        font-weight: 600;
+      }
+
+      .antwort.falsch {
+        color: var(--falsch);
+        text-decoration: line-through;
+        text-underline-offset: 0.2em;
+      }
+
+      .weiter-zeile {
+        display: flex;
+        justify-content: flex-end;
+        min-height: 2.6rem;
+        align-items: center;
+      }
+
+      .ergebnis-zahl {
+        margin: 0 0 0.75rem;
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+
+      .ergebnis-text {
+        margin: 0 0 2rem;
+        max-width: 55ch;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .hinweis {
+        margin: 0;
+        max-width: 55ch;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      footer {
+        margin-top: auto;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      footer a {
+        color: inherit;
+        font-size: 0.8rem;
+        text-decoration: none;
+      }
+
+      footer a:hover,
+      footer a:focus-visible {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-controls" aria-label="Sprache und Darstellung" data-en-label="Language and appearance">
+      <button class="site-control" type="button" data-language="de" aria-label="Deutsch" title="Deutsch" aria-pressed="true">
+        <span class="language-flag" aria-hidden="true">🇩🇪</span><span class="visually-hidden">Deutsch</span>
+      </button>
+      <button class="site-control" type="button" data-language="en" aria-label="English" title="English" aria-pressed="false">
+        <span class="language-flag" aria-hidden="true">🇬🇧</span><span class="visually-hidden">English</span>
+      </button>
+      <button class="site-control" type="button" data-theme-control aria-label="Hell-Dunkel-Modus wechseln" title="Hell-Dunkel-Modus wechseln" aria-pressed="false">
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="theme-bulb" d="M8.8 14.5a6 6 0 1 1 6.4 0c-.9.8-1.2 1.7-1.2 3.5h-4c0-1.8-.3-2.7-1.2-3.5Z" />
+          <path d="M9 18h6M10 21h4" />
+        </svg>
+      </button>
+    </nav>
+    <main>
+      <h1><a href="/">alcofasia.com</a>/arena</h1>
+
+      <!-- Startansicht -->
+      <section data-arena-intro aria-label="Getränke-Quiz">
+        <h2 data-en="Drinks quiz">Getränke-Quiz</h2>
+        <p class="erklaerung" data-en="Ten countries, four drinks each — which one belongs to the country? The questions come from the published country pages.">
+          Zehn Länder, je vier Getränke — welches gehört zum Land? Die Fragen
+          kommen aus den veröffentlichten Länderseiten.
+        </p>
+        <p class="bestwert" data-arena-bestwert hidden></p>
+        <p class="hinweis" data-arena-hinweis data-en="The arena is warming up — there are not enough countries to play yet." hidden>
+          Die Arena wärmt sich noch auf — es gibt noch nicht genug Länder zum
+          Spielen.
+        </p>
+        <button class="arena-knopf" type="button" data-arena-start data-en="Start">Los geht's</button>
+      </section>
+
+      <!-- Fragerunde -->
+      <section data-arena-runde hidden aria-label="Frage">
+        <p class="stand"><span data-arena-stand-runde></span><span data-arena-stand-punkte></span></p>
+        <p class="frage" data-arena-frage></p>
+        <ul class="antworten" data-arena-antworten></ul>
+        <div class="weiter-zeile">
+          <button class="arena-knopf" type="button" data-arena-weiter data-en="Next" hidden>Weiter</button>
+        </div>
+      </section>
+
+      <!-- Ergebnis -->
+      <section data-arena-ergebnis hidden aria-label="Ergebnis">
+        <h2 data-en="Result">Ergebnis</h2>
+        <p class="ergebnis-zahl" data-arena-punktzahl></p>
+        <p class="ergebnis-text" data-arena-wertung></p>
+        <p class="bestwert" data-arena-endbestwert></p>
+        <button class="arena-knopf" type="button" data-arena-nochmal data-en="Play again">Nochmal spielen</button>
+      </section>
+    </main>
+    <footer>
+      <a href="https://franz-paul.com/impressum.html" target="_blank" rel="noopener noreferrer">©franz-paul</a>
+    </footer>
+    <script data-arena-laender></script>
+    <script src="/site-ui.js"></script>
+    <script src="/arena/arena.js"></script>
+  </body>
+</html>

@@ -251,3 +251,22 @@ export function renderBuddhaText(eintrag = {}) {
     })
     .join("");
 }
+
+// ------------------------------------------------------------------- Arena
+
+// Die Arena-Spiele brauchen je Land nur den Namen und das Getränk, beides in
+// beiden Sprachen. Nur veröffentlichte Länder mit eingetragenem Getränk kommen
+// mit – ein Land ohne legales Getränk (z. B. Afghanistan) wäre sonst eine
+// unlösbare Quizfrage.
+export function renderArenaLaender(countries) {
+  const laender = countries
+    .filter((c) => c.status === "veroeffentlicht" && c.spirit_de)
+    .map((c) => ({
+      de: c.name_de,
+      en: c.name_en ?? c.name_de,
+      getraenkDe: c.spirit_de,
+      getraenkEn: c.spirit_en ?? c.spirit_de
+    }));
+
+  return `window.alcofasiaArenaLaender = ${JSON.stringify(laender)};`;
+}
