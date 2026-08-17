@@ -50,8 +50,19 @@ export default {
       if (pfad === "/admin" || pfad.startsWith("/admin/")) {
         return Response.redirect("https://alcofasia.com" + pfad, 308);
       }
-      if (pfad === "/" || pfad === "/index.html" || pfad === "/world" || pfad === "/world/") {
-        return env.ASSETS.fetch(new Request(new URL("/world/index.html", url), request));
+      if (pfad === "/" || pfad === "/index.html" || pfad === "/world" || pfad === "/world/" || pfad === "/world/index.html") {
+        // Die Weltseite direkt unter der nackten Adresse ausliefern. Der
+        // Asset-Speicher beantwortet manche Pfadformen mit einer Umleitung
+        // auf seine Schönschreibung (/world/index.html -> /world/); die wird
+        // hier intern verfolgt statt an den Browser weitergegeben – sonst
+        // springt die Adresszeile von alcofworld.com auf …/world/ um.
+        let antwort = await env.ASSETS.fetch(new Request(new URL("/world/", url), request));
+        for (let i = 0; i < 3 && antwort.status >= 300 && antwort.status < 400; i++) {
+          const ziel = antwort.headers.get("location");
+          if (!ziel) break;
+          antwort = await env.ASSETS.fetch(new Request(new URL(ziel, url), request));
+        }
+        return antwort;
       }
       return env.ASSETS.fetch(request);
     }
