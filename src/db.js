@@ -58,8 +58,15 @@ export async function loadCountry(env, slug) {
 const COUNTRY_FIELDS = [
   "spirit_de", "spirit_en", "subtitle_de", "subtitle_en", "notice_de", "notice_en",
   "glow_rgb", "stroke_hex", "fill_hex", "hover_fill_hex", "dark_fill_hex",
-  "dark_hover_hex", "glow_delay", "status", "sort_order", "alkoholverbot"
+  "dark_hover_hex", "glow_delay", "status", "sort_order", "alkoholverbot",
+  "produkte_anzeigen"
 ];
+
+// Felder, die erst mit einer späteren Migration dazugekommen sind. Fehlt die
+// Spalte noch, wird das Feld beim Speichern stillschweigend weggelassen statt
+// den ganzen Vorgang scheitern zu lassen – so ist die Reihenfolge von Deploy
+// und Migration gleichgültig.
+const NACHGEREICHTE_FELDER = ["produkte_anzeigen"];
 
 // Speichert ein Land vollständig neu. Kindtabellen werden ersetzt statt
 // abgeglichen – bei dieser Datenmenge einfacher und ohne Sortierprobleme.
@@ -68,44 +75,61 @@ export async function saveCountry(env, slug, data, benutzer) {
   if (!country) throw new Error(`Unbekanntes Land: ${slug}`);
   const id = country.id;
 
-  const felder = COUNTRY_FIELDS.filter((f) => f in data);
-  const statements = [
-    env.DB.prepare(
-      `UPDATE countries SET ${felder.map((f) => `${f} = ?`).join(", ")}${felder.length ? "," : ""}
-       updated_at = datetime('now'), updated_by = ? WHERE id = ?`
-    ).bind(...felder.map((f) => data[f] ?? null), benutzer ?? null, id),
+  const gewuenschteFelder = COUNTRY_FIELDS.filter((f) => f in data);
 
-    env.DB.prepare("DELETE FROM paragraphs WHERE country_id = ?").bind(id),
-    env.DB.prepare("DELETE FROM facts WHERE country_id = ?").bind(id),
-    env.DB.prepare("DELETE FROM sources WHERE country_id = ?").bind(id),
-    env.DB.prepare("DELETE FROM producers WHERE country_id = ?").bind(id) // Produkte per ON DELETE CASCADE
-  ];
+  const bauen = (felder) => {
+    const statements = [
+      env.DB.prepare(
+        `UPDATE countries SET ${felder.map((f) => `${f} = ?`).join(", ")}${felder.length ? "," : ""}
+         updated_at = datetime('now'), updated_by = ? WHERE id = ?`
+      ).bind(...felder.map((f) => data[f] ?? null), benutzer ?? null, id),
 
-  (data.paragraphs ?? []).forEach((p, i) => {
-    if (!p.text_de?.trim()) return;
-    statements.push(
-      env.DB.prepare("INSERT INTO paragraphs (country_id, position, text_de, text_en) VALUES (?, ?, ?, ?)")
-        .bind(id, i, p.text_de.trim(), p.text_en?.trim() || null)
-    );
-  });
+      env.DB.prepare("DELETE FROM paragraphs WHERE country_id = ?").bind(id),
+      env.DB.prepare("DELETE FROM facts WHERE country_id = ?").bind(id),
+      env.DB.prepare("DELETE FROM sources WHERE country_id = ?").bind(id),
+      env.DB.prepare("DELETE FROM producers WHERE country_id = ?").bind(id) // Produkte per ON DELETE CASCADE
+    ];
 
-  (data.facts ?? []).forEach((f, i) => {
-    if (!f.label_de?.trim() || !f.value_de?.trim()) return;
-    statements.push(
-      env.DB.prepare("INSERT INTO facts (country_id, position, label_de, label_en, value_de, value_en) VALUES (?, ?, ?, ?, ?, ?)")
-        .bind(id, i, f.label_de.trim(), f.label_en?.trim() || null, f.value_de.trim(), f.value_en?.trim() || null)
-    );
-  });
+    (data.paragraphs ?? []).forEach((p, i) => {
+      if (!p.text_de?.trim()) return;
+      statements.push(
+        env.DB.prepare("INSERT INTO paragraphs (country_id, position, text_de, text_en) VALUES (?, ?, ?, ?)")
+          .bind(id, i, p.text_de.trim(), p.text_en?.trim() || null)
+      );
+    });
 
-  (data.sources ?? []).forEach((s, i) => {
-    if (!s.url?.trim()) return;
-    statements.push(
-      env.DB.prepare("INSERT INTO sources (country_id, position, title, url) VALUES (?, ?, ?, ?)")
-        .bind(id, i, s.title?.trim() || s.url.trim(), s.url.trim())
-    );
-  });
+    (data.facts ?? []).forEach((f, i) => {
+      if (!f.label_de?.trim() || !f.value_de?.trim()) return;
+      statements.push(
+        env.DB.prepare("INSERT INTO facts (country_id, position, label_de, label_en, value_de, value_en) VALUES (?, ?, ?, ?, ?, ?)")
+          .bind(id, i, f.label_de.trim(), f.label_en?.trim() || null, f.value_de.trim(), f.value_en?.trim() || null)
+      );
+    });
 
-  await env.DB.batch(statements);
+    (data.sources ?? []).forEach((s, i) => {
+      if (!s.url?.trim()) return;
+      statements.push(
+        env.DB.prepare("INSERT INTO sources (country_id, position, title, url) VALUES (?, ?, ?, ?)")
+          .bind(id, i, s.title?.trim() || s.url.trim(), s.url.trim())
+      );
+    });
+
+    return statements;
+  };
+
+  try {
+    await env.DB.batch(bauen(gewuenschteFelder));
+  } catch (fehler) {
+    // Ein D1-Stapel ist eine Transaktion: der gescheiterte Versuch hat nichts
+    // hinterlassen. Fehlt nur eine nachgereichte Spalte, wird ohne sie
+    // gespeichert – damit bleibt die Redaktion auch dann bedienbar, wenn der
+    // Code schon oben ist und die Migration noch nicht eingespielt wurde.
+    const meldung = String(fehler?.message ?? "");
+    const fehlend = NACHGEREICHTE_FELDER.find((f) => /no such column/i.test(meldung) && meldung.includes(f));
+    if (!fehlend) throw fehler;
+    console.error(`Spalte ${fehlend} fehlt noch – wird beim Speichern übersprungen.`);
+    await env.DB.batch(bauen(gewuenschteFelder.filter((f) => f !== fehlend)));
+  }
 
   // Hersteller und Produkte brauchen die erzeugten IDs, daher ein zweiter Durchgang.
   for (const [i, producer] of (data.producers ?? []).entries()) {
@@ -176,6 +200,47 @@ export async function saveBuddhaTexte(env, daten, benutzer) {
            text_de = excluded.text_de, text_en = excluded.text_en,
            updated_at = excluded.updated_at, updated_by = excluded.updated_by`
       ).bind(key, eintrag.text_de?.trim() || null, eintrag.text_en?.trim() || null, benutzer ?? null)
+    );
+  }
+  if (statements.length) await env.DB.batch(statements);
+}
+
+// ------------------------------------------------------------ Einstellungen
+//
+// Seitenweite Schalter, gepflegt unter /admin/einstellungen. Bisher gibt es
+// genau einen: produkte_anzeigen. Die Vorgaben stehen hier an einer Stelle,
+// damit ein fehlender Datensatz überall denselben – den bisherigen – Zustand
+// ergibt.
+
+export const EINSTELLUNGEN_STANDARD = Object.freeze({
+  produkte_anzeigen: true
+});
+
+// D1 kennt kein Boolean. Gespeichert wird '1' oder '0'.
+const zuSchalter = (wert, standard) => {
+  if (wert == null || wert === "") return standard;
+  return wert === "1" || wert === 1 || wert === true || wert === "true";
+};
+
+export async function loadEinstellungen(env) {
+  const { results } = await env.DB.prepare("SELECT key, wert FROM einstellungen").all();
+  const roh = Object.fromEntries(results.map((zeile) => [zeile.key, zeile.wert]));
+  return {
+    produkte_anzeigen: zuSchalter(roh.produkte_anzeigen, EINSTELLUNGEN_STANDARD.produkte_anzeigen)
+  };
+}
+
+export async function saveEinstellungen(env, daten, benutzer) {
+  const statements = [];
+  for (const key of Object.keys(EINSTELLUNGEN_STANDARD)) {
+    if (!(key in daten)) continue;
+    statements.push(
+      env.DB.prepare(
+        `INSERT INTO einstellungen (key, wert, updated_at, updated_by)
+         VALUES (?, ?, datetime('now'), ?)
+         ON CONFLICT(key) DO UPDATE SET
+           wert = excluded.wert, updated_at = excluded.updated_at, updated_by = excluded.updated_by`
+      ).bind(key, daten[key] ? "1" : "0", benutzer ?? null)
     );
   }
   if (statements.length) await env.DB.batch(statements);

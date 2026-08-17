@@ -126,6 +126,70 @@ englische Fassung vorliegt. Auch das landet nur im Formular.
 Änderungen erscheinen auf der Seite innerhalb einer halben Minute; so lange hält
 der Worker die Daten im Zwischenspeicher.
 
+### Produkte anzeigen
+
+Ob Produkte öffentlich erscheinen, hängt an zwei Haken, und **beide** müssen
+gesetzt sein:
+
+| Haken | Wo | Wirkung |
+| --- | --- | --- |
+| **Produkte dieses Landes anbieten** | auf der Länderseite `/admin/land/<slug>` | entscheidet für dieses eine Land |
+| **Produkte auf der Seite anbieten** | `/admin/einstellungen` | Not-Aus über allem: aus heißt überall aus |
+
+Damit lässt sich China mit Produkten und Zypern ohne Produkte zeigen. Fehlt der
+Haken, entfallen für das betroffene Land die Hersteller- und Produktkarten in
+der Länderansicht und seine Zeilen in der Tabelle unter `/list`. Fließtext,
+Faktenliste, rechtliche Hinweise, Quellen, Farbe auf der Karte, Buddha-Seite und
+Arena bleiben unverändert. Zeigt kein einziges Land mehr Produkte, steht unter
+`/list` nur der Hinweis „Produkte werden zurzeit nicht angezeigt".
+
+Gelöscht wird nie etwas: Hersteller und Produkte bleiben in der Datenbank und im
+Admin bearbeitbar und kommen beim Wiedereinschalten vollständig zurück. Die
+Übersicht zeigt in der Spalte „Produkte" ein `aus` bei jedem ausgeblendeten Land
+und zählt sie in der Kopfzeile.
+
+Das Ausblenden verlangt eine ausdrückliche Bestätigung. Sie wird nicht nur im
+Formular abgefragt: Die Schnittstelle `POST /admin/api/einstellungen` weist ein
+Ausschalten ohne `bestaetigt: true` mit Status 400 zurück. Einschalten geht ohne
+Rückfrage.
+
+Der seitenweite Schalter steht in der Tabelle `einstellungen` (Migration
+`0005_einstellungen.sql`), der Haken je Land in der Spalte
+`countries.produkte_anzeigen` (Migration `0006_produkte_je_land.sql`).
+
+Fehlt die Tabelle, die Spalte oder ein Eintrag, nimmt der Worker „Produkte
+anzeigen" an, und beim Speichern eines Landes wird ein noch fehlendes Feld
+stillschweigend übersprungen. Migration und Deploy können deshalb in beliebiger
+Reihenfolge passieren, ohne dass die Seite dazwischen anders aussieht oder die
+Redaktion blockiert ist.
+
+Einspielen als Befehl – der `--file`-Weg scheitert an der OAuth-Anmeldung
+(`Authentication error [code: 10000]`, betrifft nur die Import-Schnittstelle):
+
+```sh
+npx wrangler d1 execute alcofasia --remote --command "ALTER TABLE countries ADD COLUMN produkte_anzeigen INTEGER NOT NULL DEFAULT 1;"
+```
+
+## alcofworld.com
+
+Die Weltseite (`public/world/`) läuft über denselben Worker: `src/index.js`
+erkennt den Hostnamen und liefert für alcofworld.com die Kontinentkarte aus.
+Asien ist in Antikgold hervorgehoben und führt auf alcofasia.com; die übrigen
+Kontinente zeigen vorerst nur ihren Namen. Die Weltkugel neben dem Buddha auf
+der Startseite führt hin.
+
+Die Karte erzeugt `npm run build:world` (`scripts/build-world-map.mjs`) aus
+world-atlas nach `public/world.svg` – gleiche Optik wie die Asien-Karte, aber
+Natural-Earth-Projektion statt Mercator (Mercator würde die Polregionen einer
+ganzen Weltkarte grotesk aufblasen). Welche Länder zu Asien zählen, bestimmt
+dieselbe Liste wie in `build-map.mjs`, damit sich Asien mit den 47 Ländern von
+alcofasia.com deckt; die übrigen Länder ordnet `world-countries` ihrem Erdteil
+zu. Beide Listen bei Änderungen gemeinsam pflegen.
+
+alcofworld.com ist in `wrangler.jsonc` als Custom Domain eingetragen –
+Cloudflare legt die DNS-Einträge beim Deploy selbst an. `/admin` leitet von
+dort auf alcofasia.com um, denn nur davor liegt Cloudflare Access.
+
 ## Veröffentlichung
 
 Änderungen auf `main` werden über Cloudflare Workers Builds automatisch auf

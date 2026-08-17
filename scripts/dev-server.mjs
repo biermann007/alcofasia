@@ -19,6 +19,10 @@ import {
   renderListRows
 } from "../src/render.js";
 import { loadCountries, loadCountry, saveCountry } from "../src/db.js";
+// Denselben Weg nehmen wie der Worker: einstellungenOderStandard fängt eine
+// fehlende Tabelle ab. Sonst verhielte sich der Prüfserver strenger als die
+// Produktion und würde einen Fehler zeigen, den es dort nicht gibt.
+import { einstellungenOderStandard } from "../src/cache.js";
 
 const port = Number(process.argv[2] ?? 8100);
 const root = new URL("../", import.meta.url).pathname;
@@ -28,8 +32,12 @@ const oeffentlich = join(root, "public");
 
 const datei = process.env.DEV_DB ?? ":memory:";
 const sqlite = new DatabaseSync(datei);
-sqlite.exec(await readFile(join(root, "migrations/0001_init.sql"), "utf8"));
-sqlite.exec(await readFile(join(root, "migrations/0002_seed.sql"), "utf8"));
+// 0003 fehlt bewusst: die dort ergänzte Spalte steht inzwischen schon in
+// 0001_init.sql, ein zweiter Durchgang würde daran scheitern.
+for (const migration of ["0001_init.sql", "0002_seed.sql", "0004_buddha.sql",
+                         "0005_einstellungen.sql", "0006_produkte_je_land.sql"]) {
+  sqlite.exec(await readFile(join(root, "migrations", migration), "utf8"));
+}
 
 const d1Statement = (sql) => {
   let werte = [];
@@ -93,8 +101,9 @@ createServer(async (anfrage, antwort) => {
 
     if (pfad === "/" || pfad === "/index.html") {
       const alle = await loadCountries(env);
+      const optionen = { produkteAnzeigen: (await einstellungenOderStandard(env)).einstellungen.produkte_anzeigen };
       let html = await readFile(join(oeffentlich, "index.html"), "utf8");
-      html = einsetzen(html, "data-country-details", renderCountryDetails(alle));
+      html = einsetzen(html, "data-country-details", renderCountryDetails(alle, optionen));
       html = einsetzen(html, "data-country-colors", renderCountryColors(alle));
       html = einsetzen(html, "data-country-names", renderCountryNames(alle));
       antwort.writeHead(200, { "content-type": TYPEN[".html"] }).end(html);
@@ -103,9 +112,10 @@ createServer(async (anfrage, antwort) => {
 
     if (pfad === "/list" || pfad === "/list/" || pfad === "/list/index.html") {
       const alle = await loadCountries(env);
+      const optionen = { produkteAnzeigen: (await einstellungenOderStandard(env)).einstellungen.produkte_anzeigen };
       let html = await readFile(join(oeffentlich, "list/index.html"), "utf8");
-      html = einsetzen(html, "data-list-head", renderListHead());
-      html = einsetzen(html, "data-list-rows", renderListRows(alle));
+      html = einsetzen(html, "data-list-head", renderListHead(optionen, alle));
+      html = einsetzen(html, "data-list-rows", renderListRows(alle, optionen));
       html = einsetzen(html, "data-country-names", renderCountryNames(alle));
       antwort.writeHead(200, { "content-type": TYPEN[".html"] }).end(html);
       return;

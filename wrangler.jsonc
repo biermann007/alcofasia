@@ -25,6 +25,17 @@
     {
       "pattern": "www.alcofasia.com/*",
       "zone_name": "alcofasia.com"
+    },
+    // alcofworld.com zeigt die Weltseite (public/world/), bedient vom selben
+    // Worker – src/index.js unterscheidet am Hostnamen. Als Custom Domain
+    // statt Route: Cloudflare legt den DNS-Eintrag dann selbst an.
+    {
+      "pattern": "alcofworld.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.alcofworld.com",
+      "custom_domain": true
     }
   ],
   // Ohne diese Zeile schaltet Wrangler zusätzlich eine workers.dev-Adresse frei.

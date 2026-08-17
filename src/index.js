@@ -15,7 +15,7 @@ import {
   renderArenaLaender
 } from "./render.js";
 import { handleAdmin } from "./admin.js";
-import { laenderOderLeer, buddhaTexteOderLeer } from "./cache.js";
+import { laenderOderLeer, buddhaTexteOderLeer, einstellungenOderStandard } from "./cache.js";
 
 function seiteUmschreiben(response, ersetzungen, fehler) {
   let rewriter = new HTMLRewriter();
@@ -35,10 +35,26 @@ function seiteUmschreiben(response, ersetzungen, fehler) {
   return new Response(umgeschrieben.body, { status: umgeschrieben.status, headers: kopf });
 }
 
+// alcofworld.com läuft über denselben Worker: die Wurzel zeigt die Weltseite
+// aus public/world/, alles Übrige (CSS, Skripte, world.svg) kommt aus
+// denselben Assets. Der Adminbereich bleibt allein auf alcofasia.com – dort
+// liegt Cloudflare Access davor, auf alcofworld.com läge er ungeschützt.
+const WELT_HOSTS = new Set(["alcofworld.com", "www.alcofworld.com"]);
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const pfad = url.pathname;
+
+    if (WELT_HOSTS.has(url.hostname)) {
+      if (pfad === "/admin" || pfad.startsWith("/admin/")) {
+        return Response.redirect("https://alcofasia.com" + pfad, 308);
+      }
+      if (pfad === "/" || pfad === "/index.html" || pfad === "/world" || pfad === "/world/") {
+        return env.ASSETS.fetch(new Request(new URL("/world/index.html", url), request));
+      }
+      return env.ASSETS.fetch(request);
+    }
 
     if (pfad === "/admin" || pfad.startsWith("/admin/")) {
       return handleAdmin(request, env);
@@ -48,8 +64,10 @@ export default {
 
     if (pfad === "/" || pfad === "/index.html") {
       const { laender: alle, fehler } = await laenderOderLeer(env);
+      const { einstellungen } = await einstellungenOderStandard(env);
+      const optionen = { produkteAnzeigen: einstellungen.produkte_anzeigen };
       return seiteUmschreiben(antwort, {
-        "[data-country-details]": renderCountryDetails(alle),
+        "[data-country-details]": renderCountryDetails(alle, optionen),
         "style[data-country-colors]": renderCountryColors(alle),
         "script[data-country-names]": renderCountryNames(alle)
       }, fehler);
@@ -57,9 +75,11 @@ export default {
 
     if (pfad === "/list" || pfad === "/list/" || pfad === "/list/index.html") {
       const { laender: alle, fehler } = await laenderOderLeer(env);
+      const { einstellungen } = await einstellungenOderStandard(env);
+      const optionen = { produkteAnzeigen: einstellungen.produkte_anzeigen };
       return seiteUmschreiben(antwort, {
-        "[data-list-head]": renderListHead(),
-        "[data-list-rows]": renderListRows(alle),
+        "[data-list-head]": renderListHead(optionen, alle),
+        "[data-list-rows]": renderListRows(alle, optionen),
         "script[data-country-names]": renderCountryNames(alle)
       }, fehler);
     }

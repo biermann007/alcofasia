@@ -51,7 +51,27 @@ function renderProducer(producer) {
           </div>`;
 }
 
-export function renderCountryDetail(country) {
+// Produkte werden an zwei Stellen freigegeben, und beide müssen zustimmen:
+//
+//   1. der seitenweite Schalter unter /admin/einstellungen (Not-Aus)
+//   2. der Haken beim einzelnen Land auf /admin/land/…
+//
+// Fehlt eine der beiden Angaben – etwa weil eine Migration noch nicht
+// eingespielt ist – gilt der bisherige Zustand: Produkte werden gezeigt.
+const zeigtProdukte = (optionen) => optionen?.produkteAnzeigen !== false;
+
+// Nur eine ausdrückliche 0 (bzw. "0"/false) blendet ein Land aus. undefined,
+// null und 1 bedeuten "zeigen".
+const landZeigtProdukte = (country) => {
+  const wert = country?.produkte_anzeigen;
+  if (wert == null) return true;
+  return !(wert === 0 || wert === "0" || wert === false);
+};
+
+// Beides zusammen: zeigt dieses Land gerade Produkte?
+const produkteSichtbar = (country, optionen) => zeigtProdukte(optionen) && landZeigtProdukte(country);
+
+export function renderCountryDetail(country, optionen = {}) {
   const absaetze = country.paragraphs
     .map((p) => `\n            ${zeile("p", null, p.text_de, p.text_en)}`)
     .join("");
@@ -63,7 +83,11 @@ export function renderCountryDetail(country) {
     )
     .join("");
 
-  const hersteller = country.producers.map(renderProducer).join("");
+  // Ist einer der beiden Schalter aus, entfallen Hersteller- und Produktkarten
+  // ersatzlos. Fließtext, Fakten, rechtlicher Hinweis und Quellen bleiben stehen.
+  const hersteller = produkteSichtbar(country, optionen)
+    ? country.producers.map(renderProducer).join("")
+    : "";
 
   const hinweis = country.notice_de
     ? `
@@ -96,10 +120,10 @@ export function renderCountryDetail(country) {
         </article>`;
 }
 
-export function renderCountryDetails(countries) {
+export function renderCountryDetails(countries, optionen = {}) {
   return countries
     .filter((c) => c.status === "veroeffentlicht")
-    .map(renderCountryDetail)
+    .map((c) => renderCountryDetail(c, optionen))
     .join("");
 }
 
@@ -163,7 +187,25 @@ const LISTEN_SPALTEN = [
   ["Einordnung", "Positioning"]
 ];
 
-export function renderListHead() {
+// Hat die Tabelle überhaupt eine Zeile? Wird sowohl für den Tabellenkopf als
+// auch für den Hinweis anstelle der Tabelle gebraucht.
+export function listeHatZeilen(countries, optionen = {}) {
+  if (!zeigtProdukte(optionen)) return false;
+  return (countries ?? []).some(
+    (c) =>
+      c.status === "veroeffentlicht" &&
+      landZeigtProdukte(c) &&
+      c.producers.some((p) => p.products.length)
+  );
+}
+
+// countries ist zweitrangig und darf fehlen – dann wird der Kopf gezeigt wie
+// bisher. Der Worker übergibt die Länder, damit der Kopf verschwindet, wenn
+// kein einziges Land mehr Produkte zeigt.
+export function renderListHead(optionen = {}, countries = null) {
+  if (!zeigtProdukte(optionen)) return "";
+  if (countries && !listeHatZeilen(countries, optionen)) return "";
+
   return `
             <tr>${LISTEN_SPALTEN.map(
               ([de, en]) => `\n              <th scope="col"${enAttr(de, en)}>${escapeHtml(de)}</th>`
@@ -171,10 +213,19 @@ export function renderListHead() {
             </tr>`;
 }
 
-export function renderListRows(countries) {
+const LISTE_LEER = `
+            <tr class="list-leer">
+              <td data-en="Products are currently not shown.">Produkte werden zurzeit nicht angezeigt.</td>
+            </tr>`;
+
+export function renderListRows(countries, optionen = {}) {
+  if (!zeigtProdukte(optionen)) return LISTE_LEER;
+
   const zellen = [];
 
-  for (const country of countries.filter((c) => c.status === "veroeffentlicht")) {
+  // Länder ohne Haken bleiben aus der Tabelle heraus; ihre Produkte stehen
+  // unverändert in der Datenbank.
+  for (const country of countries.filter((c) => c.status === "veroeffentlicht" && landZeigtProdukte(c))) {
     for (const producer of country.producers) {
       for (const product of producer.products) {
         const werte = [
@@ -203,7 +254,9 @@ export function renderListRows(countries) {
     }
   }
 
-  return zellen.join("");
+  // Kein einziges Land zeigt noch Produkte: dann steht dort derselbe Hinweis
+  // wie beim seitenweiten Ausschalten, statt einer leeren Tabelle.
+  return zellen.length ? zellen.join("") : LISTE_LEER;
 }
 
 // ------------------------------------------------------------- Buddha-Seite

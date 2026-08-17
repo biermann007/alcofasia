@@ -513,11 +513,18 @@
          durch, auf die Silhouette beschnitten. Seit 11.08. in Antikgold statt
          Schwarz/Weiß – wie eine vergoldete Statue; der Reflex ist in beiden
          Modi ein warmes Licht, wie Glanz auf Metall. */
+      /* Buddha und Weltkugel stehen nebeneinander unter der Wortmarke. */
+      .symbol-reihe {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 1.6rem;
+      }
+
       .buddha-link {
         --buddha-glow: 179 144 58;
         --buddha-glanz: rgb(255 248 225 / 90%);
         display: inline-block;
-        margin-top: 1.6rem;
         color: #b3903a;
         line-height: 0;
       }
@@ -535,6 +542,29 @@
       .buddha-link:hover svg,
       .buddha-link:focus-visible svg {
         filter: drop-shadow(0 0 6px rgb(var(--buddha-glow) / 60%));
+      }
+
+      /* Die Weltkugel führt auf alcofworld.com. Dasselbe Antikgold wie der
+         Buddha, ohne eigene Animation – der Lichtreflex bleibt sein Merkmal. */
+      .welt-link {
+        --welt-glow: 179 144 58;
+        display: inline-block;
+        color: #b3903a;
+        line-height: 0;
+      }
+
+      :root[data-theme="dark"] .welt-link {
+        --welt-glow: 226 190 106;
+        color: #d2a94e;
+      }
+
+      .welt-link svg {
+        display: block;
+      }
+
+      .welt-link:hover svg,
+      .welt-link:focus-visible svg {
+        filter: drop-shadow(0 0 6px rgb(var(--welt-glow) / 60%));
       }
 
       /* Die Sequenz: Erst rast das Licht einmal um den Enso-Ring (dem
@@ -795,6 +825,7 @@
         <button class="view-toggle" type="button" data-en="Show countries" data-view-toggle aria-controls="asia-map country-list" aria-expanded="false" disabled>Länder anzeigen</button>
       </div>
       <h1>alcofasia.com</h1>
+      <div class="symbol-reihe">
       <a class="buddha-link" href="/buddha" aria-label="Buddha">
         <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <defs>
@@ -825,6 +856,18 @@
           </g>
         </svg>
       </a>
+      <a class="welt-link" href="https://alcofworld.com" aria-label="alcofworld">
+        <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="currentColor" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10.2" stroke-width="1.9"/>
+            <ellipse cx="12" cy="12" rx="4.7" ry="10.2" stroke-width="1.4"/>
+            <path d="M1.8 12h20.4" stroke-width="1.4"/>
+            <path d="M3.05 7.1q8.95 2.9 17.9 0" stroke-width="1.4"/>
+            <path d="M3.05 16.9q8.95 -2.9 17.9 0" stroke-width="1.4"/>
+          </g>
+        </svg>
+      </a>
+      </div>
     </main>
     <footer>
       <a href="https://franz-paul.com/impressum.html" target="_blank" rel="noopener noreferrer">©franz-paul</a>

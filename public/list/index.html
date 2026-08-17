@@ -114,6 +114,20 @@
         text-underline-offset: 0.2em;
       }
 
+      /* Sind die Produkte im Adminbereich ausgeblendet, steht statt der
+         Tabelle nur ein Hinweis. Dann entfallen die feste Mindestbreite
+         und die Trennlinie. */
+      table:has(.list-leer) {
+        min-width: 0;
+      }
+
+      .list-leer td {
+        padding-left: 0;
+        border-bottom: none;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
     </style>
   </head>
   <body>

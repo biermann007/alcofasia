@@ -5,15 +5,17 @@
 // Eigenes Modul, damit sich Worker und Adminbereich nicht gegenseitig
 // importieren müssen.
 
-import { loadCountries, loadBuddhaTexte } from "./db.js";
+import { loadCountries, loadBuddhaTexte, loadEinstellungen, EINSTELLUNGEN_STANDARD } from "./db.js";
 
 const CACHE_MS = 30_000;
 let cache = { zeit: 0, daten: null };
 let buddhaCache = { zeit: 0, daten: null };
+let einstellungenCache = { zeit: 0, daten: null };
 
 export function cacheLeeren() {
   cache = { zeit: 0, daten: null };
   buddhaCache = { zeit: 0, daten: null };
+  einstellungenCache = { zeit: 0, daten: null };
 }
 
 export async function laenderMitCache(env) {
@@ -57,5 +59,27 @@ export async function buddhaTexteOderLeer(env) {
   } catch (fehler) {
     console.error("Buddha-Texte konnten nicht geladen werden:", fehler);
     return { texte: {}, fehler: String(fehler?.message ?? fehler) };
+  }
+}
+
+/**
+ * Die seitenweiten Schalter, ebenfalls mit Auffangnetz: Fehlt die Tabelle noch
+ * (Migration 0005 nicht eingespielt) oder ist die Datenbank kurz nicht
+ * erreichbar, gilt der Standard – und der entspricht dem bisherigen Verhalten.
+ * So kann das Einspielen der Migration den laufenden Betrieb nicht stören,
+ * egal in welcher Reihenfolge Migration und Deploy passieren.
+ */
+export async function einstellungenOderStandard(env) {
+  const jetzt = Date.now();
+  if (einstellungenCache.daten && jetzt - einstellungenCache.zeit < CACHE_MS) {
+    return { einstellungen: einstellungenCache.daten, fehler: null };
+  }
+  try {
+    const daten = await loadEinstellungen(env);
+    einstellungenCache = { zeit: jetzt, daten };
+    return { einstellungen: daten, fehler: null };
+  } catch (fehler) {
+    console.error("Einstellungen konnten nicht geladen werden:", fehler);
+    return { einstellungen: { ...EINSTELLUNGEN_STANDARD }, fehler: String(fehler?.message ?? fehler) };
   }
 }

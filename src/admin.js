@@ -5,9 +5,24 @@
 // Das hält den Code klein und kommt ohne Bauschritt aus.
 
 import { angemeldeterBenutzer } from "./access.js";
-import { loadCountries, loadCountry, saveCountry, protokolliereRecherche, loadBuddhaTexte, saveBuddhaTexte } from "./db.js";
+import {
+  loadCountries, loadCountry, saveCountry, protokolliereRecherche,
+  loadBuddhaTexte, saveBuddhaTexte, loadEinstellungen, saveEinstellungen,
+  EINSTELLUNGEN_STANDARD
+} from "./db.js";
 import { landRecherchieren, felderUebersetzen } from "./research.js";
 import { cacheLeeren } from "./cache.js";
+
+// Die Einstellungen dürfen den Adminbereich nie blockieren: fehlt die Tabelle
+// noch (Migration 0005 nicht eingespielt), gilt der bisherige Zustand.
+async function einstellungenLesen(env) {
+  try {
+    return await loadEinstellungen(env);
+  } catch (fehler) {
+    console.error("Einstellungen konnten im Admin nicht geladen werden:", fehler);
+    return { ...EINSTELLUNGEN_STANDARD };
+  }
+}
 
 const escapeHtml = (value) =>
   String(value ?? "")
@@ -92,7 +107,30 @@ const seite = (titel, inhalt) => `<!doctype html>
 
 // ------------------------------------------------------------------ Übersicht
 
-function uebersichtSeite(countries, benutzer) {
+// Zeigt an einer Stelle, ob Produkte gerade öffentlich sichtbar sind.
+// Erscheint auf der Übersicht und auf jeder Länderseite, damit der Zustand
+// nicht übersehen werden kann.
+const produkteBanner = (einstellungen) =>
+  einstellungen.produkte_anzeigen
+    ? ""
+    : `
+    <p class="meldung" style="border-color:#a8791f;color:#a8791f">
+      <strong>Produkte sind zurzeit überall ausgeblendet.</strong>
+      Der Hauptschalter steht auf „aus“, deshalb erscheinen auf der Seite weder Produktkarten
+      noch die Produkttabelle unter /list – unabhängig davon, was bei den einzelnen Ländern steht.
+      Texte, Fakten und Quellen sind unverändert sichtbar.
+      <a href="/admin/einstellungen">Einstellungen öffnen</a>
+    </p>`;
+
+// Nur eine ausdrückliche 0 blendet ein Land aus; fehlt die Spalte noch, gilt
+// „zeigen“ (siehe landZeigtProdukte in render.js).
+const landZeigtProdukte = (c) => {
+  const wert = c?.produkte_anzeigen;
+  if (wert == null) return true;
+  return !(wert === 0 || wert === "0" || wert === false);
+};
+
+function uebersichtSeite(countries, benutzer, einstellungen) {
   const zeilen = countries
     .map((c) => {
       const produkte = c.producers.reduce((n, p) => n + p.products.length, 0);
@@ -105,7 +143,11 @@ function uebersichtSeite(countries, benutzer) {
           }</td>
           <td>${escapeHtml(c.spirit_de ?? "–")}</td>
           <td>${c.producers.length || "–"}</td>
-          <td>${produkte || "–"}</td>
+          <td>${produkte || "–"}${
+            landZeigtProdukte(c)
+              ? ""
+              : ' <span class="status status-entwurf" title="Produkte dieses Landes sind ausgeblendet">aus</span>'
+          }</td>
           <td>${c.sources.length || "–"}</td>
           <td>${escapeHtml((c.updated_at ?? "").slice(0, 10) || "–")}</td>
         </tr>`;
@@ -114,6 +156,7 @@ function uebersichtSeite(countries, benutzer) {
 
   const gepflegt = countries.filter((c) => c.status === "veroeffentlicht").length;
   const entwuerfe = countries.filter((c) => c.status === "entwurf").length;
+  const ohneProdukte = countries.filter((c) => !landZeigtProdukte(c)).length;
 
   return seite(
     "Übersicht",
@@ -123,8 +166,19 @@ function uebersichtSeite(countries, benutzer) {
       Angemeldet als ${escapeHtml(benutzer)} ·
       ${countries.length} Länder, davon ${gepflegt} veröffentlicht und ${entwuerfe} im Entwurf ·
       <a href="/">Zur Seite</a> ·
-      <a href="/admin/buddha">Buddha-Seite</a>
+      <a href="/admin/buddha">Buddha-Seite</a> ·
+      <a href="/admin/einstellungen">Einstellungen</a> ·
+      Produkte: ${
+        einstellungen.produkte_anzeigen
+          ? '<span class="status status-veroeffentlicht">sichtbar</span>'
+          : '<span class="status status-entwurf">überall aus</span>'
+      }${
+        ohneProdukte
+          ? ` · ${ohneProdukte} ${ohneProdukte === 1 ? "Land" : "Länder"} ohne Produkte`
+          : ""
+      }
     </p>
+    ${produkteBanner(einstellungen)}
     <table>
       <thead>
         <tr>
@@ -221,9 +275,156 @@ function buddhaSeite(texte, benutzer) {
   );
 }
 
+// ------------------------------------------------------------- Einstellungen
+//
+// Seitenweite Schalter. Bisher genau einer: ob Produkte öffentlich gezeigt
+// werden. Ausschalten verlangt eine ausdrückliche Bestätigung – die prüft
+// zusätzlich der Server, ein versehentlicher Aufruf der Schnittstelle blendet
+// die Produkte also nicht aus.
+
+const EINSTELLUNGEN_SKRIPT = String.raw`
+const formular = document.getElementById("formular");
+const haken = document.getElementById("haken");
+const rueckfrage = document.getElementById("rueckfrage");
+const zustand = document.getElementById("zustand");
+const statusText = document.getElementById("status-text");
+const meldungen = document.getElementById("meldungen");
+
+// Der zuletzt gespeicherte Zustand. Dient dem Abbrechen und der Anzeige.
+let gespeichert = haken.checked;
+
+const melden = (text, art = "erfolg") => {
+  meldungen.innerHTML = '<div class="meldung ' + art + '">' + text + "</div>";
+  meldungen.scrollIntoView({ behavior: "smooth", block: "nearest" });
+};
+
+const zustandZeigen = () => {
+  zustand.innerHTML = gespeichert
+    ? "Gespeicherter Zustand: Produkte sind auf der Seite <strong>sichtbar</strong>."
+    : "Gespeicherter Zustand: Produkte sind auf der Seite <strong>ausgeblendet</strong>.";
+};
+
+zustandZeigen();
+
+async function senden(bestaetigt) {
+  statusText.textContent = "Speichert …";
+  try {
+    const antwort = await fetch("/admin/api/einstellungen", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ produkte_anzeigen: haken.checked, bestaetigt: bestaetigt })
+    });
+    const ergebnis = await antwort.json().catch(() => ({ fehler: "Antwort war kein JSON" }));
+    if (!antwort.ok) throw new Error(ergebnis.fehler ?? ("Fehler " + antwort.status));
+    gespeichert = haken.checked;
+    rueckfrage.classList.add("verborgen");
+    statusText.textContent = "";
+    zustandZeigen();
+    melden(
+      gespeichert
+        ? "Gespeichert. Die Produkte erscheinen innerhalb einer halben Minute wieder auf der Seite."
+        : "Gespeichert. Die Produkte verschwinden innerhalb einer halben Minute von der Seite. Die Daten bleiben erhalten."
+    );
+  } catch (fehler) {
+    statusText.textContent = "";
+    melden("Speichern fehlgeschlagen: " + fehler.message, "fehler");
+  }
+}
+
+formular.addEventListener("submit", (ereignis) => {
+  ereignis.preventDefault();
+  if (haken.checked === gespeichert) {
+    melden("Nichts zu speichern – der Haken steht schon so.", "erfolg");
+    return;
+  }
+  // Einschalten geht ohne Rückfrage, Ausschalten nicht.
+  if (haken.checked) {
+    senden(true);
+    return;
+  }
+  rueckfrage.classList.remove("verborgen");
+  rueckfrage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
+
+document.getElementById("ausblenden-ja").addEventListener("click", () => senden(true));
+
+document.getElementById("ausblenden-nein").addEventListener("click", () => {
+  haken.checked = gespeichert;
+  rueckfrage.classList.add("verborgen");
+  melden("Abgebrochen. Es wurde nichts geändert.", "erfolg");
+});
+
+// Wer den Haken wieder setzt, braucht die offene Rückfrage nicht mehr.
+haken.addEventListener("change", () => {
+  if (haken.checked) rueckfrage.classList.add("verborgen");
+});
+`;
+
+function einstellungenSeite(einstellungen, benutzer) {
+  return seite(
+    "Einstellungen",
+    `
+    <p class="hinweis"><a href="/admin">← Alle Länder</a> · angemeldet als ${escapeHtml(benutzer)}</p>
+    <h1>Einstellungen</h1>
+    <p class="hinweis">
+      Seitenweite Schalter. Sie wirken auf der Seite innerhalb einer halben Minute.
+      Ob ein <em>einzelnes</em> Land Produkte zeigt, entscheidest du auf der Seite des Landes;
+      der Schalter hier liegt als Not-Aus darüber.
+    </p>
+
+    <div id="meldungen"></div>
+
+    <form id="formular">
+      <h2>Produkte</h2>
+      <fieldset>
+        <legend>Gilt für die gesamte Seite</legend>
+        <label style="display:flex;gap:0.5rem;align-items:flex-start">
+          <input type="checkbox" id="haken" name="produkte_anzeigen" style="width:auto;margin-top:0.25rem"${
+            einstellungen.produkte_anzeigen ? " checked" : ""
+          }>
+          <span>
+            <strong>Produkte auf der Seite anbieten</strong><br>
+            <span style="color:var(--gedaempft)">
+              Haken gesetzt (Normalfall): jedes Land entscheidet selbst – über den
+              Haken „Produkte dieses Landes anbieten" auf seiner Länderseite.<br>
+              Haken entfernt: Produkte verschwinden <strong>überall</strong>, auch bei
+              Ländern mit gesetztem Haken. Fließtext, Faktenliste, rechtliche
+              Hinweise, Quellen, Karte, Buddha-Seite und Arena bleiben unverändert.
+              Die Produktdaten bleiben in der Datenbank und kommen beim
+              Wiedereinschalten vollständig zurück.
+            </span>
+          </span>
+        </label>
+      </fieldset>
+
+      <p id="zustand" class="hinweis"></p>
+
+      <div id="rueckfrage" class="meldung fehler verborgen">
+        <p style="margin:0 0 0.6rem">
+          <strong>Produkte wirklich ausblenden?</strong><br>
+          Danach zeigt die Seite in keinem Land mehr Produkte, und die
+          Produkttabelle unter /list ist leer. Nichts wird gelöscht – der Haken
+          bringt alles unverändert zurück.
+        </p>
+        <div class="zeile">
+          <button type="button" id="ausblenden-ja" class="haupt">Ja, Produkte ausblenden</button>
+          <button type="button" id="ausblenden-nein">Abbrechen</button>
+        </div>
+      </div>
+
+      <div class="leiste">
+        <button type="submit" class="haupt">Speichern</button>
+        <span id="status-text" style="color:var(--gedaempft)"></span>
+      </div>
+    </form>
+
+    <script>${EINSTELLUNGEN_SKRIPT}</script>`
+  );
+}
+
 // ------------------------------------------------------------ Bearbeitungsseite
 
-function bearbeitenSeite(country, benutzer) {
+function bearbeitenSeite(country, benutzer, einstellungen) {
   return seite(
     country.name_de,
     `
@@ -234,6 +435,7 @@ function bearbeitenSeite(country, benutzer) {
       Links steht immer Deutsch, rechts Englisch.
     </p>
 
+    ${produkteBanner(einstellungen)}
     <div id="meldungen"></div>
     <div id="vorschlagsbereich"></div>
 
@@ -258,6 +460,25 @@ function bearbeitenSeite(country, benutzer) {
       </fieldset>
 
       <fieldset>
+        <legend>Produkte dieses Landes</legend>
+        <label style="display:flex;gap:0.5rem;align-items:flex-start">
+          <input type="checkbox" name="produkte_anzeigen" style="width:auto;margin-top:0.25rem">
+          <span>
+            <strong>Produkte dieses Landes anbieten</strong><br>
+            <span style="color:var(--gedaempft)">
+              Haken gesetzt: Hersteller- und Produktkarten erscheinen in der Länderansicht,
+              und die Zeilen dieses Landes stehen in der Produkttabelle unter /list.<br>
+              Haken entfernt: beides entfällt für dieses Land. Fließtext, Faktenliste,
+              rechtlicher Hinweis, Quellen und die Farbe auf der Karte bleiben unverändert.
+              Hersteller und Produkte bleiben unten bearbeitbar und in der Datenbank erhalten.<br>
+              Der Hauptschalter unter <a href="/admin/einstellungen">Einstellungen</a> liegt darüber:
+              steht er auf „aus“, zeigt auch ein Land mit Haken keine Produkte.
+            </span>
+          </span>
+        </label>
+      </fieldset>
+
+      <fieldset>
         <legend>Spirituose und Untertitel</legend>
         <div class="paar">
           <label>Spirituose (deutsch)<input name="spirit_de"></label>
@@ -276,6 +497,17 @@ function bearbeitenSeite(country, benutzer) {
       <button type="button" class="klein" data-hinzufuegen="fakt">+ Zeile</button>
 
       <h2>Hersteller und Produkte</h2>
+      ${
+        !einstellungen.produkte_anzeigen
+          ? `<p class="hinweis">Diese Angaben werden zurzeit nicht öffentlich gezeigt –
+             der Hauptschalter unter <a href="/admin/einstellungen">Einstellungen</a> steht auf
+             „ausgeblendet". Bearbeiten und Speichern geht trotzdem.</p>`
+          : landZeigtProdukte(country)
+            ? ""
+            : `<p class="hinweis">Für dieses Land sind die Produkte ausgeblendet – der Haken
+               „Produkte dieses Landes anbieten" oben ist nicht gesetzt. Bearbeiten und
+               Speichern geht trotzdem, gezeigt wird nichts davon.</p>`
+      }
       <div id="hersteller"></div>
       <button type="button" class="klein" data-hinzufuegen="hersteller">+ Hersteller</button>
 
@@ -435,6 +667,9 @@ function formularFuellen(daten) {
     if (eingabe) eingabe.value = daten[feld] ?? "";
   }
   formular.elements.alkoholverbot.checked = Boolean(Number(daten.alkoholverbot ?? 0));
+  // Fehlt das Feld – alter Datensatz oder Migration noch nicht eingespielt –
+  // gilt der bisherige Zustand: Produkte zeigen.
+  formular.elements.produkte_anzeigen.checked = Number(daten.produkte_anzeigen ?? 1) !== 0;
   for (const k of Object.keys(bereiche)) bereiche[k].replaceChildren();
   for (const p of listeErzwingen(daten.paragraphs)) bereiche.absaetze.append(absatzBlock(p));
   for (const f of listeErzwingen(daten.facts)) bereiche.fakten.append(faktBlock(f));
@@ -474,6 +709,7 @@ function formularLesen() {
     if (eingabe) daten[feld] = eingabe.value.trim() || null;
   }
   daten.alkoholverbot = formular.elements.alkoholverbot.checked ? 1 : 0;
+  daten.produkte_anzeigen = formular.elements.produkte_anzeigen.checked ? 1 : 0;
   daten.paragraphs = [...bereiche.absaetze.children].map(blockLesen);
   daten.facts = [...bereiche.fakten.children].map(blockLesen);
   daten.sources = [...bereiche.quellen.children].map(blockLesen);
@@ -668,7 +904,41 @@ export async function handleAdmin(request, env, optionen = {}) {
 
   try {
     if (pfad === "/admin" && request.method === "GET") {
-      return html(uebersichtSeite(await loadCountries(env), benutzer));
+      const [countries, einstellungen] = await Promise.all([loadCountries(env), einstellungenLesen(env)]);
+      return html(uebersichtSeite(countries, benutzer, einstellungen));
+    }
+
+    if (pfad === "/admin/einstellungen" && request.method === "GET") {
+      return html(einstellungenSeite(await einstellungenLesen(env), benutzer));
+    }
+
+    if (pfad === "/admin/api/einstellungen" && request.method === "POST") {
+      const daten = await request.json();
+      const anzeigen = Boolean(daten.produkte_anzeigen);
+
+      // Ausblenden trifft die ganze Seite. Deshalb verlangt auch der Server
+      // die ausdrückliche Bestätigung, nicht nur das Formular.
+      if (!anzeigen && daten.bestaetigt !== true) {
+        return json({ fehler: "Das Ausblenden der Produkte muss bestätigt werden." }, 400);
+      }
+
+      try {
+        await saveEinstellungen(env, { produkte_anzeigen: anzeigen }, benutzer);
+      } catch (fehler) {
+        // Häufigster Fall: die Migration 0005 ist noch nicht eingespielt.
+        // Lesen fällt dann still auf "anzeigen" zurück, Schreiben kann nicht –
+        // deshalb hier ein Klartext-Hinweis statt der rohen SQL-Meldung.
+        if (/no such table|einstellungen/i.test(String(fehler?.message ?? ""))) {
+          return json({
+            fehler: "Die Tabelle für die Einstellungen fehlt noch. Bitte einmalig " +
+                    "migrations/0005_einstellungen.sql einspielen. Bis dahin werden " +
+                    "die Produkte unverändert angezeigt."
+          }, 503);
+        }
+        throw fehler;
+      }
+      cacheLeeren();
+      return json({ ok: true, produkte_anzeigen: anzeigen });
     }
 
     if (pfad === "/admin/buddha" && request.method === "GET") {
@@ -683,9 +953,12 @@ export async function handleAdmin(request, env, optionen = {}) {
 
     const bearbeiten = pfad.match(/^\/admin\/land\/([a-z0-9-]+)$/);
     if (bearbeiten && request.method === "GET") {
-      const country = await loadCountry(env, bearbeiten[1]);
+      const [country, einstellungen] = await Promise.all([
+        loadCountry(env, bearbeiten[1]),
+        einstellungenLesen(env)
+      ]);
       if (!country) return html(seite("Nicht gefunden", "<h1>Land nicht gefunden</h1>"), 404);
-      return html(bearbeitenSeite(country, benutzer));
+      return html(bearbeitenSeite(country, benutzer, einstellungen));
     }
 
     const speichern = pfad.match(/^\/admin\/api\/land\/([a-z0-9-]+)$/);
