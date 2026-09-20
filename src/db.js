@@ -262,3 +262,14 @@ export async function protokolliereRecherche(env, countryId, eintrag) {
   ).first();
   return row.id;
 }
+
+/** Letzter Recherche-Lauf ohne Fehler – für den Hinweis vor einem erneuten Lauf. */
+export async function letzteErfolgreicheRecherche(env, countryId) {
+  return env.DB.prepare(
+    `SELECT created_at, model, status, input_tokens, output_tokens
+     FROM research_runs
+     WHERE country_id = ? AND status != 'fehler'
+     ORDER BY created_at DESC
+     LIMIT 1`
+  ).bind(countryId).first();
+}

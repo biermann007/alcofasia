@@ -8,6 +8,7 @@
 
 const API = "https://api.anthropic.com/v1/messages";
 const STANDARD_MODELL = "claude-sonnet-4-5";
+const STANDARD_UEBERSETZ_MODELL = "claude-haiku-4-5";
 
 const PRODUKT_SCHEMA = {
   type: "object",
@@ -92,7 +93,7 @@ const VORSCHLAG_SCHEMA = {
 const ANWEISUNG = `Du recherchierst für alcofasia.com, eine zweisprachige Übersicht über die landestypischen Spirituosen Asiens.
 
 Vorgehen:
-- Recherchiere mit der Websuche. Stütze jede Angabe auf eine Quelle, bevorzugt Herstellerseiten, Branchenverbände oder amtliche Stellen.
+- Recherchiere mit der Websuche – wenige gezielte Suchen, zuerst Hersteller und amtliche Quellen, nicht breit streuen. Stütze jede Angabe auf eine Quelle, bevorzugt Herstellerseiten, Branchenverbände oder amtliche Stellen.
 - Wähle die landestypische Spirituose, nicht ein importiertes Produkt. Ist das bekannteste alkoholische Getränk keine Spirituose (etwa Sake, der gebraut wird), benenne das und wähle die tatsächliche Spirituose.
 - Wähle bis zu drei etablierte Hersteller und je drei Abfüllungen in den Stufen low, standard und premium.
 - Gibt es im Land keine legal vermarktete nationale Spirituose, setze keine_legale_auswahl auf true, lasse producers leer und beschreibe die Rechtslage in den Absätzen.
@@ -102,7 +103,7 @@ Ton: sachlich, knapp, keine Werbesprache, keine Kaufempfehlungen. Du schreibst a
 
 Erfinde nichts. Was du nicht belegen kannst, lässt du weg und trägst es in unsicherheiten ein. Lieber zwei belegte Hersteller als drei, von denen einer geraten ist.`;
 
-async function anthropicAufrufen(env, { system, messages, tools, tool_choice, max_tokens }) {
+async function anthropicAufrufen(env, { system, messages, tools, tool_choice, max_tokens, model }) {
   if (!env.ANTHROPIC_API_KEY) {
     throw new Error("ANTHROPIC_API_KEY ist nicht gesetzt. Ohne Schlüssel kann nicht recherchiert werden.");
   }
@@ -115,7 +116,7 @@ async function anthropicAufrufen(env, { system, messages, tools, tool_choice, ma
       "anthropic-version": "2023-06-01"
     },
     body: JSON.stringify({
-      model: env.ANTHROPIC_MODEL || STANDARD_MODELL,
+      model: model || env.ANTHROPIC_MODEL || STANDARD_MODELL,
       max_tokens: max_tokens ?? 8000,
       system,
       messages,
@@ -154,7 +155,7 @@ export async function landRecherchieren(env, country) {
 
   const ergebnis = await anthropicAufrufen(env, {
     system: ANWEISUNG,
-    max_tokens: 12000,
+    max_tokens: 8000,
     messages: [
       {
         role: "user",
@@ -162,7 +163,7 @@ export async function landRecherchieren(env, country) {
       }
     ],
     tools: [
-      { type: "web_search_20250305", name: "web_search", max_uses: 12 },
+      { type: "web_search_20250305", name: "web_search", max_uses: 8 },
       {
         name: "laenderdaten_vorschlagen",
         description: "Übergibt den fertig recherchierten Länderdatensatz an die Redaktion.",
@@ -266,6 +267,7 @@ export async function felderUebersetzen(env, felder) {
   if (!zuUebersetzen.length) return {};
 
   const ergebnis = await anthropicAufrufen(env, {
+    model: env.ANTHROPIC_TRANSLATE_MODEL || STANDARD_UEBERSETZ_MODELL,
     system:
       "Du übersetzt redaktionelle Texte einer Spirituosen-Übersicht aus dem Deutschen ins Englische. " +
       "Sachlich und knapp, keine Werbesprache. Eigennamen, Marken und Ortsnamen bleiben unverändert. " +

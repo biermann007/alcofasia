@@ -7,8 +7,8 @@
 import { angemeldeterBenutzer } from "./access.js";
 import {
   loadCountries, loadCountry, saveCountry, protokolliereRecherche,
-  loadBuddhaTexte, saveBuddhaTexte, loadEinstellungen, saveEinstellungen,
-  EINSTELLUNGEN_STANDARD
+  letzteErfolgreicheRecherche, loadBuddhaTexte, saveBuddhaTexte,
+  loadEinstellungen, saveEinstellungen, EINSTELLUNGEN_STANDARD
 } from "./db.js";
 import { landRecherchieren, felderUebersetzen } from "./research.js";
 import { cacheLeeren } from "./cache.js";
@@ -424,7 +424,22 @@ function einstellungenSeite(einstellungen, benutzer) {
 
 // ------------------------------------------------------------ Bearbeitungsseite
 
-function bearbeitenSeite(country, benutzer, einstellungen) {
+function hinweisLetzteRecherche(lauf) {
+  if (!lauf) return "";
+  const wann = escapeHtml(lauf.created_at ?? "");
+  const modell = lauf.model ? ` · ${escapeHtml(lauf.model)}` : "";
+  const tokens =
+    lauf.input_tokens != null || lauf.output_tokens != null
+      ? ` · ${lauf.input_tokens ?? "?"} in / ${lauf.output_tokens ?? "?"} out`
+      : "";
+  return `
+    <p class="hinweis" id="hinweis-recherche" style="margin-bottom:0.75rem">
+      Letzte erfolgreiche Recherche: ${wann}${modell}${tokens}.
+      Ein erneuter Lauf erzeugt neue Kosten; der bestehende Stand wird nicht automatisch überschrieben.
+    </p>`;
+}
+
+function bearbeitenSeite(country, benutzer, einstellungen, letzteRecherche = null) {
   return seite(
     country.name_de,
     `
@@ -537,6 +552,7 @@ function bearbeitenSeite(country, benutzer, einstellungen) {
         </div>
       </fieldset>
 
+      ${hinweisLetzteRecherche(letzteRecherche)}
       <div class="leiste">
         <button type="submit" class="haupt">Speichern</button>
         <button type="button" id="recherchieren">Recherchieren</button>
@@ -545,7 +561,16 @@ function bearbeitenSeite(country, benutzer, einstellungen) {
       </div>
     </form>
 
-    <script id="daten" type="application/json">${JSON.stringify(country).replaceAll("<", "\\u003c")}</script>
+    <script id="daten" type="application/json">${JSON.stringify({
+      ...country,
+      _letzteRecherche: letzteRecherche
+        ? {
+            created_at: letzteRecherche.created_at,
+            model: letzteRecherche.model,
+            status: letzteRecherche.status
+          }
+        : null
+    }).replaceAll("<", "\\u003c")}</script>
     <script>${ADMIN_SKRIPT}</script>`
   );
 }
@@ -748,6 +773,10 @@ formular.addEventListener("submit", async (ereignis) => {
 });
 
 document.getElementById("uebersetzen").addEventListener("click", async () => {
+  const knopfRecherche = document.getElementById("recherchieren");
+  const knopfUebersetzen = document.getElementById("uebersetzen");
+  knopfRecherche.disabled = true;
+  knopfUebersetzen.disabled = true;
   statusText.textContent = "Übersetzt …";
   try {
     const { daten } = await ruf("/admin/api/uebersetzen/" + land.slug, formularLesen());
@@ -757,6 +786,9 @@ document.getElementById("uebersetzen").addEventListener("click", async () => {
   } catch (fehler) {
     statusText.textContent = "";
     melden("Übersetzen fehlgeschlagen: " + fehler.message, "fehler");
+  } finally {
+    knopfRecherche.disabled = false;
+    knopfUebersetzen.disabled = false;
   }
 });
 
@@ -765,9 +797,21 @@ document.getElementById("uebersetzen").addEventListener("click", async () => {
 const bereichVorschlag = document.getElementById("vorschlagsbereich");
 
 document.getElementById("recherchieren").addEventListener("click", async () => {
-  // Die Recherche braucht je nach Land einige Minuten: bis zu zwölf Websuchen
+  // Die Recherche braucht je nach Land einige Minuten: bis zu acht Websuchen
   // plus das Schreiben des ganzen Datensatzes. Die mitlaufende Uhr zeigt,
   // dass nichts hängt.
+  if (land._letzteRecherche || land.spirit_de) {
+    const wann = land._letzteRecherche?.created_at
+      ? " (zuletzt " + land._letzteRecherche.created_at + ")"
+      : "";
+    if (!confirm("Es gibt bereits Recherche- oder Länderdaten" + wann + ". Erneut ausführen?")) return;
+  }
+
+  const knopfRecherche = document.getElementById("recherchieren");
+  const knopfUebersetzen = document.getElementById("uebersetzen");
+  knopfRecherche.disabled = true;
+  knopfUebersetzen.disabled = true;
+
   const start = Date.now();
   const anzeige = () => {
     const s = Math.round((Date.now() - start) / 1000);
@@ -785,6 +829,8 @@ document.getElementById("recherchieren").addEventListener("click", async () => {
   } finally {
     clearInterval(uhr);
     statusText.textContent = "";
+    knopfRecherche.disabled = false;
+    knopfUebersetzen.disabled = false;
   }
 });
 
@@ -958,7 +1004,8 @@ export async function handleAdmin(request, env, optionen = {}) {
         einstellungenLesen(env)
       ]);
       if (!country) return html(seite("Nicht gefunden", "<h1>Land nicht gefunden</h1>"), 404);
-      return html(bearbeitenSeite(country, benutzer, einstellungen));
+      const letzteRecherche = await letzteErfolgreicheRecherche(env, country.id);
+      return html(bearbeitenSeite(country, benutzer, einstellungen, letzteRecherche));
     }
 
     const speichern = pfad.match(/^\/admin\/api\/land\/([a-z0-9-]+)$/);
