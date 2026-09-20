@@ -1,0 +1,10 @@
+# Keep Cursor/agent context lean; these are large or generated and rarely needed.
+node_modules/
+.wrangler/
+package-lock.json
+content/seed.json
+migrations/0002_seed.sql
+public/asia.svg
+*.sqlite
+*.db
+*.log
