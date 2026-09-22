@@ -58,7 +58,9 @@
     // verweigert /admin bewusst den Dienst.
     "ACCESS_TEAM_DOMAIN": "rfpb.cloudflareaccess.com",
     "ACCESS_AUD": "340b84a04db06e1af4e7353c5ec95dcb46e452bd449ac400a94e1432a1bde0f6",
-    "ANTHROPIC_MODEL": "claude-sonnet-4-5"
+    // Recherche bleibt auf Sonnet; Übersetzung (felderUebersetzen) nutzt Haiku.
+    "ANTHROPIC_MODEL": "claude-sonnet-4-5",
+    "ANTHROPIC_TRANSLATE_MODEL": "claude-haiku-4-5"
   },
   "observability": {
     "enabled": true

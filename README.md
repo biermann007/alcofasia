@@ -53,6 +53,15 @@ npx wrangler secret put ANTHROPIC_API_KEY
 npm run deploy
 ```
 
+Die Modelle stecken in `wrangler.jsonc` unter `vars` (kein Secret):
+
+| Variable | Default | Verwendung |
+| --- | --- | --- |
+| `ANTHROPIC_MODEL` | `claude-sonnet-4-5` | Länderrecherche mit Websuche |
+| `ANTHROPIC_TRANSLATE_MODEL` | `claude-haiku-4-5` | „Englisch ergänzen“ (`felderUebersetzen`) |
+
+`ANTHROPIC_API_KEY` bleibt Secret; die Modellnamen sind bewusst öffentliche Vars.
+
 ### Adminbereich absichern
 
 Der Adminbereich ist erst nutzbar, wenn Cloudflare Access davor liegt. Ohne die
