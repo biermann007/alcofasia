@@ -93,7 +93,7 @@ const VORSCHLAG_SCHEMA = {
 const ANWEISUNG = `Du recherchierst für alcofasia.com, eine zweisprachige Übersicht über die landestypischen Spirituosen Asiens.
 
 Vorgehen:
-- Recherchiere mit der Websuche – wenige gezielte Suchen, zuerst Hersteller und amtliche Quellen, nicht breit streuen. Stütze jede Angabe auf eine Quelle, bevorzugt Herstellerseiten, Branchenverbände oder amtliche Stellen.
+- Recherchiere mit der Websuche – wenige gezielte Suchen, zuerst Hersteller und amtliche Quellen, nicht breit streuen. Nutze die Suchfilterung: behalte nur Treffer zu landestypischer Spirituose, Herstellern und Rechtslage; Tourismus-, Rezept- und Shop-Listen ohne Belegwert verwerfen. Stütze jede Angabe auf eine Quelle, bevorzugt Herstellerseiten, Branchenverbände oder amtliche Stellen.
 - Wähle die landestypische Spirituose, nicht ein importiertes Produkt. Ist das bekannteste alkoholische Getränk keine Spirituose (etwa Sake, der gebraut wird), benenne das und wähle die tatsächliche Spirituose.
 - Wähle bis zu drei etablierte Hersteller und je drei Abfüllungen in den Stufen low, standard und premium.
 - Gibt es im Land keine legal vermarktete nationale Spirituose, setze keine_legale_auswahl auf true, lasse producers leer und beschreibe die Rechtslage in den Absätzen.
@@ -102,6 +102,96 @@ Vorgehen:
 Ton: sachlich, knapp, keine Werbesprache, keine Kaufempfehlungen. Du schreibst ausschließlich die deutschen Felder; die englische Fassung entsteht später in einem eigenen Übersetzungsschritt.
 
 Erfinde nichts. Was du nicht belegen kannst, lässt du weg und trägst es in unsicherheiten ein. Lieber zwei belegte Hersteller als drei, von denen einer geraten ist.`;
+
+const CACHE_EPHEMERAL = { type: "ephemeral" };
+
+/** Systemprompt als Textblock mit Cache-Breakpoint (TTL 5 Min). */
+function systemMitCache(text) {
+  return [{ type: "text", text, cache_control: CACHE_EPHEMERAL }];
+}
+
+/** Cache-Breakpoint auf dem letzten Tool – cached die gesamte tools-Präfix. */
+function toolsMitCache(tools) {
+  if (!tools?.length) return tools;
+  return tools.map((tool, i) =>
+    i === tools.length - 1 ? { ...tool, cache_control: CACHE_EPHEMERAL } : tool
+  );
+}
+
+/**
+ * Dynamische Filterung (Code Execution vor dem Kontextfenster) ab Claude 4.6.
+ * Sonnet 4.5 braucht allowed_callers: ["direct"], sonst 400.
+ */
+function unterstuetztDynamischeFilterung(modell) {
+  const m = String(modell || "").toLowerCase();
+  if (m.includes("mythos")) return true;
+  const treffer = m.match(/claude-(?:opus|sonnet|haiku)-(\d+)-(\d+)/);
+  if (!treffer) return false;
+  const major = Number(treffer[1]);
+  const minor = Number(treffer[2]);
+  return major > 4 || (major === 4 && minor >= 6);
+}
+
+/** web_search_20260209: dynamische Filterung wo das Modell sie kann; max_uses 8. */
+function webSucheWerkzeug(modell) {
+  const tool = {
+    type: "web_search_20260209",
+    name: "web_search",
+    max_uses: 8
+  };
+  if (!unterstuetztDynamischeFilterung(modell)) {
+    tool.allowed_callers = ["direct"];
+  }
+  return tool;
+}
+
+/**
+ * usage.input_tokens zählt nach Caching nur Tokens hinter dem Breakpoint.
+ * Für research_runs speichern wir die Gesamteingabe (Read + Write + Rest),
+ * damit bestehende Token-Vergleiche nicht kippen. Cache-Felder zusätzlich loggen.
+ */
+function usageZusammenfassen(usage) {
+  if (!usage) {
+    return {
+      input_tokens: null,
+      output_tokens: null,
+      cache_creation_input_tokens: null,
+      cache_read_input_tokens: null
+    };
+  }
+  const cacheCreation = usage.cache_creation_input_tokens ?? 0;
+  const cacheRead = usage.cache_read_input_tokens ?? 0;
+  const uncached = usage.input_tokens ?? 0;
+  const inputGesamt = uncached + cacheCreation + cacheRead;
+  console.log("[anthropic usage]", {
+    input_tokens_uncached: uncached,
+    input_tokens_gesamt: inputGesamt,
+    output_tokens: usage.output_tokens ?? null,
+    cache_creation_input_tokens: cacheCreation,
+    cache_read_input_tokens: cacheRead
+  });
+  return {
+    input_tokens: inputGesamt,
+    output_tokens: usage.output_tokens ?? null,
+    cache_creation_input_tokens: cacheCreation,
+    cache_read_input_tokens: cacheRead
+  };
+}
+
+/** URLs aus web_search_tool_result, inkl. verschachtelter Blöcke (Filterung). */
+function urlsAusSuche(bloecke) {
+  const urls = [];
+  for (const b of bloecke ?? []) {
+    if (!b || typeof b !== "object") continue;
+    if (b.type === "web_search_tool_result" && Array.isArray(b.content)) {
+      for (const t of b.content) {
+        if (t?.url) urls.push(t.url);
+      }
+    }
+    if (Array.isArray(b.content)) urls.push(...urlsAusSuche(b.content));
+  }
+  return urls;
+}
 
 async function anthropicAufrufen(env, { system, messages, tools, tool_choice, max_tokens, model }) {
   if (!env.ANTHROPIC_API_KEY) {
@@ -142,6 +232,7 @@ async function anthropicAufrufen(env, { system, messages, tools, tool_choice, ma
  * Recherchiert ein Land und liefert einen strukturierten Vorschlag.
  */
 export async function landRecherchieren(env, country) {
+  const modell = env.ANTHROPIC_MODEL || STANDARD_MODELL;
   const bestand = country.status === "veroeffentlicht"
     ? `\n\nEs gibt bereits einen gepflegten Stand. Prüfe ihn, ergänze Lücken und korrigiere Veraltetes:\n${JSON.stringify(
         {
@@ -154,7 +245,8 @@ export async function landRecherchieren(env, country) {
     : "";
 
   const ergebnis = await anthropicAufrufen(env, {
-    system: ANWEISUNG,
+    model: modell,
+    system: systemMitCache(ANWEISUNG),
     max_tokens: 8000,
     messages: [
       {
@@ -162,14 +254,14 @@ export async function landRecherchieren(env, country) {
         content: `Recherchiere die landestypische Spirituose für ${country.name_de} (englisch: ${country.name_en}).${bestand}\n\nRufe am Ende das Werkzeug laenderdaten_vorschlagen mit dem vollständigen Ergebnis auf.`
       }
     ],
-    tools: [
-      { type: "web_search_20250305", name: "web_search", max_uses: 8 },
+    tools: toolsMitCache([
+      webSucheWerkzeug(modell),
       {
         name: "laenderdaten_vorschlagen",
         description: "Übergibt den fertig recherchierten Länderdatensatz an die Redaktion.",
         input_schema: VORSCHLAG_SCHEMA
       }
-    ]
+    ])
   });
 
   const aufruf = ergebnis.content?.find((b) => b.type === "tool_use" && b.name === "laenderdaten_vorschlagen");
@@ -182,18 +274,16 @@ export async function landRecherchieren(env, country) {
     );
   }
 
-  const quellenAusSuche = (ergebnis.content ?? [])
-    .filter((b) => b.type === "web_search_tool_result")
-    .flatMap((b) => (Array.isArray(b.content) ? b.content : []))
-    .map((t) => t.url)
-    .filter(Boolean);
+  const tokens = usageZusammenfassen(ergebnis.usage);
 
   return {
     vorschlag: vorschlagBereinigen(aufruf.input),
-    besuchteQuellen: [...new Set(quellenAusSuche)],
+    besuchteQuellen: [...new Set(urlsAusSuche(ergebnis.content))],
     modell: ergebnis.model,
-    input_tokens: ergebnis.usage?.input_tokens ?? null,
-    output_tokens: ergebnis.usage?.output_tokens ?? null
+    input_tokens: tokens.input_tokens,
+    output_tokens: tokens.output_tokens,
+    cache_creation_input_tokens: tokens.cache_creation_input_tokens,
+    cache_read_input_tokens: tokens.cache_read_input_tokens
   };
 }
 
@@ -266,12 +356,14 @@ export async function felderUebersetzen(env, felder) {
   const zuUebersetzen = felder.filter((f) => f.de?.trim());
   if (!zuUebersetzen.length) return {};
 
+  const uebersetzSystem =
+    "Du übersetzt redaktionelle Texte einer Spirituosen-Übersicht aus dem Deutschen ins Englische. " +
+    "Sachlich und knapp, keine Werbesprache. Eigennamen, Marken und Ortsnamen bleiben unverändert. " +
+    "Alkoholangaben werden von '53 % Vol.' zu '53% ABV'. Übersetze jeden Eintrag einzeln und gib den Schlüssel unverändert zurück.";
+
   const ergebnis = await anthropicAufrufen(env, {
     model: env.ANTHROPIC_TRANSLATE_MODEL || STANDARD_UEBERSETZ_MODELL,
-    system:
-      "Du übersetzt redaktionelle Texte einer Spirituosen-Übersicht aus dem Deutschen ins Englische. " +
-      "Sachlich und knapp, keine Werbesprache. Eigennamen, Marken und Ortsnamen bleiben unverändert. " +
-      "Alkoholangaben werden von '53 % Vol.' zu '53% ABV'. Übersetze jeden Eintrag einzeln und gib den Schlüssel unverändert zurück.",
+    system: systemMitCache(uebersetzSystem),
     max_tokens: 8000,
     messages: [
       {
@@ -283,7 +375,7 @@ export async function felderUebersetzen(env, felder) {
         )}`
       }
     ],
-    tools: [
+    tools: toolsMitCache([
       {
         name: "uebersetzungen_liefern",
         description: "Gibt die englischen Fassungen zurück.",
@@ -302,12 +394,15 @@ export async function felderUebersetzen(env, felder) {
           required: ["uebersetzungen"]
         }
       }
-    ],
+    ]),
     tool_choice: { type: "tool", name: "uebersetzungen_liefern" }
   });
 
   const aufruf = ergebnis.content?.find((b) => b.type === "tool_use");
   if (!aufruf) throw new Error("Es kamen keine Übersetzungen zurück.");
+
+  // Cache-Usage nur loggen; Übersetzung speichert keine research_runs-Zeile.
+  usageZusammenfassen(ergebnis.usage);
 
   return Object.fromEntries((aufruf.input.uebersetzungen ?? []).map((u) => [u.key, u.en]));
 }
